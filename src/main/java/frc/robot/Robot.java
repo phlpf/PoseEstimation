@@ -63,8 +63,9 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         Pose2d endPose = new Pose2d(2, 0, new Rotation2d());
 
-        ArrayList<Translation2d> list = new ArrayList<Translation2d>();
-        list.add(new Translation2d( endPose.getX(), endPose.getY()));
+        ArrayList<Pose2d> list = new ArrayList<Pose2d>();
+        list.add(new Pose2d());
+        list.add(new Pose2d( endPose.getX(), endPose.getY(), new Rotation2d(0)));
         
         m_robotContainer.m_drivetrainSubsystem.genTrajectory(list, endPose);
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();

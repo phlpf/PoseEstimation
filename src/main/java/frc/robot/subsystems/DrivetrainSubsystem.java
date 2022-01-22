@@ -187,14 +187,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
          this.thetaController =
             new ProfiledPIDController(1.3, 0.0, 0.7, m_constraints, 0.2);
     }
-    public void genTrajectory(ArrayList<Translation2d> list, Pose2d endPose){
+    public void genTrajectory(ArrayList<Pose2d> list, Pose2d endPose){
         constraint = new SwerveDriveKinematicsConstraint(
                 m_kinematics,
                 DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND);
+        
         config = new TrajectoryConfig(DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND, DrivetrainSubsystem.MAX_ACCELERATION);
         
-        trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(), list,
-                        endPose, config); 
+        trajectory = TrajectoryGenerator.generateTrajectory(list,config); 
     }
 
     /**
