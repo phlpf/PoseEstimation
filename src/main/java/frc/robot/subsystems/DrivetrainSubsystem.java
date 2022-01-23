@@ -96,11 +96,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule m_frontRightModule;
     private final SwerveModule m_backLeftModule;
     private final SwerveModule m_backRightModule;
-    private edu.wpi.first.wpilibj.controller.PIDController rightController, leftController;      
 
-    private Trajectory trajectory;
-    private TrajectoryConfig config;
-    private SwerveDriveKinematicsConstraint constraint;
     ProfiledPIDController thetaController; 
     SwerveModuleState[] states;
 
@@ -179,22 +175,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         BACK_RIGHT_MODULE_STEER_ENCODER,
                         BACK_RIGHT_MODULE_STEER_OFFSET
         );
-        this.rightController = new PIDController(0.00386, 0, 0);
-        this.leftController = new PIDController(0.00386, 0, 0);
         
-        TrapezoidProfile.Constraints m_constraints =
-                new TrapezoidProfile.Constraints(1.75, 0.75);
-         this.thetaController =
-            new ProfiledPIDController(1.3, 0.0, 0.7, m_constraints, 0.2);
-    }
-    public void genTrajectory(ArrayList<Pose2d> list, Pose2d endPose){
-        constraint = new SwerveDriveKinematicsConstraint(
-                m_kinematics,
-                DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND);
-        
-        config = new TrajectoryConfig(DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND, DrivetrainSubsystem.MAX_ACCELERATION);
-        
-        trajectory = TrajectoryGenerator.generateTrajectory(list,config); 
     }
 
     /**
@@ -232,17 +213,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         m_backLeftModule.set(newStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[2].angle.getRadians());
         m_backRightModule.set(newStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[3].angle.getRadians());
 
-    }
-    public SwerveControllerCommand getAutoCommand(){
-        return new SwerveControllerCommand(trajectory, 
-                odometry::getPoseMeters, 
-                m_kinematics,
-                this.leftController,
-                this.rightController,
-                thetaController,
-                this::getDesiredRotation,
-                this::updateModules);
-    }
+    }   
 
     public void drive(ChassisSpeeds chassisSpeeds) {
         m_chassisSpeeds = chassisSpeeds;

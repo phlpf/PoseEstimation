@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.utils.AutoGenerator;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -58,17 +59,14 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledPeriodic() {}
 
+    public Pose2d genPose2d(double x, double y, double theta){
+        return new Pose2d(x, y, new Rotation2d(theta));
+    }
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
     public void autonomousInit() {
-        Pose2d endPose = new Pose2d(2, 0, new Rotation2d());
-
-        ArrayList<Pose2d> list = new ArrayList<Pose2d>();
-        list.add(new Pose2d());
-        list.add(new Pose2d( endPose.getX(), endPose.getY(), new Rotation2d(0)));
-        
-        m_robotContainer.m_drivetrainSubsystem.genTrajectory(list, endPose);
-        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+        AutoGenerator auto_command = new AutoGenerator(m_robotContainer.m_drivetrainSubsystem, new Pose2d(), genPose2d(2, 2, 0));
+        m_autonomousCommand = auto_command.generateCommand();
 
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
