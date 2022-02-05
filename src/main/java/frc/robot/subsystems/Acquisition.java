@@ -10,12 +10,12 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Aquisition extends SubsystemBase {
+public class Acquisition extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public CANSparkMax motor2;
   public RelativeEncoder encoder;
   public SparkMaxPIDController pid;
-  public Aquisition() {
+  public Acquisition() {
     motor2 = new CANSparkMax(11, MotorType.kBrushless);
     encoder = motor2.getEncoder();
 

@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.defaultAcquisition;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.Aquisition;
+import frc.robot.subsystems.Acquisition;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -27,15 +27,15 @@ public class RobotContainer {
     public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
 
     private final XboxController m_controller = new XboxController(0);
-    private final Aquisition m_exampleSubsystem = new Aquisition();
+    private final Acquisition acquisition = new Acquisition();
 
-    private final defaultAcquisition m_autoCommand = new defaultAcquisition(m_exampleSubsystem);
+    private final defaultAcquisition acquisitionCommand = new defaultAcquisition(acquisition);
   
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        m_exampleSubsystem.setDefaultCommand(m_autoCommand);
+        acquisition.setDefaultCommand(acquisitionCommand);
         // Set up the default command for the drivetrain.
         // The controls are for field-oriented driving:
         // Left stick Y axis -> forward and backwards movement

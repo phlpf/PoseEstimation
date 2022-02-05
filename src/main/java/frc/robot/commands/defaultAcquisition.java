@@ -6,13 +6,13 @@ package frc.robot.commands;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 
-import frc.robot.subsystems.Aquisition;
+import frc.robot.subsystems.Acquisition;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
 public class defaultAcquisition extends CommandBase {
-  private final Aquisition m_subsystem;
+  private final Acquisition m_subsystem;
   private double setpointVelocity = 0;
 
   /**
@@ -20,7 +20,7 @@ public class defaultAcquisition extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public defaultAcquisition(Aquisition subsystem) {
+  public defaultAcquisition(Acquisition subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
