@@ -15,6 +15,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import frc.robot.DrivetrainConstants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 /** Add your docs here. */
@@ -32,7 +33,7 @@ public class AutoGenerator {
     public AutoGenerator(DrivetrainSubsystem drives, Pose2d beginPose, Pose2d endPose){
         this.beginPose = beginPose;
         this.endPose = endPose;
-        config = new TrajectoryConfig(DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND, DrivetrainSubsystem.MAX_ACCELERATION);
+        config = new TrajectoryConfig(DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND, DrivetrainConstants.MAX_ACCELERATION);
         TrapezoidProfile.Constraints m_constraints =
                 new TrapezoidProfile.Constraints(1.75, 0.75);
         this.thetaController =
@@ -40,6 +41,7 @@ public class AutoGenerator {
         this.rightController = new PIDController(0.00386, 0, 0);
         this.leftController = new PIDController(0.00386, 0, 0); // TODO: Add constants
         waypoints.add(beginPose);
+        this.drives = drives;
     }
     public void addWaypoint(Pose2d waypoint){
         waypoints.add(waypoint);
