@@ -16,7 +16,7 @@ public class Acquisition extends SubsystemBase {
   public RelativeEncoder encoder;
   public SparkMaxPIDController pid;
   public Acquisition() {
-    motor2 = new CANSparkMax(11, MotorType.kBrushless);
+    motor2 = new CANSparkMax(32, MotorType.kBrushless);
     encoder = motor2.getEncoder();
 
 
