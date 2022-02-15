@@ -6,6 +6,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+
+import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper.GearRatio;
+
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
@@ -22,7 +25,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
  */
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
-    public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
+    public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(GearRatio.L2);
 
     private final XboxController m_controller = new XboxController(0);
 
