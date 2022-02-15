@@ -27,7 +27,5 @@ public class ClimbArm {
         reachEncoder = reachMotor.getEncoder();
         anglePid = angleMotor.getPIDController();
         reachPid = angleMotor.getPIDController();
-
-        angle
     }
 }
