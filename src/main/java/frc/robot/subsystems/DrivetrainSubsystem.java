@@ -117,10 +117,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
                                         .withSize(2, 4)
                                         .withPosition(4, 0),
                         ratio,
-                        BACK_LEFT_MODULE_DRIVE_MOTOR,
-                        BACK_LEFT_MODULE_STEER_MOTOR,
-                        BACK_LEFT_MODULE_STEER_ENCODER,
-                        BACK_LEFT_MODULE_STEER_OFFSET
+                        REAR_LEFT_MODULE_DRIVE_MOTOR,
+                        REAR_LEFT_MODULE_STEER_MOTOR,
+                        REAR_LEFT_MODULE_STEER_ENCODER,
+                        REAR_LEFT_MODULE_STEER_OFFSET
         );
 
         m_backRightModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -128,10 +128,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
                                         .withSize(2, 4)
                                         .withPosition(6, 0),
                         ratio,
-                        BACK_RIGHT_MODULE_DRIVE_MOTOR,
-                        BACK_RIGHT_MODULE_STEER_MOTOR,
-                        BACK_RIGHT_MODULE_STEER_ENCODER,
-                        BACK_RIGHT_MODULE_STEER_OFFSET
+                        REAR_RIGHT_MODULE_DRIVE_MOTOR,
+                        REAR_RIGHT_MODULE_STEER_MOTOR,
+                        REAR_RIGHT_MODULE_STEER_ENCODER,
+                        REAR_RIGHT_MODULE_STEER_OFFSET
         );
         
     }
