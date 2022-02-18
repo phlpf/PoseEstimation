@@ -18,6 +18,8 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DefaultIndex;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Index;
+import frc.robot.commands.DefaultShooter;
+import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -33,11 +35,13 @@ public class RobotContainer {
     private final DefaultIndex defaultIndex = new DefaultIndex(index);
 
     private final XboxController m_controller = new XboxController(0);
-
+    private final Shooter shooter = new Shooter();
+    private final DefaultShooter shooterCommand = new DefaultShooter(shooter, ()->m_controller.getAButton());
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
+        shooter.setDefaultCommand(shooterCommand);
         // Set up the default command for the drivetrain.
         // The controls are for field-oriented driving:
         // Left stick Y axis -> forward and backwards movement
@@ -65,7 +69,6 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Back button zeros the gyroscope
         new Button(m_controller::getBackButton)
-                        // No requirements because we don't need to interrupt anything
                         .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
     }
 
