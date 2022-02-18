@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.DefaultIndex;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.Index;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -26,6 +28,9 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(GearRatio.L2);
+    private final Index index = new Index();
+    
+    private final DefaultIndex defaultIndex = new DefaultIndex(index);
 
     private final XboxController m_controller = new XboxController(0);
 
@@ -44,6 +49,8 @@ public class RobotContainer {
                         () -> -modifyAxis(m_controller.getLeftX()) * DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
                         () -> -modifyAxis(m_controller.getRightX()) * DrivetrainConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.2
         ));
+        
+        index.setDefaultCommand(defaultIndex);
 
         // Configure the button bindings
         configureButtonBindings();
