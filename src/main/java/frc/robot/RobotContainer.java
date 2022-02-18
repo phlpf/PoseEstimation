@@ -15,9 +15,9 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.DefaultIndex;
+import frc.robot.commands.DefaultAcquisition;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.Index;
+import frc.robot.subsystems.Acquisition;
 import frc.robot.commands.DefaultShooter;
 import frc.robot.subsystems.Shooter;
 
@@ -30,17 +30,17 @@ import frc.robot.subsystems.Shooter;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(GearRatio.L2);
-    private final Index index = new Index();
-    
-    private final DefaultIndex defaultIndex = new DefaultIndex(index);
 
     private final XboxController m_controller = new XboxController(0);
+    private final Acquisition acquisition = new Acquisition();
     private final Shooter shooter = new Shooter();
+    private final DefaultAcquisition acquisitionCommand = new DefaultAcquisition(acquisition);
     private final DefaultShooter shooterCommand = new DefaultShooter(shooter, ()->m_controller.getAButton());
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
+        acquisition.setDefaultCommand(acquisitionCommand);
         shooter.setDefaultCommand(shooterCommand);
         // Set up the default command for the drivetrain.
         // The controls are for field-oriented driving:
@@ -53,8 +53,6 @@ public class RobotContainer {
                         () -> -modifyAxis(m_controller.getLeftX()) * DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
                         () -> -modifyAxis(m_controller.getRightX()) * DrivetrainConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.2
         ));
-        
-        index.setDefaultCommand(defaultIndex);
 
         // Configure the button bindings
         configureButtonBindings();
