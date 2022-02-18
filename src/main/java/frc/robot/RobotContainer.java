@@ -15,6 +15,8 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.defaultAcquisition;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Acquisition;
+import frc.robot.commands.DefaultShooter;
+import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,24 +26,25 @@ import frc.robot.subsystems.Acquisition;
  */
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
-    public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
+   // public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
 
     private final XboxController m_controller = new XboxController(0);
     private final Acquisition acquisition = new Acquisition();
-
+    private final Shooter shooter = new Shooter();
     private final defaultAcquisition acquisitionCommand = new defaultAcquisition(acquisition);
-  
+    private final DefaultShooter shooterCommand = new DefaultShooter(shooter, ()->m_controller.getAButton());
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
         acquisition.setDefaultCommand(acquisitionCommand);
+        shooter.setDefaultCommand(shooterCommand);
         // Set up the default command for the drivetrain.
         // The controls are for field-oriented driving:
         // Left stick Y axis -> forward and backwards movement
         // Left stick X axis -> left and right movement
         // Right stick X axis -> rotation
-        m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
+       /* m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
                         m_drivetrainSubsystem,
                         () -> -modifyAxis(m_controller.getLeftY()) * DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
                         () -> -modifyAxis(m_controller.getLeftX()) * DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
@@ -49,7 +52,7 @@ public class RobotContainer {
         ));
 
         // Configure the button bindings
-        configureButtonBindings();
+        configureButtonBindings();*/
     }
 
     /**
@@ -60,9 +63,9 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         // Back button zeros the gyroscope
-        new Button(m_controller::getBackButton)
+        //new Button(m_controller::getBackButton)
                         // No requirements because we don't need to interrupt anything
-                        .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
+                        //.whenPressed(m_drivetrainSubsystem::zeroGyroscope);
     }
 
 
