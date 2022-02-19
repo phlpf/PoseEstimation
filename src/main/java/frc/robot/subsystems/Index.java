@@ -22,7 +22,7 @@ public class Index extends SubsystemBase {
   public SparkMaxPIDController pidController;
   /** Creates a new ExampleSubsystem. */
   public Index() {
-    motor = new CANSparkMax(11, MotorType.kBrushless);
+    motor = new CANSparkMax(26, MotorType.kBrushless);
     encoder = motor.getEncoder();
     pidController = motor.getPIDController();
     pidController.setP(0.1);

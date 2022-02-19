@@ -16,7 +16,7 @@ public class Shooter extends SubsystemBase {
   public RelativeEncoder encoder;
   public SparkMaxPIDController pid;
   public Shooter() {
-    motor3 = new CANSparkMax(33, MotorType.kBrushless);
+    motor3 = new CANSparkMax(13, MotorType.kBrushless);
     encoder = motor3.getEncoder();
 
 
