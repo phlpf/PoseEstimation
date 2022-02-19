@@ -33,7 +33,7 @@ public class DefaultShooter extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    SmartDashboard.putNumber("setpoint Velocity Shooter", setpointVelocity);
+    SmartDashboard.putNumber("shooter/setpoint Velocity Shooter", setpointVelocity);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,8 +42,8 @@ public class DefaultShooter extends CommandBase {
     boolean isOn = isOnSupplier.getAsBoolean();
     if(isOn){  
       m_subsystem.motor3.set(setpointVelocity);
-      SmartDashboard.putNumber("actual Velocity Shooter", m_subsystem.encoder.getVelocity());
-      setpointVelocity = SmartDashboard.getNumber("setpoint Velocity Shooter", setpointVelocity);
+      SmartDashboard.putNumber("shooter/actual Velocity Shooter", m_subsystem.encoder.getVelocity());
+      setpointVelocity = SmartDashboard.getNumber("shooter/setpoint Velocity Shooter", setpointVelocity);
       m_subsystem.pid.setReference(setpointVelocity, ControlType.kVelocity);
     }
     else{

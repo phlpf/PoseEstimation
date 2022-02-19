@@ -25,15 +25,15 @@ public class DefaultAcquisition extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    SmartDashboard.putNumber("setpoint Velocity", setpointVelocity);
+    SmartDashboard.putNumber("acquisition/setpoint Velocity", setpointVelocity);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     m_subsystem.motor2.set(setpointVelocity);
-    SmartDashboard.putNumber("actual Velocity", m_subsystem.encoder.getVelocity());
-    setpointVelocity = SmartDashboard.getNumber("setpoint Velocity", setpointVelocity);
+    SmartDashboard.putNumber("acquisition/actual Velocity", m_subsystem.encoder.getVelocity());
+    setpointVelocity = SmartDashboard.getNumber("acquisition/setpoint Velocity", setpointVelocity);
     m_subsystem.pid.setReference(setpointVelocity, ControlType.kVelocity);
   }
 
