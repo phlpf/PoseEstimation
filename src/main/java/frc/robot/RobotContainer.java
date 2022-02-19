@@ -15,8 +15,10 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.DefaultIndex;
 import frc.robot.commands.DefaultAcquisition;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Acquisition;
 import frc.robot.commands.DefaultShooter;
 import frc.robot.subsystems.Shooter;
@@ -34,14 +36,18 @@ public class RobotContainer {
     private final XboxController m_controller = new XboxController(0);
     private final Acquisition acquisition = new Acquisition();
     private final Shooter shooter = new Shooter();
+    private final Index index = new Index();
     private final DefaultAcquisition acquisitionCommand = new DefaultAcquisition(acquisition);
     private final DefaultShooter shooterCommand = new DefaultShooter(shooter, ()->m_controller.getAButton());
+    private final DefaultIndex indexCommand = new DefaultIndex(index, ()->m_controller.getLeftTriggerAxis());
+    
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
         acquisition.setDefaultCommand(acquisitionCommand);
         shooter.setDefaultCommand(shooterCommand);
+        index.setDefaultCommand(indexCommand);
         // Set up the default command for the drivetrain.
         // The controls are for field-oriented driving:
         // Left stick Y axis -> forward and backwards movement
