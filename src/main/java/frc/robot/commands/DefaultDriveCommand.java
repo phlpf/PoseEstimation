@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -38,10 +39,14 @@ public class DefaultDriveCommand extends CommandBase {
                 setpointAngle = m_drivetrainSubsystem.getGyroscopeRotation();
             }
             Rotation2d angleOffset = setpointAngle.minus(m_drivetrainSubsystem.getGyroscopeRotation());
-            if(angleOffset.getDegrees() > Constants.SWERVE_ALLOWED_OFFSET){
-                rotationSpeed = Constants.SWERVE_CORRECTION_SPEED;
+            
+            SmartDashboard.putNumber("Offset Angle Drives", angleOffset.getDegrees());
+            SmartDashboard.putNumber("Gyro Angle Drives", m_drivetrainSubsystem.getGyroscopeRotation().getDegrees());
+            if(Math.abs(angleOffset.getDegrees()) > Constants.SWERVE_ALLOWED_OFFSET){
+                rotationSpeed = Constants.SWERVE_CORRECTION_SPEED * (angleOffset.getDegrees()/Math.abs(angleOffset.getDegrees())) ;
             }
         }
+        SmartDashboard.putNumber("Setpoint Angle Drives", setpointAngle.getDegrees());
         m_drivetrainSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds(
                 m_translationXSupplier.getAsDouble(),
                 m_translationYSupplier.getAsDouble(),
