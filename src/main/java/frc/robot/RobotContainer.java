@@ -29,7 +29,7 @@ import frc.robot.subsystems.Shooter;
  */
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
-    public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(GearRatio.L2);
+    public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(GearRatio.L1);
 
     private final XboxController m_controller = new XboxController(0);
     private final Acquisition acquisition = new Acquisition();
