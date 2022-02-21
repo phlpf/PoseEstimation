@@ -18,6 +18,7 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DefaultAcquisition;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.Climber;
 import frc.robot.commands.DefaultShooter;
 import frc.robot.subsystems.Shooter;
 
@@ -32,8 +33,10 @@ public class RobotContainer {
     public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(GearRatio.L1);
 
     private final XboxController m_controller = new XboxController(0);
+    private final XboxController debugController = new XboxController(2);
     private final Acquisition acquisition = new Acquisition();
     private final Shooter shooter = new Shooter();
+    private final Climber climber = new Climber();
     private final DefaultAcquisition acquisitionCommand = new DefaultAcquisition(acquisition);
     private final DefaultShooter shooterCommand = new DefaultShooter(shooter, ()->m_controller.getAButton());
     /**
@@ -68,9 +71,15 @@ public class RobotContainer {
         // Back button zeros the gyroscope
         new Button(m_controller::getBackButton)
                         .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
+        configureClimbController(debugController);
     }
 
-
+    private void configureClimbController(XboxController controller){
+        new Button(controller::getAButton)
+                        .whenPressed(() -> climber.extendArm(climber.outerArm, ClimbConstants.CLIMB_MAX_EXTEND));
+        new Button(controller::getBButton)
+                        .whenPressed(() -> climber.extendArm(climber.outerArm, 0));
+    }
 
     private static double deadband(double value, double deadband) {
         if (Math.abs(value) > deadband) {

@@ -71,4 +71,5 @@ public  class ClimbConstants {
     public static final int OUTER_REACH_ID = 18;
     public static final double CLIMB_ROTATION_TO_INCH = 3.25;
     public static final double CLIMB_ROTATION_TO_DEGREE = 3.25;
+    public static final double CLIMB_MAX_EXTEND = 29.25;
 }
