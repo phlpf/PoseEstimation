@@ -5,12 +5,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.utils.ClimbArm;
+import frc.robot.utils.ClimberArm;
 
 public class ResetArm extends CommandBase {
   /** Creates a new ResetArm. */
-  private ClimbArm arm;
-  public ResetArm(ClimbArm arm) {
+  private ClimberArm arm;
+  public ResetArm(ClimberArm arm) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.arm = arm;
   }

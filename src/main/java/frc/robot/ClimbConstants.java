@@ -28,28 +28,28 @@ public  class ClimbConstants {
             this.max = max;
         }
     }
-    public static ClimberPid climbAngle1 = new ClimberPid(0.0,
+    public static ClimberPid climbAngleInner = new ClimberPid(0.0,
         0.0,
         0.0,
         0.0,
         0.0,
         0.0,
         0.0);
-    public static ClimberPid climbReach1 = new ClimberPid(0.0,
+    public static ClimberPid climbReachInner = new ClimberPid(0.0,
         0.0,
         0.0,
         0.0,
         0.0,
         0.0,
         0.0);
-    public static ClimberPid climbAngle2 = new ClimberPid(0.0,
+    public static ClimberPid climbAngleOuter = new ClimberPid(0.0,
        0.0,
        0.0,
        0.0,
        0.0,
        0.0,
        0.0);
-    public static ClimberPid climbReach2 = new ClimberPid(0.0,
+    public static ClimberPid climbReachOuter = new ClimberPid(0.0,
         0.0,
         0.0,
         0.0,
@@ -64,4 +64,11 @@ public  class ClimbConstants {
         controller.setIZone(pid.iz);
         controller.setOutputRange(pid.min, pid.max);
     }
+
+    public static final int INNER_ANGLE_ID = 15;
+    public static final int INNER_REACH_ID = 16;
+    public static final int OUTER_ANGLE_ID = 17;
+    public static final int OUTER_REACH_ID = 18;
+    public static final double CLIMB_ROTATION_TO_INCH = 3.25;
+    public static final double CLIMB_ROTATION_TO_DEGREE = 3.25;
 }
