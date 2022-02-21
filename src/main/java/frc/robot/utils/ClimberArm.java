@@ -16,20 +16,23 @@ import frc.robot.ClimbConstants;
 
 /** Add your docs here. */
 public class ClimberArm {
-    private CANSparkMax angleMotor;
+    // private CANSparkMax angleMotor;
     private CANSparkMax reachMotor;
-    private RelativeEncoder angleEncoder;
-    private RelativeEncoder reachEncoder;
-    private SparkMaxPIDController anglePidController;
+    // private RelativeEncoder angleEncoder;
+    public RelativeEncoder reachEncoder;
+    // private SparkMaxPIDController anglePidController;
     private SparkMaxPIDController reachPidController;
     public ClimberArm(int angleId, int reachId, ClimberPid anglePID, ClimberPid reachPID){
-        angleMotor = new CANSparkMax(angleId, MotorType.kBrushless);
+        // angleMotor = new CANSparkMax(angleId, MotorType.kBrushless);
         reachMotor = new CANSparkMax(reachId, MotorType.kBrushless);
-        angleEncoder = angleMotor.getEncoder();
+        reachMotor.restoreFactoryDefaults();
+        reachMotor.setInverted(false);
+        // angleEncoder = angleMotor.getEncoder();
         reachEncoder = reachMotor.getEncoder();
-        anglePidController = angleMotor.getPIDController();
-        reachPidController = angleMotor.getPIDController();
-        ClimbConstants.addPidToMotor(anglePidController, anglePID);
+        reachEncoder.setPosition(0);
+        // anglePidController = angleMotor.getPIDController();
+        reachPidController = reachMotor.getPIDController();
+        // ClimbConstants.addPidToMotor(anglePidController, anglePID);
         ClimbConstants.addPidToMotor(reachPidController, reachPID);
     }
 

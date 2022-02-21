@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.ClimbConstants;
 import frc.robot.utils.ClimberArm;
@@ -15,10 +16,11 @@ public class Climber extends SubsystemBase {
     public ClimberArm outerArm;
     public ClimberArm innerArm;
     public Climber() {
-        innerArm = new ClimberArm(ClimbConstants.INNER_ANGLE_ID, ClimbConstants.INNER_REACH_ID, 
-                    ClimbConstants.climbAngleInner, ClimbConstants.climbReachInner);
+        // innerArm = new ClimberArm(ClimbConstants.INNER_ANGLE_ID, ClimbConstants.INNER_REACH_ID, 
+        //             ClimbConstants.climbAngleInner, ClimbConstants.climbReachInner);
         outerArm = new ClimberArm(ClimbConstants.OUTER_ANGLE_ID, ClimbConstants.OUTER_REACH_ID, 
                     ClimbConstants.climbAngleOuter, ClimbConstants.climbReachOuter);
+        
     }
 
     public void extendArm(ClimberArm arm, double distance){
@@ -31,6 +33,7 @@ public class Climber extends SubsystemBase {
     }  
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Encoder Climb", outerArm.reachEncoder.getPosition());
         // This method will be called once per scheduler run
     }
 }

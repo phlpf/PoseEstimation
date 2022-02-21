@@ -68,7 +68,7 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        // Back button zeros the gyroscope
+        //Back button zeros the gyroscope
         new Button(m_controller::getBackButton)
                         .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
         configureClimbController(debugController);
@@ -76,7 +76,7 @@ public class RobotContainer {
 
     private void configureClimbController(XboxController controller){
         new Button(controller::getAButton)
-                        .whenPressed(() -> climber.extendArm(climber.outerArm, ClimbConstants.CLIMB_MAX_EXTEND));
+                        .whenPressed(() -> climber.extendArm(climber.outerArm, 12));
         new Button(controller::getBButton)
                         .whenPressed(() -> climber.extendArm(climber.outerArm, 0));
     }
