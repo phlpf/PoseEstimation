@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.ClimbConstants.ClimberPid;
+import frc.robot.ClimbConstants;
 
 /** Add your docs here. */
 public class ClimbArm {
@@ -18,14 +19,16 @@ public class ClimbArm {
     private CANSparkMax reachMotor;
     private RelativeEncoder angleEncoder;
     private RelativeEncoder reachEncoder;
-    private SparkMaxPIDController anglePid;
-    private SparkMaxPIDController reachPid;
-    public ClimbArm(int angleId, int reachId, ClimberPid pid){
+    private SparkMaxPIDController anglePidController;
+    private SparkMaxPIDController reachPidController;
+    public ClimbArm(int angleId, int reachId, ClimberPid anglePID, ClimberPid reachPID){
         angleMotor = new CANSparkMax(angleId, MotorType.kBrushless);
         reachMotor = new CANSparkMax(reachId, MotorType.kBrushless);
         angleEncoder = angleMotor.getEncoder();
         reachEncoder = reachMotor.getEncoder();
-        anglePid = angleMotor.getPIDController();
-        reachPid = angleMotor.getPIDController();
+        anglePidController = angleMotor.getPIDController();
+        reachPidController = angleMotor.getPIDController();
+        ClimbConstants.addPidToMotor(anglePidController, anglePID);
+        ClimbConstants.addPidToMotor(reachPidController, reachPID);
     }
 }

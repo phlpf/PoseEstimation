@@ -4,9 +4,13 @@
 
 package frc.robot;
 
+import com.revrobotics.SparkMaxPIDController;
+
+import frc.robot.subsystems.Climber;
+
 /** Add your docs here. */
-public class ClimbConstants {
-    public class ClimberPid{
+public  class ClimbConstants {
+    public static class ClimberPid{
         double p;
         double i;
         double d;
@@ -24,25 +28,40 @@ public class ClimbConstants {
             this.max = max;
         }
     }
-    public ClimberPid Angle1 = new ClimberPid(0.0,
+    public static ClimberPid climbAngle1 = new ClimberPid(0.0,
         0.0,
         0.0,
         0.0,
         0.0,
         0.0,
         0.0);
-    public ClimberPid Reach1 = new ClimberPid(0.0,
+    public static ClimberPid climbReach1 = new ClimberPid(0.0,
         0.0,
         0.0,
         0.0,
         0.0,
         0.0,
         0.0);
-    public ClimberPid Angle2 = new ClimberPid(0.0,
+    public static ClimberPid climbAngle2 = new ClimberPid(0.0,
        0.0,
        0.0,
        0.0,
        0.0,
        0.0,
-       0.0); // TODO: Add real values
+       0.0);
+    public static ClimberPid climbReach2 = new ClimberPid(0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0); // TODO: Add real values
+    public static void addPidToMotor(SparkMaxPIDController controller, ClimberPid pid){
+        controller.setP(pid.p);
+        controller.setI(pid.i);
+        controller.setD(pid.d);
+        controller.setFF(pid.ff);
+        controller.setIZone(pid.iz);
+        controller.setOutputRange(pid.min, pid.max);
+    }
 }
