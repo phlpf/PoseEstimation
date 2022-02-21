@@ -16,8 +16,8 @@ public class Climber extends SubsystemBase {
     public ClimberArm outerArm;
     public ClimberArm innerArm;
     public Climber() {
-        // innerArm = new ClimberArm(ClimbConstants.INNER_ANGLE_ID, ClimbConstants.INNER_REACH_ID, 
-        //             ClimbConstants.climbAngleInner, ClimbConstants.climbReachInner);
+        innerArm = new ClimberArm(ClimbConstants.INNER_ANGLE_ID, ClimbConstants.INNER_REACH_ID, 
+                    ClimbConstants.climbAngleInner, ClimbConstants.climbReachInner);
         outerArm = new ClimberArm(ClimbConstants.OUTER_ANGLE_ID, ClimbConstants.OUTER_REACH_ID, 
                     ClimbConstants.climbAngleOuter, ClimbConstants.climbReachOuter);
         

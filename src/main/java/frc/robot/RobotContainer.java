@@ -79,6 +79,10 @@ public class RobotContainer {
                         .whenPressed(() -> climber.extendArm(climber.outerArm, 12));
         new Button(controller::getBButton)
                         .whenPressed(() -> climber.extendArm(climber.outerArm, 0));
+        new Button(controller::getXButton)
+                        .whenPressed(() -> climber.extendArm(climber.innerArm, 12));
+        new Button(controller::getYButton)
+                        .whenPressed(() -> climber.extendArm(climber.innerArm, 0));
     }
 
     private static double deadband(double value, double deadband) {
