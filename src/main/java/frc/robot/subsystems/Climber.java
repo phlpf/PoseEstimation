@@ -16,8 +16,8 @@ public class Climber extends SubsystemBase {
     public ClimberArm outerArm;
     public ClimberArm innerArm;
     public Climber() {
-        innerArm = new ClimberArm(ClimbConstants.INNER_ANGLE_ID, ClimbConstants.INNER_REACH_ID, 
-                    ClimbConstants.climbAngleInner, ClimbConstants.climbReachInner);
+        // innerArm = new ClimberArm(ClimbConstants.INNER_ANGLE_ID, ClimbConstants.INNER_REACH_ID, 
+        //             ClimbConstants.climbAngleInner, ClimbConstants.climbReachInner);
         outerArm = new ClimberArm(ClimbConstants.OUTER_ANGLE_ID, ClimbConstants.OUTER_REACH_ID, 
                     ClimbConstants.climbAngleOuter, ClimbConstants.climbReachOuter);
         
@@ -27,7 +27,7 @@ public class Climber extends SubsystemBase {
         double rotations = distance/ClimbConstants.CLIMB_ROTATION_TO_INCH;
         arm.setPositionSetpoint(rotations);
     }  
-    public void rotateArm(ClimberArm arm, double angle){
+    public void rotateArmTo(ClimberArm arm, double angle){
         double rotations = angle/ClimbConstants.CLIMB_ROTATION_TO_DEGREE;
         arm.setPositionSetpoint(rotations);
     }  
