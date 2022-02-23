@@ -35,7 +35,7 @@ public class ClimberArm {
         reachEncoder.setPosition(0);
         anglePidController = angleMotor.getPIDController();
         reachPidController = reachMotor.getPIDController();
-        // ClimbConstants.addPidToMotor(anglePidController, anglePID);
+        ClimbConstants.addPidToMotor(anglePidController, anglePID);
         ClimbConstants.addPidToMotor(reachPidController, reachPID);
 
         // Set limits for reach
