@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.revrobotics.SparkMaxPIDController;
 
+import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.subsystems.Climber;
 
 /** Add your docs here. */
@@ -69,7 +70,9 @@ public  class ClimbConstants {
     public static final int INNER_REACH_ID = 33;
     public static final int OUTER_ANGLE_ID = 17;
     public static final int OUTER_REACH_ID = 11;
-    public static final double CLIMB_ROTATION_TO_INCH = 0.325/2;
+    public static final int CLIMB_BUTTON = Button.kA;
+    public static final double CLIMB_ROTATION_TO_INCH = 1/5.555;
     public static final double CLIMB_ROTATION_TO_DEGREE = 3.25;
-    public static final double CLIMB_MAX_EXTEND = 24.25;
+    public static final double CLIMB_MAX_EXTEND = 24;
+
 }

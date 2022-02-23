@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.CommandClimb;
 import frc.robot.commands.DefaultAcquisition;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Acquisition;
@@ -76,13 +77,17 @@ public class RobotContainer {
 
     private void configureClimbController(XboxController controller){
         new Button(controller::getAButton)
-                        .whenPressed(() -> climber.extendArm(climber.outerArm, 12));
+                        .whenPressed(new CommandClimb(climber, controller));
         new Button(controller::getBButton)
-                        .whenPressed(() -> climber.extendArm(climber.outerArm, 0));
+                        .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.outerArm, 26)));
         new Button(controller::getXButton)
-                        .whenPressed(() -> climber.extendArm(climber.innerArm, 12));
+                        .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.outerArm, -27)));
         new Button(controller::getYButton)
-                        .whenPressed(() -> climber.extendArm(climber.innerArm, 0));
+                        .whenPressed(new InstantCommand(() -> {climber.rotateArmTo(climber.outerArm, 0); climber.extendArm(climber.outerArm, 0);}));
+        //new Button(controller::getXButton)
+        //                 .whenPressed(() -> climber.extendArm(climber.innerArm, 23));
+        // new Button(controller::getYButton)
+        //                 .whenPressed(() -> climber.extendArm(climber.innerArm, 0));
     }
 
     private static double deadband(double value, double deadband) {
