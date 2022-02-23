@@ -29,7 +29,7 @@ public class Climber extends SubsystemBase {
     }  
     public void rotateArmTo(ClimberArm arm, double angle){
         double rotations = angle/ClimbConstants.CLIMB_ROTATION_TO_DEGREE;
-        arm.setPositionSetpoint(rotations);
+        arm.setAngleSetpoint(rotations);
     }  
     @Override
     public void periodic() {
