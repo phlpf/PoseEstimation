@@ -19,11 +19,10 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.DrivetrainConstants;
+import frc.robot.constants.kCANIDs;
+import frc.robot.constants.kSwerve;
 
-import static frc.robot.Constants.*;
-import static frc.robot.DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND;
-import static frc.robot.DrivetrainConstants.MAX_VOLTAGE;
+import static frc.robot.constants.kSwerve.*;
 
 public class DrivetrainSubsystem extends SubsystemBase {
     
@@ -38,16 +37,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
                     new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0)
     );
 
-
     // By default we use a Pigeon for our gyroscope. But if you use another gyroscope, like a NavX, you can change this.
     // The important thing about how you configure your gyroscope is that rotating the robot counter-clockwise should
     // cause the angle reading to increase until it wraps back over to zero.
-    // FIXME Remove if you are using a Pigeon
-    private final Pigeon2 pigeon = new Pigeon2(DRIVETRAIN_PIGEON_ID);
+    private final Pigeon2 pigeon = new Pigeon2(kCANIDs.DRIVETRAIN_PIGEON_ID);
 
     public SwerveDriveOdometry odometry = new SwerveDriveOdometry(m_kinematics, getGyroscopeRotation());
-    // FIXME Uncomment if you are using a NavX
-    //    private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
 
     // These are our modules. We initialize them in the constructor.
     private final SwerveModule frontLeftModule;
@@ -66,7 +61,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         this.ratio = ratio;
         
-        DrivetrainConstants.recalculate(ratio);
+        kSwerve.recalculate(ratio);
         frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                         // This parameter is optional, but will allow you to see the current state of the module on the dashboard.
                         tab.getLayout("Front Left Module", BuiltInLayouts.kList)
@@ -75,13 +70,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         // This can either be STANDARD or FAST depending on your gear configuration
                         ratio,
                         // This is the ID of the drive motor
-                        FRONT_LEFT_MODULE_DRIVE_MOTOR,
+                        kCANIDs.FRONT_LEFT_MODULE_DRIVE_MOTOR,
                         // This is the ID of the steer motor
-                        FRONT_LEFT_MODULE_STEER_MOTOR,
+                        kCANIDs.FRONT_LEFT_MODULE_STEER_MOTOR,
                         // This is the ID of the steer encoder
-                        FRONT_LEFT_MODULE_STEER_ENCODER,
+                        kCANIDs.FRONT_LEFT_MODULE_STEER_ENCODER,
                         // This is how much the steer encoder is offset from true zero (In our case, zero is facing straight forward)
-                        FRONT_LEFT_MODULE_STEER_OFFSET
+                        kSwerve.FRONT_LEFT_MODULE_STEER_OFFSET
         );
 
         // We will do the same for the other modules
@@ -90,10 +85,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
                                         .withSize(2, 4)
                                         .withPosition(2, 0),
                         ratio,
-                        FRONT_RIGHT_MODULE_DRIVE_MOTOR,
-                        FRONT_RIGHT_MODULE_STEER_MOTOR,
-                        FRONT_RIGHT_MODULE_STEER_ENCODER,
-                        FRONT_RIGHT_MODULE_STEER_OFFSET
+                        kCANIDs.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
+                        kCANIDs.FRONT_RIGHT_MODULE_STEER_MOTOR,
+                        kCANIDs.FRONT_RIGHT_MODULE_STEER_ENCODER,
+                        kSwerve.FRONT_RIGHT_MODULE_STEER_OFFSET
         );
 
         backLeftModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -101,10 +96,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
                                         .withSize(2, 4)
                                         .withPosition(4, 0),
                         ratio,
-                        REAR_LEFT_MODULE_DRIVE_MOTOR,
-                        REAR_LEFT_MODULE_STEER_MOTOR,
-                        REAR_LEFT_MODULE_STEER_ENCODER,
-                        REAR_LEFT_MODULE_STEER_OFFSET
+                        kCANIDs.REAR_LEFT_MODULE_DRIVE_MOTOR,
+                        kCANIDs.REAR_LEFT_MODULE_STEER_MOTOR,
+                        kCANIDs.REAR_LEFT_MODULE_STEER_ENCODER,
+                        kSwerve.REAR_LEFT_MODULE_STEER_OFFSET
         );
 
         backRightModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -112,10 +107,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
                                         .withSize(2, 4)
                                         .withPosition(6, 0),
                         ratio,
-                        REAR_RIGHT_MODULE_DRIVE_MOTOR,
-                        REAR_RIGHT_MODULE_STEER_MOTOR,
-                        REAR_RIGHT_MODULE_STEER_ENCODER,
-                        REAR_RIGHT_MODULE_STEER_OFFSET
+                        kCANIDs.REAR_RIGHT_MODULE_DRIVE_MOTOR,
+                        kCANIDs.REAR_RIGHT_MODULE_STEER_MOTOR,
+                        kCANIDs.REAR_RIGHT_MODULE_STEER_ENCODER,
+                        kSwerve.REAR_RIGHT_MODULE_STEER_OFFSET
         );
         
     }

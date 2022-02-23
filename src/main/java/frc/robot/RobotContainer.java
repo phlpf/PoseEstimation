@@ -12,6 +12,7 @@ import frc.robot.commands.DefaultAcquisition;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DefaultIndex;
 import frc.robot.commands.DefaultShooter;
+import frc.robot.constants.kSwerve;
 import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Index;
@@ -46,9 +47,9 @@ public class RobotContainer {
         // Right stick X axis -> rotation
         drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
                 drivetrainSubsystem,
-                        () -> -modifyAxis(controller.getLeftY()) * DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
-                        () -> -modifyAxis(controller.getLeftX()) * DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
-                        () -> -modifyAxis(controller.getRightX()) * DrivetrainConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.2
+                        () -> -modifyAxis(controller.getLeftY()) * kSwerve.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
+                        () -> -modifyAxis(controller.getLeftX()) * kSwerve.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
+                        () -> -modifyAxis(controller.getRightX()) * kSwerve.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.2
         ));
 
         acquisition.setDefaultCommand(acquisitionCommand);

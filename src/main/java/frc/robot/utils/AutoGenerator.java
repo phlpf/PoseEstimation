@@ -4,8 +4,6 @@
 
 package frc.robot.utils;
 
-import java.util.List;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -15,8 +13,10 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import frc.robot.DrivetrainConstants;
+import frc.robot.constants.kSwerve;
 import frc.robot.subsystems.DrivetrainSubsystem;
+
+import java.util.List;
 
 /** Add your docs here. */
 public class AutoGenerator {
@@ -33,7 +33,7 @@ public class AutoGenerator {
     public AutoGenerator(DrivetrainSubsystem drives, Pose2d beginPose, Pose2d endPose){
         this.beginPose = beginPose;
         this.endPose = endPose;
-        config = new TrajectoryConfig(DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND, DrivetrainConstants.MAX_ACCELERATION);
+        config = new TrajectoryConfig(kSwerve.MAX_VELOCITY_METERS_PER_SECOND, kSwerve.MAX_ACCELERATION);
         TrapezoidProfile.Constraints m_constraints =
                 new TrapezoidProfile.Constraints(1.75, 0.75);
         this.thetaController =
