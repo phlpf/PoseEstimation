@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -22,6 +23,7 @@ public class ClimberArm {
     public RelativeEncoder reachEncoder;
     // private SparkMaxPIDController anglePidController;
     private SparkMaxPIDController reachPidController;
+    private double reachSetpoint = 0;
     public ClimberArm(int angleId, int reachId, ClimberPid anglePID, ClimberPid reachPID){
         // angleMotor = new CANSparkMax(angleId, MotorType.kBrushless);
         reachMotor = new CANSparkMax(reachId, MotorType.kBrushless);
@@ -34,9 +36,28 @@ public class ClimberArm {
         reachPidController = reachMotor.getPIDController();
         // ClimbConstants.addPidToMotor(anglePidController, anglePID);
         ClimbConstants.addPidToMotor(reachPidController, reachPID);
+
+        // Set limits for reach
+        reachMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)(ClimbConstants.CLIMB_MIN_EXTEND/ClimbConstants.CLIMB_ROTATION_TO_INCH));
+        reachMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    
+        reachMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)(ClimbConstants.CLIMB_MAX_EXTEND/ClimbConstants.CLIMB_ROTATION_TO_INCH));
+        reachMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+
+        setPositionSetpoint(ClimbConstants.CLIMB_MIN_EXTEND/ClimbConstants.CLIMB_ROTATION_TO_INCH);
+
     }
 
     public void setPositionSetpoint(double rotations){
         reachPidController.setReference(rotations, ControlType.kPosition);
+        reachSetpoint = rotations;
+    }
+
+    public void periodic(){
+        double reachError = Math.abs(reachSetpoint - reachEncoder.getPosition());
+        if(reachError < ClimbConstants.CLIMB_REACH_ALLOWED_ERROR){
+            reachSetpoint = reachEncoder.getPosition();
+            reachPidController.setReference(reachSetpoint, ControlType.kPosition);
+        }
     }
 }

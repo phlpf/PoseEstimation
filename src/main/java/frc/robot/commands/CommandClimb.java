@@ -25,4 +25,4 @@ public class CommandClimb extends SequentialCommandGroup {
       new InstantCommand(()-> climber.extendArm(climber.outerArm, 0))
     );
   }
-}
+}   
