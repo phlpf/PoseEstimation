@@ -3,18 +3,17 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import java.util.function.BooleanSupplier;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
-
-import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Shooter;
+
+import java.util.function.BooleanSupplier;
 
 /** An example command that uses an example subsystem. */
 public class DefaultShooter extends CommandBase {
-  private final Shooter m_subsystem;
+  private final Shooter subsystem;
   private double setpointVelocity = 0;
   private BooleanSupplier isOnSupplier;
 
@@ -24,7 +23,7 @@ public class DefaultShooter extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   public DefaultShooter(Shooter subsystem, BooleanSupplier isOnSupplier ) {
-    m_subsystem = subsystem;
+    this.subsystem = subsystem;
     this.isOnSupplier = isOnSupplier;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -41,14 +40,14 @@ public class DefaultShooter extends CommandBase {
   public void execute() {
     boolean isOn = isOnSupplier.getAsBoolean();
     if(isOn){  
-      m_subsystem.motor3.set(setpointVelocity);
-      SmartDashboard.putNumber("shooter/actual Velocity Shooter", m_subsystem.encoder.getVelocity());
+      subsystem.motor3.set(setpointVelocity);
+      SmartDashboard.putNumber("shooter/actual Velocity Shooter", subsystem.encoder.getVelocity());
       setpointVelocity = SmartDashboard.getNumber("shooter/setpoint Velocity Shooter", setpointVelocity);
-      m_subsystem.pid.setReference(setpointVelocity, ControlType.kVelocity);
+      subsystem.pid.setReference(setpointVelocity, ControlType.kVelocity);
     }
     else{
       setpointVelocity = 0;
-      m_subsystem.pid.setReference(setpointVelocity, ControlType.kVelocity);
+      subsystem.pid.setReference(setpointVelocity, ControlType.kVelocity);
 
     }
   }

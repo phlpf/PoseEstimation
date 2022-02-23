@@ -4,20 +4,14 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Index;
-
-import java.util.function.DoubleSupplier;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Index;
 
 /** An example command that uses an example subsystem. */
 public class DefaultIndex extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Index m_subsystem;
+  private final Index subsystem;
   private double rotations = 0;
   /**
    * Creates a new ExampleCommand.
@@ -25,7 +19,7 @@ public class DefaultIndex extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   public DefaultIndex(Index subsystem) {
-    m_subsystem = subsystem;
+    this.subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -33,15 +27,15 @@ public class DefaultIndex extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-   SmartDashboard.putNumber("rotations", m_subsystem.encoder.getPosition());
+   SmartDashboard.putNumber("rotations", subsystem.encoder.getPosition());
      
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute(){
-    rotations = SmartDashboard.getNumber("rotations", m_subsystem.encoder.getPosition());
-    m_subsystem.setReference(rotations);
+    rotations = SmartDashboard.getNumber("rotations", subsystem.encoder.getPosition());
+    subsystem.setReference(rotations);
   }
 
   // Called once the command ends or is interrupted.

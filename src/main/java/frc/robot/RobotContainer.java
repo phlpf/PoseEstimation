@@ -4,23 +4,17 @@
 
 package frc.robot;
 
+import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper.GearRatio;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-
-import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper.GearRatio;
-
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.FunctionalCommand;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import frc.robot.commands.DefaultAcquisition;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DefaultIndex;
-import frc.robot.commands.DefaultAcquisition;
+import frc.robot.commands.DefaultShooter;
+import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Index;
-import frc.robot.subsystems.Acquisition;
-import frc.robot.commands.DefaultShooter;
 import frc.robot.subsystems.Shooter;
 
 /**
@@ -30,34 +24,36 @@ import frc.robot.subsystems.Shooter;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-    // The robot's subsystems and commands are defined here...
-    public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(GearRatio.L1);
+    public final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(GearRatio.L1);
 
-    private final XboxController m_controller = new XboxController(0);
+    private final XboxController controller = new XboxController(0);
+
     private final Acquisition acquisition = new Acquisition();
     private final Shooter shooter = new Shooter();
     private final Index index = new Index();
+
     private final DefaultAcquisition acquisitionCommand = new DefaultAcquisition(acquisition);
-    private final DefaultShooter shooterCommand = new DefaultShooter(shooter, ()->m_controller.getAButton());
+    private final DefaultShooter shooterCommand = new DefaultShooter(shooter, controller::getAButton);
     private final DefaultIndex indexCommand = new DefaultIndex(index);
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        acquisition.setDefaultCommand(acquisitionCommand);
-        shooter.setDefaultCommand(shooterCommand);
-        index.setDefaultCommand(indexCommand);
         // Set up the default command for the drivetrain.
         // The controls are for field-oriented driving:
         // Left stick Y axis -> forward and backwards movement
         // Left stick X axis -> left and right movement
         // Right stick X axis -> rotation
-        m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
-                        m_drivetrainSubsystem,
-                        () -> -modifyAxis(m_controller.getLeftY()) * DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
-                        () -> -modifyAxis(m_controller.getLeftX()) * DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
-                        () -> -modifyAxis(m_controller.getRightX()) * DrivetrainConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.2
+        drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
+                drivetrainSubsystem,
+                        () -> -modifyAxis(controller.getLeftY()) * DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
+                        () -> -modifyAxis(controller.getLeftX()) * DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
+                        () -> -modifyAxis(controller.getRightX()) * DrivetrainConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.2
         ));
+
+        acquisition.setDefaultCommand(acquisitionCommand);
+        shooter.setDefaultCommand(shooterCommand);
+        index.setDefaultCommand(indexCommand);
 
         // Configure the button bindings
         configureButtonBindings();
@@ -71,8 +67,8 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         // Back button zeros the gyroscope
-        new Button(m_controller::getBackButton)
-                        .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
+        new Button(controller::getBackButton)
+                        .whenPressed(drivetrainSubsystem::zeroGyroscope);
     }
 
 

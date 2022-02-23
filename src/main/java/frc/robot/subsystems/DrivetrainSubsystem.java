@@ -5,17 +5,10 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.Pigeon2;
-import com.ctre.phoenix.sensors.PigeonIMU;
-import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
-import com.swervedrivespecialties.swervelib.ModuleConfiguration;
-import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
-import com.swervedrivespecialties.swervelib.SwerveModule;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper.GearRatio;
-
-import edu.wpi.first.math.controller.PIDController;
+import com.swervedrivespecialties.swervelib.SwerveModule;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -26,21 +19,11 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.DrivetrainConstants;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
-
 
 import static frc.robot.Constants.*;
-import static frc.robot.DrivetrainConstants.*;
-
-import java.net.ProtocolException;
-import java.util.ArrayList;
-import java.util.function.Consumer;
+import static frc.robot.DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND;
+import static frc.robot.DrivetrainConstants.MAX_VOLTAGE;
 
 public class DrivetrainSubsystem extends SubsystemBase {
     
@@ -60,17 +43,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // The important thing about how you configure your gyroscope is that rotating the robot counter-clockwise should
     // cause the angle reading to increase until it wraps back over to zero.
     // FIXME Remove if you are using a Pigeon
-    private final Pigeon2 m_pigeon = new Pigeon2(DRIVETRAIN_PIGEON_ID);
+    private final Pigeon2 pigeon = new Pigeon2(DRIVETRAIN_PIGEON_ID);
 
     public SwerveDriveOdometry odometry = new SwerveDriveOdometry(m_kinematics, getGyroscopeRotation());
     // FIXME Uncomment if you are using a NavX
     //    private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
 
     // These are our modules. We initialize them in the constructor.
-    private final SwerveModule m_frontLeftModule;
-    private final SwerveModule m_frontRightModule;
-    private final SwerveModule m_backLeftModule;
-    private final SwerveModule m_backRightModule;
+    private final SwerveModule frontLeftModule;
+    private final SwerveModule frontRightModule;
+    private final SwerveModule backLeftModule;
+    private final SwerveModule backRightModule;
 
     ProfiledPIDController thetaController; 
     SwerveModuleState[] states;
@@ -84,7 +67,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         this.ratio = ratio;
         
         DrivetrainConstants.recalculate(ratio);
-        m_frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
+        frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                         // This parameter is optional, but will allow you to see the current state of the module on the dashboard.
                         tab.getLayout("Front Left Module", BuiltInLayouts.kList)
                                         .withSize(2, 4)
@@ -102,7 +85,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         );
 
         // We will do the same for the other modules
-        m_frontRightModule = Mk4SwerveModuleHelper.createFalcon500(
+        frontRightModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Front Right Module", BuiltInLayouts.kList)
                                         .withSize(2, 4)
                                         .withPosition(2, 0),
@@ -113,7 +96,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         FRONT_RIGHT_MODULE_STEER_OFFSET
         );
 
-        m_backLeftModule = Mk4SwerveModuleHelper.createFalcon500(
+        backLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Back Left Module", BuiltInLayouts.kList)
                                         .withSize(2, 4)
                                         .withPosition(4, 0),
@@ -124,7 +107,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         REAR_LEFT_MODULE_STEER_OFFSET
         );
 
-        m_backRightModule = Mk4SwerveModuleHelper.createFalcon500(
+        backRightModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Back Right Module", BuiltInLayouts.kList)
                                         .withSize(2, 4)
                                         .withPosition(6, 0),
@@ -142,37 +125,23 @@ public class DrivetrainSubsystem extends SubsystemBase {
      * 'forwards' direction.
      */
     public void zeroGyroscope() {
-        // FIXME Remove if you are using a Pigeon
-        m_pigeon.setYaw(0.0);
-
-        // FIXME Uncomment if you are using a NavX
-//        m_navx.zeroYaw();
+        pigeon.setYaw(0.0);
     }
 
     public Rotation2d getGyroscopeRotation() {
-        // FIXME Remove if you are using a Pigeon
-        return Rotation2d.fromDegrees(m_pigeon.getYaw());
-
-        // FIXME Uncomment if you are using a NavX
-//        if (m_navx.isMagnetometerCalibrated()) {
-//            // We will only get valid fused headings if the magnetometer is calibrated
-//            return Rotation2d.fromDegrees(m_navx.getFusedHeading());
-//        }
-//
-//        // We have to invert the angle of the NavX so that rotating the robot counter-clockwise makes the angle increase.
-//        return Rotation2d.fromDegrees(360.0 - m_navx.getYaw());
+        return Rotation2d.fromDegrees(pigeon.getYaw());
     }
+
     public Rotation2d getDesiredRotation(){
         return new Rotation2d(1, 0);
     }
+
     public void updateModules(SwerveModuleState[] newStates){
-
-        m_frontRightModule.set(newStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[0].angle.getRadians());
-        m_frontLeftModule.set(newStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[1].angle.getRadians());
-        m_backRightModule.set(newStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[2].angle.getRadians());
-        m_backLeftModule.set(newStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[3].angle.getRadians());
-
-    }   
+        frontRightModule.set(newStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[0].angle.getRadians());
+        frontLeftModule.set(newStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[1].angle.getRadians());
+        backRightModule.set(newStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[2].angle.getRadians());
+        backLeftModule.set(newStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[3].angle.getRadians());
+    }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
         m_chassisSpeeds = chassisSpeeds;
@@ -183,11 +152,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
         states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
 
-        m_frontRightModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[0].angle.getRadians());
-        m_frontLeftModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
-        m_backRightModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
-        m_backLeftModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
+        updateModules(states);
 
-        Pose2d pose = odometry.update(getGyroscopeRotation(), states);
+        odometry.update(getGyroscopeRotation(), states);
     }
 }
