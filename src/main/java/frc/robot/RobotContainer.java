@@ -80,23 +80,18 @@ public class RobotContainer {
                         .whenPressed(drivetrainSubsystem::zeroGyroscope);
     }
 
-
-
-    private static double deadband(double value, double deadband) {
-        if (Math.abs(value) > deadband) {
-            if (value > 0.0) {
-                return (value - deadband) / (1.0 - deadband);
-            } else {
-                return (value + deadband) / (1.0 - deadband);
-            }
-        } else {
-            return 0.0;
-        }
-    }
-
     private static double modifyAxis(double value) {
         // Deadband
-        value = deadband(value, 0.05);
+        double deadband = 0.05;
+        if (Math.abs(value) > deadband) {
+            if (value > 0.0) {
+                value = (value - deadband) / (1.0 - deadband);
+            } else {
+                value = (value + deadband) / (1.0 - deadband);
+            }
+        } else {
+            value = 0.0;
+        }
 
         // Square the axis
         value = Math.copySign(value * value, value);
