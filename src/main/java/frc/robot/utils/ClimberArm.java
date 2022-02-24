@@ -31,6 +31,7 @@ public class ClimberArm {
         reachMotor.restoreFactoryDefaults();
         reachMotor.setInverted(false);
         angleEncoder = angleMotor.getEncoder();
+        angleEncoder.setPosition(0);
         reachEncoder = reachMotor.getEncoder();
         reachEncoder.setPosition(0);
         anglePidController = angleMotor.getPIDController();
@@ -43,13 +44,13 @@ public class ClimberArm {
         reachMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     
         reachMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)(ClimbConstants.CLIMB_MAX_EXTEND/ClimbConstants.CLIMB_ROTATION_TO_INCH));
-        reachMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        reachMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
 
-        setPositionSetpoint(ClimbConstants.CLIMB_MIN_EXTEND/ClimbConstants.CLIMB_ROTATION_TO_INCH);
+        setReachSetpoint(ClimbConstants.CLIMB_MIN_EXTEND/ClimbConstants.CLIMB_ROTATION_TO_INCH);
 
     }
 
-    public void setPositionSetpoint(double rotations){
+    public void setReachSetpoint(double rotations){
         reachPidController.setReference(rotations, ControlType.kPosition);
         reachSetpoint = rotations;
     }
@@ -59,6 +60,7 @@ public class ClimberArm {
     }
 
     public void periodic(){
+        // Stop when we are at a acceptable error
         double reachError = Math.abs(reachSetpoint - reachEncoder.getPosition());
         if(reachError < ClimbConstants.CLIMB_REACH_ALLOWED_ERROR){
             reachSetpoint = reachEncoder.getPosition();

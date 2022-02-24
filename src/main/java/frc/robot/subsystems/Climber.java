@@ -25,7 +25,7 @@ public class Climber extends SubsystemBase {
 
     public void extendArm(ClimberArm arm, double distance){
         double rotations = distance/ClimbConstants.CLIMB_ROTATION_TO_INCH;
-        arm.setPositionSetpoint(rotations);
+        arm.setReachSetpoint(rotations);
     }  
     public void rotateArmTo(ClimberArm arm, double angle){
         double rotations = angle/ClimbConstants.CLIMB_ROTATION_TO_DEGREE;
