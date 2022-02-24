@@ -56,7 +56,7 @@ public class AutoGenerator {
 
         return new SwerveControllerCommand(trajectory, 
         drives.odometry::getPoseMeters, 
-        drives.m_kinematics,
+        drives.kinematics,
         leftController,
         rightController,
         thetaController,

@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.Pigeon2;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper.GearRatio;
 import com.swervedrivespecialties.swervelib.SwerveModule;
@@ -21,12 +20,13 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kSwerve;
+import frc.robot.utils.PigeonWrapper;
 
 import static frc.robot.constants.kSwerve.*;
 
 public class DrivetrainSubsystem extends SubsystemBase {
     
-    public final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
+    public final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
                     // Front Right
                     new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
                     // Front Left
@@ -37,12 +37,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
                     new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0)
     );
 
-    // By default we use a Pigeon for our gyroscope. But if you use another gyroscope, like a NavX, you can change this.
-    // The important thing about how you configure your gyroscope is that rotating the robot counter-clockwise should
-    // cause the angle reading to increase until it wraps back over to zero.
-    private final Pigeon2 pigeon = new Pigeon2(kCANIDs.DRIVETRAIN_PIGEON_ID);
+    private final PigeonWrapper pigeon = new PigeonWrapper(kCANIDs.DRIVETRAIN_PIGEON_ID);
 
-    public SwerveDriveOdometry odometry = new SwerveDriveOdometry(m_kinematics, getGyroscopeRotation());
+    public SwerveDriveOdometry odometry = new SwerveDriveOdometry(kinematics, getGyroscopeRotation());
 
     // These are our modules. We initialize them in the constructor.
     private final SwerveModule frontLeftModule;
@@ -53,11 +50,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     ProfiledPIDController thetaController; 
     SwerveModuleState[] states;
 
-    private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
+    private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
     GearRatio ratio;
-    public DrivetrainSubsystem(GearRatio ratio) {
 
+    public DrivetrainSubsystem(GearRatio ratio) {
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         this.ratio = ratio;
         
@@ -120,7 +117,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
      * 'forwards' direction.
      */
     public void zeroGyroscope() {
-        pigeon.setYaw(0.0);
+        pigeon.reset();
     }
 
     public Rotation2d getGyroscopeRotation() {
@@ -139,12 +136,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
-        m_chassisSpeeds = chassisSpeeds;
+        this.chassisSpeeds = chassisSpeeds;
     }
 
     @Override
     public void periodic() {
-        states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
+        states = kinematics.toSwerveModuleStates(chassisSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
 
         updateModules(states);
