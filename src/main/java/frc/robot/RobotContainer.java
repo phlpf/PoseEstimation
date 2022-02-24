@@ -6,6 +6,8 @@ package frc.robot;
 
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper.GearRatio;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.DefaultAcquisition;
@@ -25,6 +27,9 @@ import frc.robot.subsystems.Shooter;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+    public final PowerDistribution pdp = new PowerDistribution(61, PowerDistribution.ModuleType.kRev);
+    public final PneumaticHub pneumaticHub = new PneumaticHub(31);
+
     public final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(GearRatio.L1);
 
     private final XboxController controller = new XboxController(0);
@@ -40,6 +45,9 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
+        pdp.clearStickyFaults();
+        pneumaticHub.clearStickyFaults();
+
         // Set up the default command for the drivetrain.
         // The controls are for field-oriented driving:
         // Left stick Y axis -> forward and backwards movement
