@@ -25,15 +25,18 @@ public class Climber extends SubsystemBase {
 
     public void extendArm(ClimberArm arm, double distance){
         double rotations = distance/ClimbConstants.CLIMB_ROTATION_TO_INCH;
+        SmartDashboard.putNumber("Climb Setpoint Reach", rotations);
         arm.setReachSetpoint(rotations);
     }  
     public void rotateArmTo(ClimberArm arm, double angle){
         double rotations = angle/ClimbConstants.CLIMB_ROTATION_TO_DEGREE;
+        SmartDashboard.putNumber("Climb Setpoint Angle", rotations);
         arm.setAngleSetpoint(rotations);
     }  
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Encoder Climb", outerArm.reachEncoder.getPosition());
+        SmartDashboard.putNumber("Climb Encoder Reach", outerArm.reachEncoder.getPosition());
+        SmartDashboard.putNumber("Climb Encoder Angle", outerArm.angleEncoder.getPosition());
         // This method will be called once per scheduler run
     }
 }

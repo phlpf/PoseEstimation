@@ -19,7 +19,7 @@ import frc.robot.ClimbConstants;
 public class ClimberArm {
     private CANSparkMax angleMotor;
     private CANSparkMax reachMotor;
-    private RelativeEncoder angleEncoder;
+    public RelativeEncoder angleEncoder;
     public RelativeEncoder reachEncoder;
     private SparkMaxPIDController anglePidController;
     private SparkMaxPIDController reachPidController;
