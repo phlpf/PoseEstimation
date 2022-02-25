@@ -30,7 +30,7 @@ public class Index extends SubsystemBase {
     pidController.setD(0);
     pidController.setIZone(0);
     pidController.setFF(0);
-    pidController.setOutputRange(-1, 1);
+    pidController.setOutputRange(-0.5, 0.5);
   }
 
   @Override
