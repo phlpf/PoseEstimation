@@ -38,9 +38,9 @@ public class RobotContainer {
     private final Shooter shooter = new Shooter();
     private final Index index = new Index();
 
-    private final DefaultAcquisition acquisitionCommand = new DefaultAcquisition(acquisition);
-    private final DefaultShooter shooterCommand = new DefaultShooter(shooter, ()->m_controller.getAButton());
-    private final DefaultIndex indexCommand = new DefaultIndex(index, ()->m_controller.getLeftTriggerAxis());
+    private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
+    private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter, controller::getAButton);
+    private final DefaultIndex defaultIndexCommand = new DefaultIndex(index, controller::getLeftTriggerAxis);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -61,9 +61,9 @@ public class RobotContainer {
                         () -> -modifyAxis(controller.getRightX()) * kSwerve.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.2
         ));
 
-        acquisition.setDefaultCommand(acquisitionCommand);
-        shooter.setDefaultCommand(shooterCommand);
-        index.setDefaultCommand(indexCommand);
+        acquisition.setDefaultCommand(defaultAcquisitionCommand);
+        shooter.setDefaultCommand(defaultShooterCommand);
+        index.setDefaultCommand(defaultIndexCommand);
 
         // Configure the button bindings
         configureButtonBindings();

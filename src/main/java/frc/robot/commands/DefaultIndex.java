@@ -8,12 +8,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Index;
 
+import java.util.function.DoubleSupplier;
+
 /** An example command that uses an example subsystem. */
 public class DefaultIndex extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Index subsystem;
-  private double rotations = 0;
-  private DoubleSupplier rotationSupplier;
+  private final double rotations = 0;
+  private final DoubleSupplier rotationSupplier;
 
   /**
    * Creates a new ExampleCommand.
