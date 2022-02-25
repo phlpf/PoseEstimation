@@ -63,5 +63,5 @@ public class kSwerve {
 
     public static final double SWERVE_ALLOWED_OFFSET = 1.0;
 
-    public static double SWERVE_CORRECTION_SPEED = 0.1 * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
+    public static double SWERVE_CORRECTION_SPEED = 0.05 * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
 }
