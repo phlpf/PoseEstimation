@@ -86,7 +86,7 @@ public class RobotContainer {
 
     private void configureClimbController(XboxController controller){
         new Button(controller::getAButton)
-                        .whenPressed(new CommandClimb(climber, controller));
+                        .whenPressed(new CommandTestClimb(climber, controller));
         new Button(controller::getBButton)
                         .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.outerArm, 26)));
         new Button(controller::getXButton)
