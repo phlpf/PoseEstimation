@@ -1,0 +1,6 @@
+Make Arms code
+    Use is on
+    make it toggle instead of holding down button
+    if its on set setpointVelocity to higher than 0, else its 0
+    ask Phil about 2nd if statement
+    

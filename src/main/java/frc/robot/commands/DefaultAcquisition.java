@@ -34,6 +34,8 @@ public class DefaultAcquisition extends CommandBase {
     SmartDashboard.putNumber("acquisition/actual Velocity", subsystem.encoder.getVelocity());
     setpointVelocity = SmartDashboard.getNumber("acquisition/setpoint Velocity", setpointVelocity);
     subsystem.pid.setReference(setpointVelocity, ControlType.kVelocity);
+    boolean calm = false;
+    subsystem.arms.set(calm);
   }
 
   // Called once the command ends or is interrupted.

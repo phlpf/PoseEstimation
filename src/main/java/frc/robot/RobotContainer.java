@@ -39,7 +39,7 @@ public class RobotContainer {
     private final Shooter shooter = new Shooter();
     private final Index index = new Index();
     private final Climber climber = new Climber();
-
+  
     private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
     private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter, controller::getAButton);
     private final DefaultIndex defaultIndexCommand = new DefaultIndex(index, controller::getLeftTriggerAxis);
