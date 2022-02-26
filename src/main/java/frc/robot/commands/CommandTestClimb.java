@@ -20,19 +20,12 @@ public class CommandTestClimb extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new InstantCommand(()-> climber.rotateArmTo(climber.innerArm, 26)), // TODO: get max and min
+      new CommandWaitForButton(gamepad, ClimbConstants.CLIMB_BUTTON),
+    
       new InstantCommand(()-> climber.extendArm(climber.outerArm, ClimbConstants.CLIMB_MAX_EXTEND)),
       new CommandWaitForButton(gamepad, ClimbConstants.CLIMB_BUTTON),
-      new InstantCommand(()-> climber.extendArm(climber.outerArm, (ClimbConstants.CLIMB_MIN_EXTEND))),
-      new CommandWaitForButton(gamepad, ClimbConstants.CLIMB_BUTTON),
-      
-      new InstantCommand(()-> climber.extendArm(climber.innerArm, ClimbConstants.CLIMB_MAX_EXTEND)),
-      new CommandWaitForButton(gamepad, ClimbConstants.CLIMB_BUTTON),
-      new InstantCommand(()-> climber.extendArm(climber.innerArm, (ClimbConstants.CLIMB_MIN_EXTEND))),
-      new CommandWaitForButton(gamepad, ClimbConstants.CLIMB_BUTTON),
-      
-      new InstantCommand(()-> climber.rotateArmTo(climber.outerArm, 26)), // TODO: get max and min
-      new CommandWaitForButton(gamepad, ClimbConstants.CLIMB_BUTTON),
-      new InstantCommand(()-> climber.extendArm(climber.outerArm, -45)),
+      new InstantCommand(()-> climber.extendArm(climber.outerArm, (ClimbConstants.CLIMB_MIN_EXTEND+6))),
       new CommandWaitForButton(gamepad, ClimbConstants.CLIMB_BUTTON)
     );
   }

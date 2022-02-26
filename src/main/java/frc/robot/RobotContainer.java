@@ -88,11 +88,11 @@ public class RobotContainer {
         new Button(controller::getAButton)
                         .whenPressed(new CommandTestClimb(climber, controller));
         new Button(controller::getBButton)
-                        .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.outerArm, 26)));
+                        .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.innerArm, 26)));
         new Button(controller::getXButton)
-                        .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.outerArm, -27)));
+                        .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.innerArm, -27)));
         new Button(controller::getYButton)
-                        .whenPressed(new InstantCommand(() -> {climber.rotateArmTo(climber.outerArm, 0); climber.extendArm(climber.outerArm, 0);}));
+                        .whenPressed(new InstantCommand(() -> {climber.rotateArmTo(climber.innerArm, 0);climber.extendArm(climber.innerArm, ClimbConstants.CLIMB_MIN_EXTEND);}));
         //new Button(controller::getXButton)
         //                 .whenPressed(() -> climber.extendArm(climber.innerArm, 23));
         // new Button(controller::getYButton)
