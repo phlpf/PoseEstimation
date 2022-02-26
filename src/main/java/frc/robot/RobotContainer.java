@@ -5,10 +5,14 @@
 package frc.robot;
 
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper.GearRatio;
+
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.*;
@@ -24,6 +28,7 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
     public final PowerDistribution pdp = new PowerDistribution(61, PowerDistribution.ModuleType.kRev);
     public final PneumaticHub pneumaticHub = new PneumaticHub(31);
+    public final Compressor compressor = new Compressor(31, PneumaticsModuleType.REVPH);
 
     public final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(GearRatio.L1);
 
