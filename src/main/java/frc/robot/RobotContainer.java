@@ -9,21 +9,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
-import frc.robot.commands.DefaultAcquisition;
-import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.DefaultIndex;
-import frc.robot.commands.DefaultShooter;
+import frc.robot.commands.*;
 import frc.robot.constants.kSwerve;
-import frc.robot.subsystems.Acquisition;
-import frc.robot.commands.CommandClimb;
-import frc.robot.commands.DefaultAcquisition;
-import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.Index;
-import frc.robot.subsystems.Acquisition;
-import frc.robot.subsystems.Climber;
-import frc.robot.commands.DefaultShooter;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -46,8 +36,8 @@ public class RobotContainer {
     private final Climber climber = new Climber();
 
     private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
-    private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter, ()->m_controller.getAButton());
-    private final DefaultIndex defaultIndexCommand = new DefaultIndex(index, ()->m_controller.getLeftTriggerAxis());
+    private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter, controller::getAButton);
+    private final DefaultIndex defaultIndexCommand = new DefaultIndex(index, controller::getLeftTriggerAxis);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
