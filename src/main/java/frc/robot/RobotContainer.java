@@ -39,7 +39,8 @@ public class RobotContainer {
     private final Index index = new Index();
     private final DefaultAcquisition acquisitionCommand = new DefaultAcquisition(acquisition);
     private final DefaultShooter shooterCommand = new DefaultShooter(shooter, ()->m_controller.getAButton());
-    private final DefaultIndex indexCommand = new DefaultIndex(index);
+    private final DefaultIndex indexCommand = new DefaultIndex(index, ()->m_controller.getLeftTriggerAxis());
+
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */

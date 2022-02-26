@@ -50,6 +50,6 @@ public final class Constants {
         public static final double REAR_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(321.0); // FIXME Measure and set back right steer offset
         
         public static final double SWERVE_ALLOWED_OFFSET = 1.0;
-        public static double SWERVE_CORRECTION_SPEED = 0.1 * DrivetrainConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
+        public static double SWERVE_CORRECTION_SPEED = 0.05 * DrivetrainConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
         
 }

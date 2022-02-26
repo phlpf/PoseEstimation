@@ -19,13 +19,15 @@ public class DefaultIndex extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Index m_subsystem;
   private double rotations = 0;
+  private DoubleSupplier rotationSupplier;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DefaultIndex(Index subsystem) {
+  public DefaultIndex(Index subsystem, DoubleSupplier rotationSupplier) {
     m_subsystem = subsystem;
+    this.rotationSupplier = rotationSupplier;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -33,15 +35,15 @@ public class DefaultIndex extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-   SmartDashboard.putNumber("rotations", m_subsystem.encoder.getPosition());
      
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute(){
-    rotations = SmartDashboard.getNumber("rotations", m_subsystem.encoder.getPosition());
-    m_subsystem.setReference(rotations);
+    double rotationSpeed = rotationSupplier.getAsDouble();
+    double position =  m_subsystem.encoder.getPosition();
+    m_subsystem.setReference(position + rotationSpeed);
   }
 
   // Called once the command ends or is interrupted.
