@@ -34,29 +34,29 @@ public  class ClimbConstants {
         3,
         0.0,
         0.0,
-        -0.3,
-        0.3);
+        -0.6,
+        0.6);
     public static ClimberPid climbReachInner = new ClimberPid(0.75,
         2e-5,
         3,
         0.0,
         0.0,
-        -0.3,
-        0.3);
+        -0.6,
+        0.6);
     public static ClimberPid climbAngleOuter = new ClimberPid(0.75,
         2e-5,
         3,
         0.0,
         0.0,
-        -0.3,
-        0.3);
+        -0.6,
+        0.6);
     public static ClimberPid climbReachOuter = new ClimberPid(0.75,
         2e-5,
         3,
         0.0,
         0.0,
-        -0.3,
-        0.3); // TODO: Add real values
+        -0.6,
+        0.6); // TODO: Add real values
     public static void addPidToMotor(SparkMaxPIDController controller, ClimberPid pid){
         controller.setP(pid.p);
         controller.setI(pid.i);
@@ -72,7 +72,7 @@ public  class ClimbConstants {
     public static final int OUTER_REACH_ID = 16;
     public static final int CLIMB_BUTTON = Button.kA.value;
     public static final double CLIMB_ROTATION_TO_INCH = 1/5.555;
-    public static final double CLIMB_ROTATION_TO_DEGREE = 3.25;
+    public static final double CLIMB_ROTATION_TO_DEGREE = 1/1.111;
     public static final double CLIMB_MAX_EXTEND = 24;
     public static final double CLIMB_MIN_EXTEND = 0.5;
     public static final double CLIMB_REACH_ALLOWED_ERROR = 1; 
