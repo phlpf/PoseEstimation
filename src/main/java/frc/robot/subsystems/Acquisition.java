@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.Solenoid;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.DefaultAcquisition;
+import frc.robot.constants.kCANIDs;
+
 import java.util.function.BooleanSupplier;
 
 
@@ -20,7 +22,7 @@ public class Acquisition extends SubsystemBase {
   public CANSparkMax motor2;
   public RelativeEncoder encoder;
   public SparkMaxPIDController pid;
-  public Solenoid arms = new Solenoid(PneumaticsModuleType.REVPH,0);
+  public Solenoid arms = new Solenoid(31, PneumaticsModuleType.REVPH,0);
   public Acquisition() {
     motor2 = new CANSparkMax(11, MotorType.kBrushless);
     encoder = motor2.getEncoder();
