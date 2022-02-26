@@ -8,6 +8,7 @@ import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper.GearRatio;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -126,6 +127,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public Rotation2d getDesiredRotation(){
         return new Rotation2d(1, 0);
+    }
+
+    public Pose2d getPose() {
+        return odometry.getPoseMeters();
     }
 
     public void updateModules(SwerveModuleState[] newStates){
