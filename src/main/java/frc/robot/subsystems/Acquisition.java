@@ -1,9 +1,9 @@
 package frc.robot.subsystems;
+
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Acquisition extends SubsystemBase {
@@ -26,9 +26,6 @@ public class Acquisition extends SubsystemBase {
     pid.setIZone(0);
     pid.setOutputRange(-1,1);
   }
-  
-
-
 
   @Override
   public void periodic() {
