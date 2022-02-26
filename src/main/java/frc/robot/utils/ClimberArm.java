@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -78,5 +79,14 @@ public class ClimberArm {
             angleSetpoint = reachEncoder.getPosition();
             anglePidController.setReference(reachSetpoint, ControlType.kPosition);
         }
+    }
+    public void setAngleToCoast(){
+        angleMotor.setIdleMode(IdleMode.kCoast);
+    }
+    public void setReachToCoast(){
+        reachMotor.setIdleMode(IdleMode.kCoast);
+    }
+    public void setAngleToBrake(){
+        angleMotor.setIdleMode(IdleMode.kBrake);
     }
 }

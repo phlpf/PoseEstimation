@@ -34,8 +34,8 @@ public  class ClimbConstants {
         3,
         0.0,
         0.0,
-        -0.6,
-        0.6);
+        -0.3,
+        0.3);
     public static ClimberPid climbReachInner = new ClimberPid(0.75,
         2e-5,
         3,
@@ -48,8 +48,8 @@ public  class ClimbConstants {
         3,
         0.0,
         0.0,
-        -0.6,
-        0.6);
+        -0.3,
+        0.3);
     public static ClimberPid climbReachOuter = new ClimberPid(0.75,
         2e-5,
         3,

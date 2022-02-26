@@ -25,8 +25,23 @@ public class CommandTestClimb extends SequentialCommandGroup {
     
       new InstantCommand(()-> climber.extendArm(climber.outerArm, ClimbConstants.CLIMB_MAX_EXTEND)),
       new CommandWaitForButton(gamepad, ClimbConstants.CLIMB_BUTTON),
-      new InstantCommand(()-> climber.extendArm(climber.outerArm, (ClimbConstants.CLIMB_MIN_EXTEND+6))),
+      new InstantCommand(()-> climber.extendArm(climber.outerArm, (ClimbConstants.CLIMB_MIN_EXTEND+0.5))),
+      new CommandWaitForButton(gamepad, ClimbConstants.CLIMB_BUTTON),
+      
+      new InstantCommand(()-> climber.extendArm(climber.innerArm, (ClimbConstants.CLIMB_MAX_EXTEND))),
+      new CommandWaitForButton(gamepad, ClimbConstants.CLIMB_BUTTON),
+      new InstantCommand(()-> climber.outerArm.setAngleToCoast()),
+      new InstantCommand(()-> climber.rotateArmTo(climber.innerArm, 0)), // TODO: get max and min
+      new CommandWaitForButton(gamepad, ClimbConstants.CLIMB_BUTTON),
+      
+      new InstantCommand(()-> climber.extendArm(climber.innerArm, 4)),
+      new CommandWaitForButton(gamepad, ClimbConstants.CLIMB_BUTTON),
+      new InstantCommand(()-> climber.outerArm.setAngleToBrake()),
+      
+      new InstantCommand(()-> climber.rotateArmTo(climber.outerArm, -26)), // TODO: get max and min
       new CommandWaitForButton(gamepad, ClimbConstants.CLIMB_BUTTON)
     );
   }
 }   
+
+
