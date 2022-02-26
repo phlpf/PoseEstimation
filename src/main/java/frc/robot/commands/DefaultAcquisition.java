@@ -1,14 +1,13 @@
 package frc.robot.commands;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
 
-import frc.robot.subsystems.Acquisition;
+import com.revrobotics.CANSparkMax.ControlType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Acquisition;
 
 /** An example command that uses an example subsystem. */
 public class DefaultAcquisition extends CommandBase {
-  private final Acquisition m_subsystem;
+  private final Acquisition subsystem;
   private double setpointVelocity = 0;
 
   /**
@@ -17,7 +16,7 @@ public class DefaultAcquisition extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   public DefaultAcquisition(Acquisition subsystem) {
-    m_subsystem = subsystem;
+    this.subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -31,10 +30,10 @@ public class DefaultAcquisition extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.motor2.set(setpointVelocity);
-    SmartDashboard.putNumber("acquisition/actual Velocity", m_subsystem.encoder.getVelocity());
+    subsystem.motor2.set(setpointVelocity);
+    SmartDashboard.putNumber("acquisition/actual Velocity", subsystem.encoder.getVelocity());
     setpointVelocity = SmartDashboard.getNumber("acquisition/setpoint Velocity", setpointVelocity);
-    m_subsystem.pid.setReference(setpointVelocity, ControlType.kVelocity);
+    subsystem.pid.setReference(setpointVelocity, ControlType.kVelocity);
   }
 
   // Called once the command ends or is interrupted.
