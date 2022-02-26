@@ -20,7 +20,7 @@ public class AutoUtils {
     private static final PIDController rightController = new PIDController(0.00386, 0, 0);
     private static final PIDController leftController = new PIDController(0.00386, 0, 0);
 
-    public static Command generateCommand(String pathName, int maxVelocity, int maxAcceleration, DrivetrainSubsystem drives) {
+    public static Command generateCommand(String pathName, double maxVelocity, double maxAcceleration, DrivetrainSubsystem drives) {
         PathPlannerTrajectory path = PathPlanner.loadPath(pathName, maxVelocity, maxAcceleration);
 
         return new PPSwerveControllerCommand(

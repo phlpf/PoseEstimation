@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
     public void autonomousInit() {
-        AutoUtils.generateCommand("Forward", 3, 2, robotContainer.drivetrainSubsystem).schedule();
+        AutoUtils.generateCommand("Forward", 2, 1, robotContainer.drivetrainSubsystem).schedule();
     }
 
     /** This function is called periodically during autonomous. */
