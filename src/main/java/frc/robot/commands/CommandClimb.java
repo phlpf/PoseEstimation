@@ -22,7 +22,12 @@ public class CommandClimb extends SequentialCommandGroup {
     addCommands(
       new InstantCommand(()-> climber.extendArm(climber.outerArm, ClimbConstants.CLIMB_MAX_EXTEND)),
       new CommandWaitForButton(gamepad, ClimbConstants.CLIMB_BUTTON),
-      new InstantCommand(()-> climber.extendArm(climber.outerArm, 0))
+      new InstantCommand(()-> climber.extendArm(climber.outerArm, (ClimbConstants.CLIMB_MIN_EXTEND))),
+      new CommandWaitForButton(gamepad, ClimbConstants.CLIMB_BUTTON),
+      new InstantCommand(()-> climber.extendArm(climber.innerArm, ClimbConstants.CLIMB_MAX_EXTEND)),
+      new CommandWaitForButton(gamepad, ClimbConstants.CLIMB_BUTTON),
+      new InstantCommand(()-> climber.extendArm(climber.innerArm, (ClimbConstants.CLIMB_MIN_EXTEND))),
+      new CommandWaitForButton(gamepad, ClimbConstants.CLIMB_BUTTON)
     );
   }
 }   

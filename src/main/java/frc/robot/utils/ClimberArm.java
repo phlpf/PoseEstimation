@@ -25,11 +25,11 @@ public class ClimberArm {
     private SparkMaxPIDController reachPidController;
     private double reachSetpoint = 0;
     private double angleSetpoint = 0;
-    public ClimberArm(int angleId, int reachId, ClimberPid anglePID, ClimberPid reachPID){
+    public ClimberArm(int angleId, int reachId, ClimberPid anglePID, ClimberPid reachPID, boolean reversed){
         angleMotor = new CANSparkMax(angleId, MotorType.kBrushless);
         reachMotor = new CANSparkMax(reachId, MotorType.kBrushless);
         reachMotor.restoreFactoryDefaults();
-        reachMotor.setInverted(false);
+        reachMotor.setInverted(reversed);
         angleEncoder = angleMotor.getEncoder();
         angleEncoder.setPosition(0);
         reachEncoder = reachMotor.getEncoder();
@@ -43,7 +43,7 @@ public class ClimberArm {
         reachMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)(ClimbConstants.CLIMB_MIN_EXTEND/ClimbConstants.CLIMB_ROTATION_TO_INCH));
         reachMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     
-        reachMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)(ClimbConstants.CLIMB_MAX_EXTEND/ClimbConstants.CLIMB_ROTATION_TO_INCH));
+        reachMotor.setSoftLimit(SoftLimitDirection.kForward, (float)(ClimbConstants.CLIMB_MAX_EXTEND/ClimbConstants.CLIMB_ROTATION_TO_INCH));
         reachMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
 
         setReachSetpoint(ClimbConstants.CLIMB_MIN_EXTEND/ClimbConstants.CLIMB_ROTATION_TO_INCH);
