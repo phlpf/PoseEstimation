@@ -16,10 +16,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DefaultIndex;
+import frc.robot.commands.CommandClimb;
 import frc.robot.commands.DefaultAcquisition;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.Climber;
 import frc.robot.commands.DefaultShooter;
 import frc.robot.subsystems.Shooter;
 
@@ -34,9 +36,11 @@ public class RobotContainer {
     public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(GearRatio.L1);
 
     private final XboxController m_controller = new XboxController(0);
+    private final XboxController debugController = new XboxController(2);
     private final Acquisition acquisition = new Acquisition();
     private final Shooter shooter = new Shooter();
     private final Index index = new Index();
+    private final Climber climber = new Climber();
     private final DefaultAcquisition acquisitionCommand = new DefaultAcquisition(acquisition);
     private final DefaultShooter shooterCommand = new DefaultShooter(shooter, ()->m_controller.getAButton());
     private final DefaultIndex indexCommand = new DefaultIndex(index, ()->m_controller.getLeftTriggerAxis());
@@ -71,12 +75,26 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        // Back button zeros the gyroscope
+        //Back button zeros the gyroscope
         new Button(m_controller::getBackButton)
                         .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
+        configureClimbController(debugController);
     }
 
-
+    private void configureClimbController(XboxController controller){
+        new Button(controller::getAButton)
+                        .whenPressed(new CommandClimb(climber, controller));
+        new Button(controller::getBButton)
+                        .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.outerArm, 26)));
+        new Button(controller::getXButton)
+                        .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.outerArm, -27)));
+        new Button(controller::getYButton)
+                        .whenPressed(new InstantCommand(() -> {climber.rotateArmTo(climber.outerArm, 0); climber.extendArm(climber.outerArm, 0);}));
+        //new Button(controller::getXButton)
+        //                 .whenPressed(() -> climber.extendArm(climber.innerArm, 23));
+        // new Button(controller::getYButton)
+        //                 .whenPressed(() -> climber.extendArm(climber.innerArm, 0));
+    }
 
     private static double deadband(double value, double deadband) {
         if (Math.abs(value) > deadband) {
