@@ -10,7 +10,7 @@ import frc.robot.subsystems.Acquisition;
 /** An example command that uses an example subsystem. */
 public class DefaultAcquisition extends CommandBase {
   private final Acquisition subsystem;
-  private double setpointVelocity = 0;
+  
 
   /**
    * Creates a new ExampleCommand.
@@ -23,27 +23,15 @@ public class DefaultAcquisition extends CommandBase {
     addRequirements(subsystem);
   }
 
- 
-
+  
 
 // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    SmartDashboard.putNumber("acquisition/setpoint Velocity", setpointVelocity);
-  }
+ 
 
   // Called every time the scheduler runs while the command is scheduled.
-  @Override
+  
   public void execute() {
-    if(subsystem.getArmsExtended()){
-      subsystem.motor2.set(setpointVelocity);
-      SmartDashboard.putNumber("acquisition/actual Velocity", subsystem.encoder.getVelocity());
-      setpointVelocity = SmartDashboard.getNumber("acquisition/setpoint Velocity", setpointVelocity);
-      subsystem.pid.setReference(setpointVelocity, ControlType.kVelocity);
-    }
-    else{
-      subsystem.motor2.set(0);
-    }
+   
   }
 
   // Called once the command ends or is interrupted.

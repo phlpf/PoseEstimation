@@ -86,6 +86,14 @@ public class RobotContainer {
                         .whenPressed(new InstantCommand(() -> {
                             acquisition.extendArms(!acquisition.getArmsExtended());  
                         }));
+        new Button (controller::getYButton)
+                        .whenPressed(new InstantCommand(() -> {
+                            acquisition.setVelocity(3800);
+                        }))
+                        .whenReleased(new InstantCommand(() -> {
+                            acquisition.setVelocity(0);
+                        }));
+                        
         configureClimbController(debugController);
     }
 
