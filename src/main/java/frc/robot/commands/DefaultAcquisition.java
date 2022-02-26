@@ -1,6 +1,8 @@
 package frc.robot.commands;
 
 import com.revrobotics.CANSparkMax.ControlType;
+
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Acquisition;
@@ -21,7 +23,10 @@ public class DefaultAcquisition extends CommandBase {
     addRequirements(subsystem);
   }
 
-  // Called when the command is initially scheduled.
+ 
+
+
+// Called when the command is initially scheduled.
   @Override
   public void initialize() {
     SmartDashboard.putNumber("acquisition/setpoint Velocity", setpointVelocity);
@@ -30,12 +35,15 @@ public class DefaultAcquisition extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    subsystem.motor2.set(setpointVelocity);
-    SmartDashboard.putNumber("acquisition/actual Velocity", subsystem.encoder.getVelocity());
-    setpointVelocity = SmartDashboard.getNumber("acquisition/setpoint Velocity", setpointVelocity);
-    subsystem.pid.setReference(setpointVelocity, ControlType.kVelocity);
-    boolean calm = false;
-    subsystem.arms.set(calm);
+    if(subsystem.getArmsExtended()){
+      subsystem.motor2.set(setpointVelocity);
+      SmartDashboard.putNumber("acquisition/actual Velocity", subsystem.encoder.getVelocity());
+      setpointVelocity = SmartDashboard.getNumber("acquisition/setpoint Velocity", setpointVelocity);
+      subsystem.pid.setReference(setpointVelocity, ControlType.kVelocity);
+    }
+    else{
+      subsystem.motor2.set(0);
+    }
   }
 
   // Called once the command ends or is interrupted.
