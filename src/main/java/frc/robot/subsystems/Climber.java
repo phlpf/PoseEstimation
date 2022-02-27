@@ -33,6 +33,12 @@ public class Climber extends SubsystemBase {
         SmartDashboard.putNumber("Climb Setpoint Angle", rotations);
         arm.setAngleSetpoint(rotations);
     }  
+    public void setToCoast(){
+        outerArm.setAngleToCoast();
+        innerArm.setAngleToCoast();
+        outerArm.setReachToCoast();
+        innerArm.setReachToCoast();
+    }
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Climb Encoder Reach", outerArm.reachEncoder.getPosition());

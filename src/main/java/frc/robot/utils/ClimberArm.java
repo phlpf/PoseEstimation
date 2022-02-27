@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -45,6 +46,13 @@ public class ClimberArm {
     
         reachMotor.setSoftLimit(SoftLimitDirection.kForward, (float)(ClimbConstants.CLIMB_MAX_EXTEND/ClimbConstants.CLIMB_ROTATION_TO_INCH));
         reachMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+        
+        // Set soft limits for angle
+        angleMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)(-26/ClimbConstants.CLIMB_ROTATION_TO_DEGREE));
+        angleMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    
+        angleMotor.setSoftLimit(SoftLimitDirection.kForward, (float)(45/ClimbConstants.CLIMB_ROTATION_TO_DEGREE));
+        angleMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
 
         setReachSetpoint(ClimbConstants.CLIMB_MIN_EXTEND/ClimbConstants.CLIMB_ROTATION_TO_INCH);
 
@@ -71,5 +79,14 @@ public class ClimberArm {
             angleSetpoint = reachEncoder.getPosition();
             anglePidController.setReference(reachSetpoint, ControlType.kPosition);
         }
+    }
+    public void setAngleToCoast(){
+        angleMotor.setIdleMode(IdleMode.kCoast);
+    }
+    public void setReachToCoast(){
+        reachMotor.setIdleMode(IdleMode.kCoast);
+    }
+    public void setAngleToBrake(){
+        angleMotor.setIdleMode(IdleMode.kBrake);
     }
 }
