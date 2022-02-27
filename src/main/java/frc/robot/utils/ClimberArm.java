@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.kClimb;
 import frc.robot.constants.kClimb.ClimberPid;
 
@@ -26,6 +27,7 @@ public class ClimberArm {
     private SparkMaxPIDController reachPidController;
     private double reachSetpoint = 0;
     private double angleSetpoint = 0;
+    private boolean isReversedReach;
     public ClimberArm(int angleId, int reachId, ClimberPid anglePID, ClimberPid reachPID, boolean isReversedReach){
         angleMotor = new CANSparkMax(angleId, MotorType.kBrushless);
         angleMotor.restoreFactoryDefaults();
@@ -64,6 +66,7 @@ public class ClimberArm {
 
         setReachSetpoint(kClimb.CLIMB_MIN_EXTEND/kClimb.CLIMB_ROTATION_TO_INCH);
 
+        this.isReversedReach = isReversedReach;
     }
 
     public void setReachSetpoint(double rotations){
@@ -87,6 +90,9 @@ public class ClimberArm {
             angleSetpoint = reachEncoder.getPosition();
             anglePidController.setReference(reachSetpoint, ControlType.kPosition);
         }
+        SmartDashboard.putNumber("A-AngClm" + (isReversedReach?"O":"I"), angleMotor.getOutputCurrent());
+        SmartDashboard.putNumber("A-RchClm" + (isReversedReach?"O":"I"), reachMotor.getOutputCurrent());
+
     }
     public void setAngleToCoast(){
         angleMotor.setIdleMode(IdleMode.kCoast);
