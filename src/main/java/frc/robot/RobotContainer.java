@@ -83,21 +83,23 @@ public class RobotContainer {
                         .whenPressed(drives::zeroGyroscope);
         new Button(driverController::getXButton)
                         .whenPressed(new InstantCommand(() -> {
-                            acquisition.extendArms(!acquisition.getArmsExtended());  
+                            acquisition.setArmsExtended(!acquisition.getArmsExtended());  
                         }));
         new Button (driverController::getYButton)
                         .whenPressed(new InstantCommand(() -> {
-                            acquisition.setVelocity(3800);
+                            acquisition.setRollerVelocity(3800);
                         }))
                         .whenReleased(new InstantCommand(() -> {
-                            acquisition.setVelocity(0);
+                            acquisition.setRollerVelocity(0);
                         }));
                         
     }
 
     private void configureClimbController(XboxController controller){
         new Button(controller::getAButton)
-                        .whenPressed(new CommandTestClimb(climber, controller));
+                        .whenPressed((new CommandTestClimb(climber, controller))
+                                      .withInterrupt(controller::getLeftBumper)
+                        );
         new Button(controller::getBButton)
                         .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.innerArm, 26)));
         new Button(controller::getXButton)

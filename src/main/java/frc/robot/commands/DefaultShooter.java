@@ -40,14 +40,15 @@ public class DefaultShooter extends CommandBase {
   public void execute() {
     boolean isOn = isOnSupplier.getAsBoolean();
     if(isOn){  
-      subsystem.motor3.set(setpointVelocity);
+      subsystem.motor.set(setpointVelocity);
       SmartDashboard.putNumber("shooter/actual Velocity Shooter", subsystem.encoder.getVelocity());
       setpointVelocity = SmartDashboard.getNumber("shooter/setpoint Velocity Shooter", setpointVelocity);
-      subsystem.pid.setReference(setpointVelocity, ControlType.kVelocity);
+      subsystem.pid.setReference(setpointVelocity, ControlType.kVelocity); // Do this in Shooter Subsystem
     }
     else{
       setpointVelocity = 0;
-      subsystem.pid.setReference(setpointVelocity, ControlType.kVelocity);
+      subsystem.pid.setReference(setpointVelocity, ControlType.kVelocity); // Do not use velocity pid
+      // e.g.: subsystem.pid.setReference(0, ControlType.kVoltage)
 
     }
   }

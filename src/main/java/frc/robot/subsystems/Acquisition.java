@@ -12,22 +12,24 @@ import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kPneumatics;
 
 import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 
 
 public class Acquisition extends SubsystemBase {
   double setpointVelocity = 0;
-  public CANSparkMax motor2;
+  public CANSparkMax motor;
   public RelativeEncoder encoder;
   public SparkMaxPIDController pid;
   public Solenoid arms = new Solenoid(kCANIDs.PNEUMATIC_HUB, PneumaticsModuleType.REVPH, kPneumatics.ACQ_ARMS);
   public Acquisition() {
-    motor2 = new CANSparkMax(kCANIDs.ACQ_MOTOR, MotorType.kBrushless);
-    encoder = motor2.getEncoder();
+    motor = new CANSparkMax(kCANIDs.ACQ_MOTOR, MotorType.kBrushless);
+    motor.restoreFactoryDefaults();
+    motor.setIdleMode(IdleMode.kCoast);
 
+    encoder = motor.getEncoder();
     
-    pid = motor2.getPIDController();
-  
+    pid = motor.getPIDController();
     pid.setP(5e-5);
     pid.setI(1e-6);
     pid.setD(0);
@@ -36,19 +38,19 @@ public class Acquisition extends SubsystemBase {
     pid.setOutputRange(-1,1);    
   }
 
-  public void extendArms(boolean state) {
-    arms.set(state);
+  public void setArmsExtended(boolean isExtended) {
+    arms.set(isExtended);
   }
 
   public boolean getArmsExtended(){
     return arms.get();
   }
 
-  public void setVelocity(double setpoint) {
-    setpointVelocity=setpoint;
+  public void setRollerVelocity(double setpoint) {
+    this.setpointVelocity = setpoint;
   }
 
-  public double getVelocity(){
+  public double getRollerVelocity(){
     return setpointVelocity;
   }
 
@@ -58,15 +60,15 @@ public class Acquisition extends SubsystemBase {
   public void periodic() {
     
     if (getArmsExtended()) {
-      motor2.set(setpointVelocity);
+      motor.set(setpointVelocity); // TODO: what?
       SmartDashboard.putNumber("acquisition/actual Velocity", encoder.getVelocity());
       setpointVelocity = SmartDashboard.getNumber("acquisition/setpoint Velocity", setpointVelocity);
       pid.setReference(setpointVelocity, ControlType.kVelocity);
     } else {
-      motor2.set(0);
+      motor.set(0);
     }
 
-
+    SmartDashboard.putNumber("A-Acq", motor.getOutputCurrent());
     // This method will be called once per scheduler run
   }
 

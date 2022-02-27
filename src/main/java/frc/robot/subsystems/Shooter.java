@@ -8,20 +8,25 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.IdleMode;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.kCANIDs;
 
 public class Shooter extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
-  public CANSparkMax motor3;
+  public CANSparkMax motor;
   public RelativeEncoder encoder;
   public SparkMaxPIDController pid;
   public Shooter() {
-    motor3 = new CANSparkMax(kCANIDs.SHOOTER_MOTOR, MotorType.kBrushless);
-    encoder = motor3.getEncoder();
+    motor = new CANSparkMax(kCANIDs.SHOOTER_MOTOR, MotorType.kBrushless);
+    motor.restoreFactoryDefaults();
+    motor.setIdleMode(IdleMode.kCoast);
 
-    pid = motor3.getPIDController();
-  
+    encoder = motor.getEncoder();
+
+    pid = motor.getPIDController();
     pid.setP(5e-5);
     pid.setI(1e-6);
     pid.setD(0);
@@ -32,7 +37,7 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("A-Sht", motor.getOutputCurrent());
   }
 
   @Override

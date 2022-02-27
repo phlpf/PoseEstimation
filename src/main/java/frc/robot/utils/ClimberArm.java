@@ -26,15 +26,23 @@ public class ClimberArm {
     private SparkMaxPIDController reachPidController;
     private double reachSetpoint = 0;
     private double angleSetpoint = 0;
-    public ClimberArm(int angleId, int reachId, ClimberPid anglePID, ClimberPid reachPID, boolean reversed){
+    public ClimberArm(int angleId, int reachId, ClimberPid anglePID, ClimberPid reachPID, boolean isReversedReach){
         angleMotor = new CANSparkMax(angleId, MotorType.kBrushless);
+        angleMotor.restoreFactoryDefaults();
+        angleMotor.setInverted(false);
+        angleMotor.setIdleMode(IdleMode.kBrake);
+
         reachMotor = new CANSparkMax(reachId, MotorType.kBrushless);
         reachMotor.restoreFactoryDefaults();
-        reachMotor.setInverted(reversed);
+        reachMotor.setInverted(isReversedReach);
+        reachMotor.setIdleMode(IdleMode.kBrake);
+
         angleEncoder = angleMotor.getEncoder();
         angleEncoder.setPosition(0);
+        
         reachEncoder = reachMotor.getEncoder();
         reachEncoder.setPosition(0);
+        
         anglePidController = angleMotor.getPIDController();
         reachPidController = reachMotor.getPIDController();
         ClimbConstants.addPidToMotor(anglePidController, anglePID);

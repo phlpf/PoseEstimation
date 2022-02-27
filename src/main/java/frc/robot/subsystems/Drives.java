@@ -26,6 +26,14 @@ import frc.robot.utils.PigeonWrapper;
 import static frc.robot.constants.kSwerve.*;
 
 public class Drives extends SubsystemBase {
+    ProfiledPIDController thetaController; 
+    SwerveModuleState[] states;
+    
+    private final SwerveModule frontLeftModule;
+    private final SwerveModule frontRightModule;
+    private final SwerveModule backLeftModule;
+    private final SwerveModule backRightModule;
+
     
     public final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
                     // Front Right
@@ -40,40 +48,23 @@ public class Drives extends SubsystemBase {
 
     private final PigeonWrapper pigeon = new PigeonWrapper(kCANIDs.DRIVETRAIN_PIGEON_ID);
 
-    public SwerveDriveOdometry odometry = new SwerveDriveOdometry(kinematics, getGyroscopeRotation());
-
-    // These are our modules. We initialize them in the constructor.
-    private final SwerveModule frontLeftModule;
-    private final SwerveModule frontRightModule;
-    private final SwerveModule backLeftModule;
-    private final SwerveModule backRightModule;
-
-    ProfiledPIDController thetaController; 
-    SwerveModuleState[] states;
-
+    private final SwerveDriveOdometry odometry = new SwerveDriveOdometry(kinematics, getGyroscopeRotation());
+    
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
-
 
     public Drives() {
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
-                        // This parameter is optional, but will allow you to see the current state of the module on the dashboard.
                         tab.getLayout("Front Left Module", BuiltInLayouts.kList)
                                         .withSize(2, 4)
                                         .withPosition(0, 0),
-                        // This can either be STANDARD or FAST depending on your gear configuration
                         kSwerve.VEL_GEAR_RATIO,
-                        // This is the ID of the drive motor
                         kCANIDs.FRONT_LEFT_DRIVE,
-                        // This is the ID of the steer motor
                         kCANIDs.FRONT_LEFT_STEER,
-                        // This is the ID of the steer encoder
                         kCANIDs.FRONT_LEFT_CANCODER,
-                        // This is how much the steer encoder is offset from true zero (In our case, zero is facing straight forward)
                         kSwerve.FRONT_LEFT_MODULE_STEER_OFFSET
         );
 
-        // We will do the same for the other modules
         frontRightModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Front Right Module", BuiltInLayouts.kList)
                                         .withSize(2, 4)
@@ -148,5 +139,7 @@ public class Drives extends SubsystemBase {
         updateModules(states);
 
         odometry.update(getGyroscopeRotation(), states);
+    
+        //TODO: add current for all module motors
     }
 }
