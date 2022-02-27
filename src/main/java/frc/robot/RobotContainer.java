@@ -35,14 +35,15 @@ public class RobotContainer {
     private final XboxController controller = new XboxController(0);
     private final XboxController debugController = new XboxController(2);
 
-    private final Acquisition acquisition = new Acquisition();
+    final Acquisition acquisition = new Acquisition();
     private final Shooter shooter = new Shooter();
     private final Index index = new Index();
     private final Climber climber = new Climber();
-
+  
     private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
     private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter, controller::getAButton);
     private final DefaultIndex defaultIndexCommand = new DefaultIndex(index, controller::getLeftTriggerAxis);
+    
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -81,6 +82,18 @@ public class RobotContainer {
         // Back button zeros the gyroscope
         new Button(controller::getBackButton)
                         .whenPressed(drivetrainSubsystem::zeroGyroscope);
+        new Button(controller::getXButton)
+                        .whenPressed(new InstantCommand(() -> {
+                            acquisition.extendArms(!acquisition.getArmsExtended());  
+                        }));
+        new Button (controller::getYButton)
+                        .whenPressed(new InstantCommand(() -> {
+                            acquisition.setVelocity(3800);
+                        }))
+                        .whenReleased(new InstantCommand(() -> {
+                            acquisition.setVelocity(0);
+                        }));
+                        
         configureClimbController(debugController);
     }
 
