@@ -6,9 +6,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.ClimbConstants;
 import frc.robot.utils.ClimberArm;
 import frc.robot.constants.kCANIDs;
+import frc.robot.constants.kClimb;
 
 public class Climber extends SubsystemBase {
     /** Creates a new Climber. */
@@ -16,19 +16,19 @@ public class Climber extends SubsystemBase {
     public ClimberArm innerArm;
     public Climber() {
         innerArm = new ClimberArm(kCANIDs.INNER_ANGLE,kCANIDs.INNER_REACH, 
-                    ClimbConstants.climbAngleInner, ClimbConstants.climbReachInner, false);
+                    kClimb.climbAngleInner, kClimb.climbReachInner, false);
         outerArm = new ClimberArm(kCANIDs.OUTER_ANGLE,kCANIDs.OUTER_REACH, 
-                    ClimbConstants.climbAngleOuter, ClimbConstants.climbReachOuter, true);
+                    kClimb.climbAngleOuter, kClimb.climbReachOuter, true);
         
     }
 
     public void extendArm(ClimberArm arm, double distance){
-        double rotations = distance/ClimbConstants.CLIMB_ROTATION_TO_INCH;
+        double rotations = distance/kClimb.CLIMB_ROTATION_TO_INCH;
         SmartDashboard.putNumber("Climb Setpoint Reach", rotations);
         arm.setReachSetpoint(rotations);
     }  
     public void rotateArmTo(ClimberArm arm, double angle){
-        double rotations = angle/ClimbConstants.CLIMB_ROTATION_TO_DEGREE;
+        double rotations = angle/kClimb.CLIMB_ROTATION_TO_DEGREE;
         SmartDashboard.putNumber("Climb Setpoint Angle", rotations);
         arm.setAngleSetpoint(rotations);
     }  

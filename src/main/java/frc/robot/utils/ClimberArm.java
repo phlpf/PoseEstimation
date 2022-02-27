@@ -13,8 +13,8 @@ import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
-import frc.robot.ClimbConstants.ClimberPid;
-import frc.robot.ClimbConstants;
+import frc.robot.constants.kClimb;
+import frc.robot.constants.kClimb.ClimberPid;
 
 /** Add your docs here. */
 public class ClimberArm {
@@ -45,24 +45,24 @@ public class ClimberArm {
         
         anglePidController = angleMotor.getPIDController();
         reachPidController = reachMotor.getPIDController();
-        ClimbConstants.addPidToMotor(anglePidController, anglePID);
-        ClimbConstants.addPidToMotor(reachPidController, reachPID);
+        kClimb.addPidToMotor(anglePidController, anglePID);
+        kClimb.addPidToMotor(reachPidController, reachPID);
 
         // Set limits for reach
-        reachMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)(ClimbConstants.CLIMB_MIN_EXTEND/ClimbConstants.CLIMB_ROTATION_TO_INCH));
+        reachMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)(kClimb.CLIMB_MIN_EXTEND/kClimb.CLIMB_ROTATION_TO_INCH));
         reachMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     
-        reachMotor.setSoftLimit(SoftLimitDirection.kForward, (float)(ClimbConstants.CLIMB_MAX_EXTEND/ClimbConstants.CLIMB_ROTATION_TO_INCH));
+        reachMotor.setSoftLimit(SoftLimitDirection.kForward, (float)(kClimb.CLIMB_MAX_EXTEND/kClimb.CLIMB_ROTATION_TO_INCH));
         reachMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
         
         // Set soft limits for angle
-        angleMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)(-26/ClimbConstants.CLIMB_ROTATION_TO_DEGREE));
+        angleMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)(-26/kClimb.CLIMB_ROTATION_TO_DEGREE));
         angleMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     
-        angleMotor.setSoftLimit(SoftLimitDirection.kForward, (float)(45/ClimbConstants.CLIMB_ROTATION_TO_DEGREE));
+        angleMotor.setSoftLimit(SoftLimitDirection.kForward, (float)(45/kClimb.CLIMB_ROTATION_TO_DEGREE));
         angleMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
 
-        setReachSetpoint(ClimbConstants.CLIMB_MIN_EXTEND/ClimbConstants.CLIMB_ROTATION_TO_INCH);
+        setReachSetpoint(kClimb.CLIMB_MIN_EXTEND/kClimb.CLIMB_ROTATION_TO_INCH);
 
     }
 
@@ -78,12 +78,12 @@ public class ClimberArm {
     public void periodic(){
         // Stop when we are at a acceptable error
         double reachError = Math.abs(reachSetpoint - reachEncoder.getPosition());
-        if(reachError < ClimbConstants.CLIMB_REACH_ALLOWED_ERROR){
+        if(reachError < kClimb.CLIMB_REACH_ALLOWED_ERROR){
             reachSetpoint = reachEncoder.getPosition();
             reachPidController.setReference(reachSetpoint, ControlType.kPosition);
         }
         double angleError = Math.abs(angleSetpoint - angleEncoder.getPosition());
-        if(angleError < ClimbConstants.CLIMB_REACH_ALLOWED_ERROR){
+        if(angleError < kClimb.CLIMB_REACH_ALLOWED_ERROR){
             angleSetpoint = reachEncoder.getPosition();
             anglePidController.setReference(reachSetpoint, ControlType.kPosition);
         }

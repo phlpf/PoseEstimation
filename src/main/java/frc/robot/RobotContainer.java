@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.*;
 import frc.robot.constants.kCANIDs;
+import frc.robot.constants.kClimb;
 import frc.robot.constants.kSwerve;
 import frc.robot.subsystems.*;
 
@@ -105,7 +106,7 @@ public class RobotContainer {
         new Button(controller::getXButton)
                         .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.innerArm, -27)));
         new Button(controller::getYButton)
-                        .whenPressed(new InstantCommand(() -> {climber.rotateArmTo(climber.innerArm, 0);climber.extendArm(climber.innerArm, ClimbConstants.CLIMB_MIN_EXTEND);}));
+                        .whenPressed(new InstantCommand(() -> {climber.rotateArmTo(climber.innerArm, 0);climber.extendArm(climber.innerArm, kClimb.CLIMB_MIN_EXTEND);}));
         new Button(controller::getBackButton)
                         .whenPressed(new InstantCommand(() -> climber.setToCoast()));
         //new Button(controller::getXButton)
