@@ -5,21 +5,23 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.kCANIDs;
+import frc.robot.constants.kDIO;
 
 
 public class Index extends SubsystemBase {
   public CANSparkMax motor;
   public RelativeEncoder encoder;
   public SparkMaxPIDController pidController;
-  /** Creates a new ExampleSubsystem. */
+  private DigitalInput beambreak;
+
   public Index() {
     motor = new CANSparkMax(kCANIDs.IDX_MOTOR, MotorType.kBrushless);
     motor.restoreFactoryDefaults();
@@ -33,11 +35,14 @@ public class Index extends SubsystemBase {
     pidController.setIZone(0);
     pidController.setFF(0);
     pidController.setOutputRange(-0.5, 0.5);
+
+    beambreak = new DigitalInput(kDIO.BEAMBREAK);
   }
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("A-Idx", motor.getOutputCurrent());
+    SmartDashboard.putBoolean("Beam-Idx", beambreak.get());
   }
 
   public void setReference(double rotations){
