@@ -32,14 +32,14 @@ public class kSwerve {
      *
      * Should be measured from center to center.
      */
-    public static final double DRIVETRAIN_TRACKWIDTH_METERS = 1.0; // FIXME Measure and set trackwidth
-
+    public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.445; 
+    
     /**
      * The front-to-back distance between the drivetrain wheels.
      *
      * Should be measured from center to center.
      */
-    public static final double DRIVETRAIN_WHEELBASE_METERS = 1.0; // FIXME Measure and set wheelbase
+    public static final double DRIVETRAIN_WHEELBASE_METERS = 0.445;
 
     /**
      * The maximum angular velocity of the robot in radians per second.
