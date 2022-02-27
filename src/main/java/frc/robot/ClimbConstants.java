@@ -29,28 +29,28 @@ public  class ClimbConstants {
             this.max = max;
         }
     }
-    public static ClimberPid climbAngleInner = new ClimberPid(0.75,
+    public static final ClimberPid climbAngleInner = new ClimberPid(0.75,
         2e-5,
         3,
         0.0,
         0.0,
         -0.3,
         0.3);
-    public static ClimberPid climbReachInner = new ClimberPid(0.75,
+    public static final ClimberPid climbReachInner = new ClimberPid(0.75,
         2e-5,
         3,
         0.0,
         0.0,
         -0.6,
         0.6);
-    public static ClimberPid climbAngleOuter = new ClimberPid(0.75,
+    public static final ClimberPid climbAngleOuter = new ClimberPid(0.75,
         2e-5,
         3,
         0.0,
         0.0,
         -0.3,
         0.3);
-    public static ClimberPid climbReachOuter = new ClimberPid(0.75,
+    public static final ClimberPid climbReachOuter = new ClimberPid(0.75,
         2e-5,
         3,
         0.0,
@@ -66,10 +66,6 @@ public  class ClimbConstants {
         controller.setOutputRange(pid.min, pid.max);
     }
 
-    public static final int INNER_ANGLE_ID = 15;
-    public static final int INNER_REACH_ID = 14;
-    public static final int OUTER_ANGLE_ID = 17;
-    public static final int OUTER_REACH_ID = 16;
     public static final int CLIMB_BUTTON = Button.kA.value;
     public static final double CLIMB_ROTATION_TO_INCH = 1/5.555;
     public static final double CLIMB_ROTATION_TO_DEGREE = 1/1.111;

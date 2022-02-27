@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.constants.kCANIDs;
 
 
 public class Index extends SubsystemBase {
@@ -22,7 +23,7 @@ public class Index extends SubsystemBase {
   public SparkMaxPIDController pidController;
   /** Creates a new ExampleSubsystem. */
   public Index() {
-    motor = new CANSparkMax(12, MotorType.kBrushless);
+    motor = new CANSparkMax(kCANIDs.IDX_MOTOR, MotorType.kBrushless);
     encoder = motor.getEncoder();
     pidController = motor.getPIDController();
     pidController.setP(0.1);

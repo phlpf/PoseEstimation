@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.kCANIDs;
 
 public class Shooter extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
@@ -16,7 +17,7 @@ public class Shooter extends SubsystemBase {
   public RelativeEncoder encoder;
   public SparkMaxPIDController pid;
   public Shooter() {
-    motor3 = new CANSparkMax(13, MotorType.kBrushless);
+    motor3 = new CANSparkMax(kCANIDs.SHOOTER_MOTOR, MotorType.kBrushless);
     encoder = motor3.getEncoder();
 
     pid = motor3.getPIDController();

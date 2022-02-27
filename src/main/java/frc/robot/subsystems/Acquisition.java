@@ -4,30 +4,26 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.DefaultAcquisition;
 import frc.robot.constants.kCANIDs;
+import frc.robot.constants.kPneumatics;
+
 import com.revrobotics.CANSparkMax.ControlType;
 
 
 
 public class Acquisition extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
-  private final XboxController controller = new XboxController(0);
   double setpointVelocity = 0;
   public CANSparkMax motor2;
   public RelativeEncoder encoder;
   public SparkMaxPIDController pid;
-  public Solenoid arms = new Solenoid(31, PneumaticsModuleType.REVPH,0);
+  public Solenoid arms = new Solenoid(kCANIDs.PNEUMATIC_HUB, PneumaticsModuleType.REVPH, kPneumatics.ACQ_ARMS);
   public Acquisition() {
-    motor2 = new CANSparkMax(11, MotorType.kBrushless);
+    motor2 = new CANSparkMax(kCANIDs.ACQ_MOTOR, MotorType.kBrushless);
     encoder = motor2.getEncoder();
-
 
     
     pid = motor2.getPIDController();
@@ -37,11 +33,7 @@ public class Acquisition extends SubsystemBase {
     pid.setD(0);
     pid.setFF(0.000156);
     pid.setIZone(0);
-    pid.setOutputRange(-1,1);
-
-    
-  
-    
+    pid.setOutputRange(-1,1);    
   }
 
   public void extendArms(boolean state) {

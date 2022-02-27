@@ -4,18 +4,16 @@
 
 package frc.robot;
 
-import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper.GearRatio;
-
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.*;
+import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kSwerve;
 import frc.robot.subsystems.*;
 
@@ -26,23 +24,23 @@ import frc.robot.subsystems.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-    public final PowerDistribution pdp = new PowerDistribution(61, PowerDistribution.ModuleType.kRev);
-    public final PneumaticHub pneumaticHub = new PneumaticHub(31);
-    public final Compressor compressor = new Compressor(31, PneumaticsModuleType.REVPH);
+    public final PowerDistribution pdp = new PowerDistribution(kCANIDs.PDP, PowerDistribution.ModuleType.kRev);
+    public final PneumaticHub pneumaticHub = new PneumaticHub(kCANIDs.PNEUMATIC_HUB);
+    public final Compressor compressor = new Compressor(kCANIDs.PNEUMATIC_HUB, PneumaticsModuleType.REVPH);
 
-    public final Drives drivetrainSubsystem = new Drives();
-
-    private final XboxController controller = new XboxController(0);
+    private final XboxController driverController = new XboxController(0);
+    private final XboxController operatorController = new XboxController(1);
     private final XboxController debugController = new XboxController(2);
 
-    final Acquisition acquisition = new Acquisition();
+    private final Drives drives = new Drives();
+    private final Acquisition acquisition = new Acquisition();
     private final Shooter shooter = new Shooter();
     private final Index index = new Index();
     private final Climber climber = new Climber();
   
     private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
-    private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter, controller::getAButton);
-    private final DefaultIndex defaultIndexCommand = new DefaultIndex(index, controller::getLeftTriggerAxis);
+    private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter, driverController::getAButton);
+    private final DefaultIndex defaultIndexCommand = new DefaultIndex(index, driverController::getLeftTriggerAxis);
     
 
     /**
@@ -57,11 +55,11 @@ public class RobotContainer {
         // Left stick Y axis -> forward and backwards movement
         // Left stick X axis -> left and right movement
         // Right stick X axis -> rotation
-        drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
-                drivetrainSubsystem,
-                        () -> -modifyAxis(controller.getLeftY()) * kSwerve.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
-                        () -> -modifyAxis(controller.getLeftX()) * kSwerve.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
-                        () -> -modifyAxis(controller.getRightX()) * kSwerve.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.2
+        drives.setDefaultCommand(new DefaultDriveCommand(
+                drives,
+                        () -> -modifyAxis(driverController.getLeftY()) * kSwerve.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
+                        () -> -modifyAxis(driverController.getLeftX()) * kSwerve.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
+                        () -> -modifyAxis(driverController.getRightX()) * kSwerve.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.2
         ));
 
         acquisition.setDefaultCommand(defaultAcquisitionCommand);
@@ -69,7 +67,8 @@ public class RobotContainer {
         index.setDefaultCommand(defaultIndexCommand);
 
         // Configure the button bindings
-        configureButtonBindings();
+        configureDriverControllerBindings();
+        configureClimbController(debugController);
     }
 
     /**
@@ -78,15 +77,15 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
-    private void configureButtonBindings() {
+    private void configureDriverControllerBindings() {
         // Back button zeros the gyroscope
-        new Button(controller::getBackButton)
-                        .whenPressed(drivetrainSubsystem::zeroGyroscope);
-        new Button(controller::getXButton)
+        new Button(driverController::getBackButton)
+                        .whenPressed(drives::zeroGyroscope);
+        new Button(driverController::getXButton)
                         .whenPressed(new InstantCommand(() -> {
                             acquisition.extendArms(!acquisition.getArmsExtended());  
                         }));
-        new Button (controller::getYButton)
+        new Button (driverController::getYButton)
                         .whenPressed(new InstantCommand(() -> {
                             acquisition.setVelocity(3800);
                         }))
@@ -94,7 +93,6 @@ public class RobotContainer {
                             acquisition.setVelocity(0);
                         }));
                         
-        configureClimbController(debugController);
     }
 
     private void configureClimbController(XboxController controller){
@@ -114,22 +112,23 @@ public class RobotContainer {
         //                 .whenPressed(() -> climber.extendArm(climber.innerArm, 0));
     }
 
-    private static double modifyAxis(double value) {
+    private static double modifyAxis(double rawValue) {
         // Deadband
         double deadband = 0.05;
-        if (Math.abs(value) > deadband) {
-            if (value > 0.0) {
-                value = (value - deadband) / (1.0 - deadband);
+        double computedValue = rawValue;
+        if (Math.abs(computedValue) > deadband) {
+            if (computedValue > 0.0) {
+                computedValue = (computedValue - deadband) / (1.0 - deadband);
             } else {
-                value = (value + deadband) / (1.0 - deadband);
+                computedValue = (computedValue + deadband) / (1.0 - deadband);
             }
         } else {
-            value = 0.0;
+            computedValue = 0.0;
         }
 
         // Square the axis
-        value = Math.copySign(value * value, value);
+        computedValue = Math.copySign(computedValue * computedValue, computedValue);
 
-        return value;
+        return computedValue;
     }
 }

@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
         // Instantiate our RobotContainer.    This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         robotContainer = new RobotContainer();
-        robotContainer.acquisition.extendArms(false);
+        //robotContainer.acquisition.extendArms(false);
     }
 
     /**
@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
     public void autonomousInit() {
-        AutoUtils.generateCommand("Forward", 2, 1, robotContainer.drivetrainSubsystem).schedule();
+        // AutoUtils.generateCommand("Forward", 2, 1, robotContainer.drives).schedule();
     }
 
     /** This function is called periodically during autonomous. */

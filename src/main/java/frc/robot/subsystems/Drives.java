@@ -64,11 +64,11 @@ public class Drives extends SubsystemBase {
                         // This can either be STANDARD or FAST depending on your gear configuration
                         kSwerve.VEL_GEAR_RATIO,
                         // This is the ID of the drive motor
-                        kCANIDs.FRONT_LEFT_MODULE_DRIVE_MOTOR,
+                        kCANIDs.FRONT_LEFT_DRIVE,
                         // This is the ID of the steer motor
-                        kCANIDs.FRONT_LEFT_MODULE_STEER_MOTOR,
+                        kCANIDs.FRONT_LEFT_STEER,
                         // This is the ID of the steer encoder
-                        kCANIDs.FRONT_LEFT_MODULE_STEER_ENCODER,
+                        kCANIDs.FRONT_LEFT_CANCODER,
                         // This is how much the steer encoder is offset from true zero (In our case, zero is facing straight forward)
                         kSwerve.FRONT_LEFT_MODULE_STEER_OFFSET
         );
@@ -79,9 +79,9 @@ public class Drives extends SubsystemBase {
                                         .withSize(2, 4)
                                         .withPosition(2, 0),
                         kSwerve.VEL_GEAR_RATIO,
-                        kCANIDs.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
-                        kCANIDs.FRONT_RIGHT_MODULE_STEER_MOTOR,
-                        kCANIDs.FRONT_RIGHT_MODULE_STEER_ENCODER,
+                        kCANIDs.FRONT_RIGHT_DRIVE,
+                        kCANIDs.FRONT_RIGHT_STEER,
+                        kCANIDs.FRONT_RIGHT_CANCODER,
                         kSwerve.FRONT_RIGHT_MODULE_STEER_OFFSET
         );
 
@@ -90,9 +90,9 @@ public class Drives extends SubsystemBase {
                                         .withSize(2, 4)
                                         .withPosition(4, 0),
                         kSwerve.VEL_GEAR_RATIO,
-                        kCANIDs.REAR_LEFT_MODULE_DRIVE_MOTOR,
-                        kCANIDs.REAR_LEFT_MODULE_STEER_MOTOR,
-                        kCANIDs.REAR_LEFT_MODULE_STEER_ENCODER,
+                        kCANIDs.REAR_LEFT_DRIVE,
+                        kCANIDs.REAR_LEFT_STEER,
+                        kCANIDs.REAR_LEFT_CANCODER,
                         kSwerve.REAR_LEFT_MODULE_STEER_OFFSET
         );
 
@@ -101,9 +101,9 @@ public class Drives extends SubsystemBase {
                                         .withSize(2, 4)
                                         .withPosition(6, 0),
                         kSwerve.VEL_GEAR_RATIO,
-                        kCANIDs.REAR_RIGHT_MODULE_DRIVE_MOTOR,
-                        kCANIDs.REAR_RIGHT_MODULE_STEER_MOTOR,
-                        kCANIDs.REAR_RIGHT_MODULE_STEER_ENCODER,
+                        kCANIDs.REAR_RIGHT_DRIVE,
+                        kCANIDs.REAR_RIGHT_STEER,
+                        kCANIDs.REAR_RIGHT_CANCODER,
                         kSwerve.REAR_RIGHT_MODULE_STEER_OFFSET
         );
         

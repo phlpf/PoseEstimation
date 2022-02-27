@@ -1,23 +1,38 @@
 package frc.robot.constants;
 
 public class kCANIDs {
-    public static final int PDP_ID = 61;
-
+    //Devices
+    public static final int PDP = 61;
     public static final int DRIVETRAIN_PIGEON_ID = 33;
+    public static final int PNEUMATIC_HUB = 31;
 
-    public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 3;
-    public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 4;
-    public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 22;
+    // Swerves
+    public static final int FRONT_LEFT_DRIVE = 3;
+    public static final int FRONT_LEFT_STEER = 4;
+    public static final int FRONT_LEFT_CANCODER = 22;
 
-    public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 1;
-    public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 2;
-    public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 21;
+    public static final int FRONT_RIGHT_DRIVE = 1;
+    public static final int FRONT_RIGHT_STEER = 2;
+    public static final int FRONT_RIGHT_CANCODER = 21;
 
-    public static final int REAR_LEFT_MODULE_DRIVE_MOTOR = 5;
-    public static final int REAR_LEFT_MODULE_STEER_MOTOR = 6;
-    public static final int REAR_LEFT_MODULE_STEER_ENCODER = 23;
+    public static final int REAR_LEFT_DRIVE = 5;
+    public static final int REAR_LEFT_STEER = 6;
+    public static final int REAR_LEFT_CANCODER = 23;
 
-    public static final int REAR_RIGHT_MODULE_DRIVE_MOTOR = 7;
-    public static final int REAR_RIGHT_MODULE_STEER_MOTOR = 8;
-    public static final int REAR_RIGHT_MODULE_STEER_ENCODER = 24;
+    public static final int REAR_RIGHT_DRIVE = 7;
+    public static final int REAR_RIGHT_STEER = 8;
+    public static final int REAR_RIGHT_CANCODER = 24;
+
+    // Acquisition
+    public static final int ACQ_MOTOR = 11;
+    // Index
+    public static final int IDX_MOTOR = 12;
+    // Shooter
+    public static final int SHOOTER_MOTOR = 13;
+
+    // Climber
+    public static final int INNER_ANGLE = 15;
+    public static final int INNER_REACH = 14;
+    public static final int OUTER_ANGLE = 17;
+    public static final int OUTER_REACH = 16;
 }

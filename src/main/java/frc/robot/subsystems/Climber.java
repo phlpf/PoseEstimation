@@ -10,15 +10,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.ClimbConstants;
 import frc.robot.utils.ClimberArm;
+import frc.robot.constants.kCANIDs;
 
 public class Climber extends SubsystemBase {
     /** Creates a new Climber. */
     public ClimberArm outerArm;
     public ClimberArm innerArm;
     public Climber() {
-        innerArm = new ClimberArm(ClimbConstants.INNER_ANGLE_ID, ClimbConstants.INNER_REACH_ID, 
+        innerArm = new ClimberArm(kCANIDs.INNER_ANGLE,kCANIDs.INNER_REACH, 
                     ClimbConstants.climbAngleInner, ClimbConstants.climbReachInner, false);
-        outerArm = new ClimberArm(ClimbConstants.OUTER_ANGLE_ID, ClimbConstants.OUTER_REACH_ID, 
+        outerArm = new ClimberArm(kCANIDs.OUTER_ANGLE,kCANIDs.OUTER_REACH, 
                     ClimbConstants.climbAngleOuter, ClimbConstants.climbReachOuter, true);
         
     }
