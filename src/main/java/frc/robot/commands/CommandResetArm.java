@@ -4,13 +4,17 @@
 
 package frc.robot.commands;
 
+import java.util.ArrayList;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.constants.kClimb;
 import frc.robot.utils.ClimberArm;
 
-public class ResetArm extends CommandBase {
+public class CommandResetArm extends CommandBase {
   /** Creates a new ResetArm. */
   private ClimberArm arm;
-  public ResetArm(ClimberArm arm) {
+  private ArrayList<Double> currents = new ArrayList<Double>();
+  public CommandResetArm(ClimberArm arm) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.arm = arm;
   }
@@ -21,15 +25,19 @@ public class ResetArm extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    arm.moveReach(-0.35);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    arm.moveReach(0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return arm.getReachCurrent() > kClimb.INNER_NOLOAD_STALL_CURRENT;
   }
 }

@@ -40,8 +40,13 @@ public class Climber extends SubsystemBase {
     }
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Climb Encoder Reach", outerArm.reachEncoder.getPosition());
-        SmartDashboard.putNumber("Climb Encoder Angle", outerArm.angleEncoder.getPosition());
-        // This method will be called once per scheduler run
+        SmartDashboard.putNumber("Climb Encoder Out Reach", outerArm.reachEncoder.getPosition());
+        SmartDashboard.putNumber("Climb Encoder Out Angle", outerArm.angleEncoder.getPosition());
+        SmartDashboard.putNumber("Climb Encoder In Reach", innerArm.reachEncoder.getPosition());
+        SmartDashboard.putNumber("Climb Encoder In Angle", innerArm.angleEncoder.getPosition());
+        SmartDashboard.putNumber("Climb Setpoint Out Reach", outerArm.getReachSetpoint());
+        SmartDashboard.putNumber("Climb Setpoint In Reach", innerArm.getReachSetpoint());
+        outerArm.periodic();
+        innerArm.periodic();
     }
 }

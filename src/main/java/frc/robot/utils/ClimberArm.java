@@ -51,11 +51,11 @@ public class ClimberArm {
         kClimb.addPidToMotor(reachPidController, reachPID);
 
         // Set limits for reach
-        reachMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)(kClimb.CLIMB_MIN_EXTEND/kClimb.CLIMB_ROTATION_TO_INCH));
-        reachMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        // reachMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)(kClimb.CLIMB_MIN_EXTEND/kClimb.CLIMB_ROTATION_TO_INCH));
+        // reachMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     
-        reachMotor.setSoftLimit(SoftLimitDirection.kForward, (float)(kClimb.CLIMB_MAX_EXTEND/kClimb.CLIMB_ROTATION_TO_INCH));
-        reachMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+        // reachMotor.setSoftLimit(SoftLimitDirection.kForward, (float)(kClimb.CLIMB_MAX_EXTEND/kClimb.CLIMB_ROTATION_TO_INCH));
+        // reachMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
         
         // Set soft limits for angle
         angleMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)(-26/kClimb.CLIMB_ROTATION_TO_DEGREE));
@@ -80,16 +80,12 @@ public class ClimberArm {
 
     public void periodic(){
         // Stop when we are at a acceptable error
-        double reachError = Math.abs(reachSetpoint - reachEncoder.getPosition());
-        if(reachError < kClimb.CLIMB_REACH_ALLOWED_ERROR){
-            reachSetpoint = reachEncoder.getPosition();
-            reachPidController.setReference(reachSetpoint, ControlType.kPosition);
-        }
-        double angleError = Math.abs(angleSetpoint - angleEncoder.getPosition());
-        if(angleError < kClimb.CLIMB_REACH_ALLOWED_ERROR){
-            angleSetpoint = reachEncoder.getPosition();
-            anglePidController.setReference(reachSetpoint, ControlType.kPosition);
-        }
+        
+        // double angleError = Math.abs(angleSetpoint - angleEncoder.getPosition());
+        // if(angleError < kClimb.CLIMB_REACH_ALLOWED_ERROR){
+        //     angleSetpoint = angleEncoder.getPosition();
+        //     anglePidController.setReference(angleSetpoint, ControlType.kPosition);
+        // }
         SmartDashboard.putNumber("A-AngClm" + (isReversedReach?"O":"I"), angleMotor.getOutputCurrent());
         SmartDashboard.putNumber("A-RchClm" + (isReversedReach?"O":"I"), reachMotor.getOutputCurrent());
 
@@ -102,5 +98,17 @@ public class ClimberArm {
     }
     public void setAngleToBrake(){
         angleMotor.setIdleMode(IdleMode.kBrake);
+    }
+    public double getReachSetpoint(){
+        return reachSetpoint;
+    }
+    public void moveReach(double percent){
+        reachMotor.set(percent);
+    }
+    public double getReachCurrent(){
+        return reachMotor.getOutputCurrent();
+    }
+    public double calculateReachError(){
+        return Math.abs(reachSetpoint - reachEncoder.getPosition());
     }
 }

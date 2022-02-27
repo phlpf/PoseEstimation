@@ -109,6 +109,8 @@ public class RobotContainer {
                         .whenPressed(new InstantCommand(() -> {climber.rotateArmTo(climber.innerArm, 0);climber.extendArm(climber.innerArm, kClimb.CLIMB_MIN_EXTEND);}));
         new Button(controller::getBackButton)
                         .whenPressed(new InstantCommand(() -> climber.setToCoast()));
+        new Button(controller::getStartButton)
+                        .whenPressed(new ComplexInitializeClimb(climber));
         //new Button(controller::getXButton)
         //                 .whenPressed(() -> climber.extendArm(climber.innerArm, 23));
         // new Button(controller::getYButton)
