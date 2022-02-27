@@ -25,7 +25,7 @@ import frc.robot.utils.PigeonWrapper;
 
 import static frc.robot.constants.kSwerve.*;
 
-public class DrivetrainSubsystem extends SubsystemBase {
+public class Drives extends SubsystemBase {
     
     public final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
                     // Front Right
@@ -53,20 +53,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
-    GearRatio ratio;
 
-    public DrivetrainSubsystem(GearRatio ratio) {
+    public Drives() {
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
-        this.ratio = ratio;
-        
-        kSwerve.recalculate(ratio);
         frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                         // This parameter is optional, but will allow you to see the current state of the module on the dashboard.
                         tab.getLayout("Front Left Module", BuiltInLayouts.kList)
                                         .withSize(2, 4)
                                         .withPosition(0, 0),
                         // This can either be STANDARD or FAST depending on your gear configuration
-                        ratio,
+                        kSwerve.VEL_GEAR_RATIO,
                         // This is the ID of the drive motor
                         kCANIDs.FRONT_LEFT_MODULE_DRIVE_MOTOR,
                         // This is the ID of the steer motor
@@ -82,7 +78,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         tab.getLayout("Front Right Module", BuiltInLayouts.kList)
                                         .withSize(2, 4)
                                         .withPosition(2, 0),
-                        ratio,
+                        kSwerve.VEL_GEAR_RATIO,
                         kCANIDs.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
                         kCANIDs.FRONT_RIGHT_MODULE_STEER_MOTOR,
                         kCANIDs.FRONT_RIGHT_MODULE_STEER_ENCODER,
@@ -93,7 +89,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         tab.getLayout("Back Left Module", BuiltInLayouts.kList)
                                         .withSize(2, 4)
                                         .withPosition(4, 0),
-                        ratio,
+                        kSwerve.VEL_GEAR_RATIO,
                         kCANIDs.REAR_LEFT_MODULE_DRIVE_MOTOR,
                         kCANIDs.REAR_LEFT_MODULE_STEER_MOTOR,
                         kCANIDs.REAR_LEFT_MODULE_STEER_ENCODER,
@@ -104,7 +100,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         tab.getLayout("Back Right Module", BuiltInLayouts.kList)
                                         .withSize(2, 4)
                                         .withPosition(6, 0),
-                        ratio,
+                        kSwerve.VEL_GEAR_RATIO,
                         kCANIDs.REAR_RIGHT_MODULE_DRIVE_MOTOR,
                         kCANIDs.REAR_RIGHT_MODULE_STEER_MOTOR,
                         kCANIDs.REAR_RIGHT_MODULE_STEER_ENCODER,

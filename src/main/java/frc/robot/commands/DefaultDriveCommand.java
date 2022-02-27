@@ -5,12 +5,12 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.kSwerve;
-import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.Drives;
 
 import java.util.function.DoubleSupplier;
 
 public class DefaultDriveCommand extends CommandBase {
-    private final DrivetrainSubsystem drivetrainSubsystem;
+    private final Drives drivetrainSubsystem;
 
     private final DoubleSupplier translationXSupplier;
     private final DoubleSupplier translationYSupplier;
@@ -18,7 +18,7 @@ public class DefaultDriveCommand extends CommandBase {
     private double lastRotationSpeed = 0;
     private Rotation2d setpointAngle = new Rotation2d(); // Degrees
 
-    public DefaultDriveCommand(DrivetrainSubsystem drivetrainSubsystem, DoubleSupplier translationXSupplier,
+    public DefaultDriveCommand(Drives drivetrainSubsystem, DoubleSupplier translationXSupplier,
             DoubleSupplier translationYSupplier, DoubleSupplier rotationSupplier) {
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.translationXSupplier = translationXSupplier;

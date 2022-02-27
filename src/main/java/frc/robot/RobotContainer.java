@@ -30,7 +30,7 @@ public class RobotContainer {
     public final PneumaticHub pneumaticHub = new PneumaticHub(31);
     public final Compressor compressor = new Compressor(31, PneumaticsModuleType.REVPH);
 
-    public final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(GearRatio.L1);
+    public final Drives drivetrainSubsystem = new Drives();
 
     private final XboxController controller = new XboxController(0);
     private final XboxController debugController = new XboxController(2);

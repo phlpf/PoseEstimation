@@ -3,6 +3,7 @@ package frc.robot.constants;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
+import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper.GearRatio;
 
 public class kSwerve {
     /**
@@ -10,6 +11,8 @@ public class kSwerve {
      *
      * This can be reduced to cap the robot's maximum speed. Typically, this is useful during initial testing of the robot.
      */
+    public static final GearRatio VEL_GEAR_RATIO = GearRatio.L2;
+    public static final ModuleConfiguration VEL_GEAR_RATIO_CFG = VEL_GEAR_RATIO.getConfiguration();
     public static double MAX_VOLTAGE = 12.0;
 
     /**
@@ -17,21 +20,12 @@ public class kSwerve {
      *
      * This is a measure of how fast the robot should be able to drive in a straight line.
      */
-    public static double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0
-            * SdsModuleConfigurations.MK4_L1.getDriveReduction()
-            * SdsModuleConfigurations.MK4_L1.getWheelDiameter() * Math.PI;
+    public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0
+            * VEL_GEAR_RATIO_CFG.getDriveReduction()
+            * VEL_GEAR_RATIO_CFG.getWheelDiameter() * Math.PI;
 
-    public static double MAX_ACCELERATION = 1.6; //1.7;
-
-    public static void recalculate(Mk4SwerveModuleHelper.GearRatio ratio){
-        ModuleConfiguration type = ratio.getConfiguration();
-        MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
-                type.getDriveReduction() * type.getWheelDiameter() * Math.PI;
-
-        MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
-                Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);
-        SWERVE_CORRECTION_SPEED = 0.1 * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
-    }
+    public static final double MAX_ACCELERATION = 1.6; //1.7;
+    
 
     /**
      * The left-to-right distance between the drivetrain wheels

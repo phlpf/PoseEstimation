@@ -11,7 +11,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.Drives;
 
 /** Add your docs here. */
 public class AutoUtils {
@@ -20,7 +20,7 @@ public class AutoUtils {
     private static final PIDController rightController = new PIDController(0.00386, 0, 0);
     private static final PIDController leftController = new PIDController(0.00386, 0, 0);
 
-    public static Command generateCommand(String pathName, double maxVelocity, double maxAcceleration, DrivetrainSubsystem drives) {
+    public static Command generateCommand(String pathName, double maxVelocity, double maxAcceleration, Drives drives) {
         PathPlannerTrajectory path = PathPlanner.loadPath(pathName, maxVelocity, maxAcceleration);
 
         return new PPSwerveControllerCommand(
