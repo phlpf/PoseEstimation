@@ -4,12 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.PneumaticHub;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.*;
@@ -17,6 +12,7 @@ import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kClimb;
 import frc.robot.constants.kSwerve;
 import frc.robot.subsystems.*;
+import frc.robot.utils.AutoUtil;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -38,11 +34,11 @@ public class RobotContainer {
     private final Shooter shooter = new Shooter();
     private final Index index = new Index();
     private final Climber climber = new Climber();
-  
+
     private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
     private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter, driverController::getAButton);
     private final DefaultIndex defaultIndexCommand = new DefaultIndex(index, driverController::getLeftTriggerAxis);
-    
+
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -84,7 +80,7 @@ public class RobotContainer {
                         .whenPressed(drives::zeroGyroscope);
         new Button(driverController::getXButton)
                         .whenPressed(new InstantCommand(() -> {
-                            acquisition.setArmsExtended(!acquisition.getArmsExtended());  
+                            acquisition.setArmsExtended(!acquisition.getArmsExtended());
                         }));
         new Button (driverController::getYButton)
                         .whenPressed(new InstantCommand(() -> {
@@ -93,7 +89,6 @@ public class RobotContainer {
                         .whenReleased(new InstantCommand(() -> {
                             acquisition.setRollerVelocity(0);
                         }));
-                        
     }
 
     private void configureClimbController(XboxController controller){
@@ -135,5 +130,14 @@ public class RobotContainer {
         computedValue = Math.copySign(computedValue * computedValue, computedValue);
 
         return computedValue;
+    }
+
+    public void runAutonomousRoutine(AutoUtil.Routine routine) {
+        switch (routine) {
+            case FORWARD:
+                drives.setGyroscopeYaw(-144);
+                AutoUtil.generateCommand("Test", 1, 0.5, drives).schedule();
+                break;
+        }
     }
 }

@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
-import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper.GearRatio;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -18,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kSwerve;
@@ -108,6 +108,10 @@ public class Drives extends SubsystemBase {
         pigeon.reset();
     }
 
+    public void setGyroscopeYaw(double degrees) {
+        pigeon.setYaw(degrees);
+    }
+
     public Rotation2d getGyroscopeRotation() {
         return Rotation2d.fromDegrees(pigeon.getYaw());
     }
@@ -139,7 +143,8 @@ public class Drives extends SubsystemBase {
         updateModules(states);
 
         odometry.update(getGyroscopeRotation(), states);
-    
+
+        SmartDashboard.putNumber("gyro", getGyroscopeRotation().getDegrees());
         //TODO: add current for all module motors
     }
 }
