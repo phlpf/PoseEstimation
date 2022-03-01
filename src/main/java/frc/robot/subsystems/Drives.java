@@ -48,7 +48,7 @@ public class Drives extends SubsystemBase {
 
     private final PigeonWrapper pigeon = new PigeonWrapper(kCANIDs.DRIVETRAIN_PIGEON_ID);
 
-    private final SwerveDriveOdometry odometry = new SwerveDriveOdometry(kinematics, getGyroscopeRotation());
+    private final SwerveDriveOdometry odometry = new SwerveDriveOdometry(kinematics, getGyroscopeRotation(), new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
     
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
@@ -108,10 +108,6 @@ public class Drives extends SubsystemBase {
         pigeon.reset();
     }
 
-    public void setGyroscopeYaw(double degrees) {
-        pigeon.setYaw(degrees);
-    }
-
     public Rotation2d getGyroscopeRotation() {
         return Rotation2d.fromDegrees(pigeon.getYaw());
     }
@@ -141,10 +137,7 @@ public class Drives extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
 
         updateModules(states);
-
         odometry.update(getGyroscopeRotation(), states);
-
-        SmartDashboard.putNumber("gyro", getGyroscopeRotation().getDegrees());
         //TODO: add current for all module motors
     }
 }
