@@ -9,14 +9,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.kClimb;
 import frc.robot.utils.ClimberArm;
 
-public class CommandMoveReach extends CommandBase {
+public class CommandMoveAngle extends CommandBase {
   /** Creates a new CommandSetReach. */
   private ClimberArm arm;
-  private double position;
+  private double angle;
   private boolean useCurrentLimits;
-  public CommandMoveReach(ClimberArm arm, double position, boolean useCurrentLimits){
+  public CommandMoveAngle(ClimberArm arm, double angle, boolean useCurrentLimits){
     this.arm = arm;
-    this.position = position;
+    this.angle = angle;
     this.useCurrentLimits = useCurrentLimits;
   }
 
@@ -28,24 +28,24 @@ public class CommandMoveReach extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm.setReachSetpoint(position/kClimb.CLIMB_ROTATION_TO_INCH);
+    arm.setAngleSetpoint(angle/kClimb.CLIMB_ROTATION_TO_DEGREE);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    arm.moveReach(0);
+    arm.moveAngle(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double reachError = arm.calculateReachError();
-    SmartDashboard.putNumber("Reach Error", reachError);
+    double angleError = arm.calculateAngleError();
+    SmartDashboard.putNumber("angle Error", angleError);
     // Check for current spike
-    boolean isAtStop = (useCurrentLimits && arm.getReachCurrent() > kClimb.INNER_NOLOAD_STALL_CURRENT_REACH);
-    if(isAtStop){System.out.println("Current limit reached, at stop: " + arm.getReachCurrent());}
-    System.out.println("Current: " + arm.getReachCurrent());
-    return reachError < kClimb.CLIMB_REACH_ALLOWED_ERROR || isAtStop;
+    boolean isAtStop = (useCurrentLimits && arm.getAngleCurrent() > kClimb.INNER_NOLOAD_STALL_CURRENT_ANGLE);
+    if(isAtStop){System.out.println("Current limit reached, at stop: " + arm.getAngleCurrent());}
+    System.out.println("Current: " + arm.getAngleCurrent());
+    return angleError < kClimb.CLIMB_ANGLE_ALLOWED_ERROR || isAtStop;
   }
 }

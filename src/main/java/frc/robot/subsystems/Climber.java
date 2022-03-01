@@ -49,4 +49,17 @@ public class Climber extends SubsystemBase {
         outerArm.periodic();
         innerArm.periodic();
     }
+
+    public void disableSoftLimits(){
+        innerArm.disableSoftLimits();
+        outerArm.disableSoftLimits();
+    }
+    public void enableSoftLimits(){
+        innerArm.enableSoftLimits();
+        outerArm.enableSoftLimits();
+    }
+    public void zeroEncoders(){
+        innerArm.zeroEncoders();
+        outerArm.zeroEncoders();
+    }
 }

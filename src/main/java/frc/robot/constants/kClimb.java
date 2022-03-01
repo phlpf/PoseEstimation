@@ -49,7 +49,7 @@ public  class kClimb {
         0.0,
         0.0,
         -0.3,
-        0.3);
+        0.2);
     public static final ClimberPid climbReachOuter = new ClimberPid(0.75,
         2e-5,
         3,
@@ -72,6 +72,8 @@ public  class kClimb {
     public static final double CLIMB_MAX_EXTEND = 24;
     public static final double CLIMB_MIN_EXTEND = 0;
     public static final double CLIMB_REACH_ALLOWED_ERROR = 3; 
+    public static final double CLIMB_ANGLE_ALLOWED_ERROR = 2; 
 
-    public static final double INNER_NOLOAD_STALL_CURRENT = 25;
+    public static final double INNER_NOLOAD_STALL_CURRENT_REACH = 20;
+    public static final double INNER_NOLOAD_STALL_CURRENT_ANGLE = 10;
 }
