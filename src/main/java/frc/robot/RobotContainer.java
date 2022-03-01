@@ -135,7 +135,6 @@ public class RobotContainer {
     public void runAutonomousRoutine(AutoUtil.Routine routine) {
         switch (routine) {
             case FORWARD:
-                drives.setGyroscopeYaw(-144);
                 AutoUtil.generateCommand("Test", 1, 0.5, drives).schedule();
                 break;
         }
