@@ -14,8 +14,12 @@ import java.util.function.DoubleSupplier;
 public class DefaultIndex extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Index subsystem;
-  private final double rotations = 0;
   private final DoubleSupplier rotationSupplier;
+  private final double motorRevolutions = 1;
+  
+  private boolean ballIndexed = false;
+  private double ballsIndexed = 0;
+  private double ballToShoot = 0;
 
   /**
    * Creates a new ExampleCommand.
@@ -32,8 +36,9 @@ public class DefaultIndex extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-   SmartDashboard.putNumber("rotations", subsystem.encoder.getPosition());
-     
+    SmartDashboard.putNumber("rotations", subsystem.encoder.getPosition());
+   
+    SmartDashboard.putNumber("ballToShoot", ballToShoot);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,6 +47,22 @@ public class DefaultIndex extends CommandBase {
     double rotationSpeed = rotationSupplier.getAsDouble();
     double position =  subsystem.encoder.getPosition();
     subsystem.setReference(position + rotationSpeed);
+    if(!ballIndexed && ballsIndexed <= 2){
+      if(!subsystem.beambreak.get()){//if a ball breaks the beam, ballIndexed is set to true showing a ball has entered the robot and the ball is moved up
+        subsystem.setReference(position+motorRevolutions);
+        ballIndexed = true;
+      }
+    }
+    if(ballIndexed){//if a ball is has entered the robot, the total amount of balls indexed is increased
+      ballsIndexed += 1;
+      ballIndexed = false;
+    }
+    if(ballToShoot > 0){
+      subsystem.setReference(ballToShoot*5);
+      //shooter.motor.set(shooter.); to sh
+      ballToShoot -= 1;
+      ballsIndexed -= 1;
+    }
   }
 
   // Called once the command ends or is interrupted.

@@ -20,7 +20,7 @@ public class Index extends SubsystemBase {
   public CANSparkMax motor;
   public RelativeEncoder encoder;
   public SparkMaxPIDController pidController;
-  private DigitalInput beambreak;
+  public DigitalInput beambreak;
 
   public Index() {
     motor = new CANSparkMax(kCANIDs.IDX_MOTOR, MotorType.kBrushless);
