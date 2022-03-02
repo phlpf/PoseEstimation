@@ -104,11 +104,13 @@ public class RobotContainer {
         new Button(controller::getBButton)
                         .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.innerArm, 26)));
         new Button(controller::getXButton)
-                        .whenPressed(new CommandMoveAngle(climber.innerArm, -100, true));
+                        .whenPressed(new CommandMoveAngle(climber.outerArm, 100, false, kClimb.CLIMB_ANGLE_ALLOWED_ERROR));
         new Button(controller::getYButton)
                         .whenPressed(new InstantCommand(() -> {climber.rotateArmTo(climber.innerArm, 0);climber.extendArm(climber.innerArm, kClimb.CLIMB_MIN_EXTEND);}));
         new Button(controller::getBackButton)
                         .whenPressed(new InstantCommand(() -> climber.setToCoast()));
+        new Button(controller::getLeftBumper)
+                        .whenPressed(new InstantCommand(() -> climber.setToBrake()));
         new Button(controller::getStartButton)
                         .whenPressed(new ComplexInitializeClimb(climber));
         //new Button(controller::getXButton)

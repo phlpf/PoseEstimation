@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.constants.kClimb;
 import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
@@ -20,15 +21,27 @@ public class ComplexInitializeClimb extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new InstantCommand(() -> climber.disableSoftLimits()),
-      new CommandMoveReach(climber.innerArm, 4, true),
+      new InstantCommand(() -> climber.startInitialize()),
+      new ParallelCommandGroup(
+       new CommandMoveReach(climber.outerArm, 4, true),
+       new CommandMoveReach(climber.innerArm, 4, true)
+      ),
       new WaitCommand(1),
-      new CommandMoveReach(climber.innerArm, -35, true),
-      new CommandMoveAngle(climber.innerArm, -100, true),
-      new InstantCommand(() ->  climber.zeroEncoders()),
-      new CommandMoveAngle(climber.innerArm, 26, true),
-      new InstantCommand(() ->  climber.zeroEncoders()),
-      new InstantCommand(() -> climber.enableSoftLimits())
+      new ParallelCommandGroup(
+        new CommandMoveReach(climber.outerArm, -35, true),
+        new CommandMoveReach(climber.innerArm, -35, true)
+      ),  
+      new ParallelCommandGroup(
+        new CommandMoveAngle(climber.outerArm, -100, true, kClimb.CLIMB_ANGLE_ALLOWED_ERROR),
+        new CommandMoveAngle(climber.innerArm, -100, true, kClimb.CLIMB_ANGLE_ALLOWED_ERROR)
+      ),
+      new WaitCommand(1),
+      new InstantCommand(() ->  climber.zeroAngleEncoders()),
+      new ParallelCommandGroup(
+        new CommandMoveAngle(climber.outerArm, 29, false, kClimb.CLIMB_ANGLE_ALLOWED_ERROR),
+        new CommandMoveAngle(climber.innerArm, 29, false, kClimb.CLIMB_ANGLE_ALLOWED_ERROR)
+      ),
+      new InstantCommand(() ->  climber.endInitialize())
     );
 
   }

@@ -37,6 +37,12 @@ public class Climber extends SubsystemBase {
         innerArm.setAngleToCoast();
         outerArm.setReachToCoast();
         innerArm.setReachToCoast();
+    }  
+    public void setToBrake(){
+        outerArm.setAngleToBrake();
+        innerArm.setAngleToBrake();
+        outerArm.setReachToBrake();
+        innerArm.setReachToBrake();
     }
     @Override
     public void periodic() {
@@ -50,16 +56,34 @@ public class Climber extends SubsystemBase {
         innerArm.periodic();
     }
 
-    public void disableSoftLimits(){
-        innerArm.disableSoftLimits();
-        outerArm.disableSoftLimits();
+    public void disableAngleSoftLimits(){
+        innerArm.disableAngleSoftLimits();
+        outerArm.disableAngleSoftLimits();
     }
-    public void enableSoftLimits(){
-        innerArm.enableSoftLimits();
-        outerArm.enableSoftLimits();
+    public void enableAngleSoftLimits(){
+        innerArm.enableAngleSoftLimits();
+        outerArm.enableAngleSoftLimits();
     }
-    public void zeroEncoders(){
-        innerArm.zeroEncoders();
-        outerArm.zeroEncoders();
+    public void disableReachSoftLimits(){
+        innerArm.disableReachSoftLimits();
+        outerArm.disableReachSoftLimits();
+    }
+    public void enableReachSoftLimits(){
+        innerArm.enableReachSoftLimits();
+        outerArm.enableReachSoftLimits();
+    }
+    public void zeroAngleEncoders(){
+        innerArm.zeroAngleEncoders();
+        outerArm.zeroAngleEncoders();
+    }
+    public void startInitialize(){
+        innerArm.startInitialize();
+        outerArm.startInitialize();
+    }
+    public void endInitialize(){
+        innerArm.endInitialize();
+        outerArm.endInitialize();
+        innerArm.setAngleToCoast();
+        outerArm.setAngleToCoast();
     }
 }

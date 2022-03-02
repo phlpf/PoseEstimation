@@ -34,7 +34,7 @@ public class CommandMoveReach extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    arm.moveReach(0);
+    arm.moveReachPOut(0);
   }
 
   // Returns true when the command should end.

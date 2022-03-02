@@ -13,11 +13,13 @@ public class CommandMoveAngle extends CommandBase {
   /** Creates a new CommandSetReach. */
   private ClimberArm arm;
   private double angle;
+  private double angleErrorMin;
   private boolean useCurrentLimits;
-  public CommandMoveAngle(ClimberArm arm, double angle, boolean useCurrentLimits){
+  public CommandMoveAngle(ClimberArm arm, double angle, boolean useCurrentLimits, double angleErrorMin){
     this.arm = arm;
     this.angle = angle;
     this.useCurrentLimits = useCurrentLimits;
+    this.angleErrorMin = angleErrorMin;
   }
 
   // Called when the command is initially scheduled.
@@ -34,7 +36,7 @@ public class CommandMoveAngle extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    arm.moveAngle(0);
+    arm.moveAnglePOut(0);
   }
 
   // Returns true when the command should end.
@@ -46,6 +48,6 @@ public class CommandMoveAngle extends CommandBase {
     boolean isAtStop = (useCurrentLimits && arm.getAngleCurrent() > kClimb.INNER_NOLOAD_STALL_CURRENT_ANGLE);
     if(isAtStop){System.out.println("Current limit reached, at stop: " + arm.getAngleCurrent());}
     System.out.println("Current: " + arm.getAngleCurrent());
-    return angleError < kClimb.CLIMB_ANGLE_ALLOWED_ERROR || isAtStop;
+    return angleError < angleErrorMin || isAtStop;
   }
 }

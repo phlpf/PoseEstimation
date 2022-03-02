@@ -12,13 +12,13 @@ import frc.robot.subsystems.Climber;
 /** Add your docs here. */
 public  class kClimb {
     public static class ClimberPid{
-        double p;
-        double i;
-        double d;
-        double ff;
-        double iz;
-        double min;
-        double max;
+        public double p;
+        public double i;
+        public double d;
+        public double ff;
+        public double iz;
+        public double min;
+        public double max;
         public ClimberPid(double p, double i, double d, double ff, double iz, double min, double max){
             this.p = p;
             this.i = i;
@@ -34,8 +34,8 @@ public  class kClimb {
         3,
         0.0,
         0.0,
-        -0.3,
-        0.3);
+        -0.6,
+        0.6);
     public static final ClimberPid climbReachInner = new ClimberPid(0.75,
         2e-5,
         3,
@@ -68,11 +68,11 @@ public  class kClimb {
 
     public static final int CLIMB_BUTTON = Button.kA.value;
     public static final double CLIMB_ROTATION_TO_INCH = 1/5.555;
-    public static final double CLIMB_ROTATION_TO_DEGREE = 1/1.111;
+    public static final double CLIMB_ROTATION_TO_DEGREE = 1/1.111111111111111111111;
     public static final double CLIMB_MAX_EXTEND = 24;
     public static final double CLIMB_MIN_EXTEND = 0;
     public static final double CLIMB_REACH_ALLOWED_ERROR = 3; 
-    public static final double CLIMB_ANGLE_ALLOWED_ERROR = 2; 
+    public static final double CLIMB_ANGLE_ALLOWED_ERROR = 0.25; 
 
     public static final double INNER_NOLOAD_STALL_CURRENT_REACH = 20;
     public static final double INNER_NOLOAD_STALL_CURRENT_ANGLE = 10;

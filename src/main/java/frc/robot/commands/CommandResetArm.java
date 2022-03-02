@@ -26,13 +26,13 @@ public class CommandResetArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm.moveAngle(-0.35);
+    arm.moveAnglePOut(-0.35);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    arm.moveAngle(0);
+    arm.moveAnglePOut(0);
   }
 
   // Returns true when the command should end.
