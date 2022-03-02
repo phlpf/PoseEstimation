@@ -64,7 +64,7 @@ public class ClimberArm {
         reachMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
         
         // Set soft limits for angle
-        angleMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)(-25/kClimb.CLIMB_ROTATION_TO_DEGREE));
+        angleMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)(-26/kClimb.CLIMB_ROTATION_TO_DEGREE));
         angleMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     
         angleMotor.setSoftLimit(SoftLimitDirection.kForward, (float)(45/kClimb.CLIMB_ROTATION_TO_DEGREE));
@@ -171,5 +171,8 @@ public class ClimberArm {
         
         reachPidController.setOutputRange(reachPid.min, reachPid.max);
         reachMotor.setClosedLoopRampRate(0.25);
+    }
+    public void setAngleSmartLimit(int limit){
+        angleMotor.setSmartCurrentLimit(limit);
     }
 }

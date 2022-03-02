@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.*;
+import frc.robot.commands.CommandMoveAngle.CurrentLimit;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kClimb;
 import frc.robot.constants.kSwerve;
@@ -104,7 +105,7 @@ public class RobotContainer {
         new Button(controller::getBButton)
                         .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.innerArm, 26)));
         new Button(controller::getXButton)
-                        .whenPressed(new CommandMoveAngle(climber.outerArm, 100, false, kClimb.CLIMB_ANGLE_ALLOWED_ERROR));
+                        .whenPressed(new CommandMoveAngle(climber.outerArm, 100, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_EXACT));
         new Button(controller::getYButton)
                         .whenPressed(new InstantCommand(() -> {climber.rotateArmTo(climber.innerArm, 0);climber.extendArm(climber.innerArm, kClimb.CLIMB_MIN_EXTEND);}));
         new Button(controller::getBackButton)

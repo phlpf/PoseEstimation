@@ -14,17 +14,34 @@ public class CommandMoveAngle extends CommandBase {
   private ClimberArm arm;
   private double angle;
   private double angleErrorMin;
-  private boolean useCurrentLimits;
-  public CommandMoveAngle(ClimberArm arm, double angle, boolean useCurrentLimits, double angleErrorMin){
+  private CurrentLimit useCurrentLimits;
+  public enum CurrentLimit{
+    ON,
+    OFF,
+    SMART
+  }
+  private double currentLimit;
+  public CommandMoveAngle(ClimberArm arm, double angle, CurrentLimit useCurrentLimits, double angleErrorMin){
     this.arm = arm;
     this.angle = angle;
     this.useCurrentLimits = useCurrentLimits;
     this.angleErrorMin = angleErrorMin;
+    this.currentLimit = 0;
+  }
+  public CommandMoveAngle(ClimberArm arm, double angle, CurrentLimit useCurrentLimits, double angleErrorMin, double currentLimit){
+    this.arm = arm;
+    this.angle = angle;
+    this.useCurrentLimits = useCurrentLimits;
+    this.angleErrorMin = angleErrorMin;
+    this.currentLimit = currentLimit;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if(useCurrentLimits == CurrentLimit.SMART){
+      arm.setAngleSmartLimit(kClimb.ANGLE_SMART_CURRENT);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,6 +54,9 @@ public class CommandMoveAngle extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     arm.moveAnglePOut(0);
+    if(useCurrentLimits == CurrentLimit.SMART){
+      arm.setAngleSmartLimit(150);
+    }
   }
 
   // Returns true when the command should end.
@@ -45,7 +65,7 @@ public class CommandMoveAngle extends CommandBase {
     double angleError = arm.calculateAngleError();
     SmartDashboard.putNumber("angle Error", angleError);
     // Check for current spike
-    boolean isAtStop = (useCurrentLimits && arm.getAngleCurrent() > kClimb.INNER_NOLOAD_STALL_CURRENT_ANGLE);
+    boolean isAtStop = (useCurrentLimits == CurrentLimit.ON && arm.getAngleCurrent() > currentLimit);
     if(isAtStop){System.out.println("Current limit reached, at stop: " + arm.getAngleCurrent());}
     System.out.println("Current: " + arm.getAngleCurrent());
     return angleError < angleErrorMin || isAtStop;

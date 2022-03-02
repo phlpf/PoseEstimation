@@ -14,10 +14,21 @@ public class CommandMoveReach extends CommandBase {
   private ClimberArm arm;
   private double position;
   private boolean useCurrentLimits;
-  public CommandMoveReach(ClimberArm arm, double position, boolean useCurrentLimits){
+  private double currentLimit;
+  boolean hold;
+  public CommandMoveReach(ClimberArm arm, double position, boolean hold){
     this.arm = arm;
     this.position = position;
-    this.useCurrentLimits = useCurrentLimits;
+    this.hold = hold;
+    this.useCurrentLimits = false;
+    this.currentLimit = 0;
+  }
+  public CommandMoveReach(ClimberArm arm, double position, boolean hold, double currentLimit){
+    this.arm = arm;
+    this.position = position;
+    this.hold = hold;
+    this.useCurrentLimits = false;
+    this.currentLimit = currentLimit;
   }
 
   // Called when the command is initially scheduled.
@@ -34,7 +45,9 @@ public class CommandMoveReach extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    arm.moveReachPOut(0);
+    if(!hold){
+      arm.moveReachPOut(0);
+    }
   }
 
   // Returns true when the command should end.
@@ -43,7 +56,7 @@ public class CommandMoveReach extends CommandBase {
     double reachError = arm.calculateReachError();
     SmartDashboard.putNumber("Reach Error", reachError);
     // Check for current spike
-    boolean isAtStop = (useCurrentLimits && arm.getReachCurrent() > kClimb.INNER_NOLOAD_STALL_CURRENT_REACH);
+    boolean isAtStop = (useCurrentLimits && arm.getReachCurrent() > currentLimit);
     if(isAtStop){System.out.println("Current limit reached, at stop: " + arm.getReachCurrent());}
     System.out.println("Current: " + arm.getReachCurrent());
     return reachError < kClimb.CLIMB_REACH_ALLOWED_ERROR || isAtStop;

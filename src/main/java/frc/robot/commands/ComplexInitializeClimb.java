@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.CommandMoveAngle.CurrentLimit;
 import frc.robot.constants.kClimb;
 import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -23,23 +24,23 @@ public class ComplexInitializeClimb extends SequentialCommandGroup {
     addCommands(
       new InstantCommand(() -> climber.startInitialize()),
       new ParallelCommandGroup(
-       new CommandMoveReach(climber.outerArm, 4, true),
-       new CommandMoveReach(climber.innerArm, 4, true)
+       new CommandMoveReach(climber.outerArm, 4, false, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
+       new CommandMoveReach(climber.innerArm, 4, false, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH)
       ),
       new WaitCommand(1),
       new ParallelCommandGroup(
-        new CommandMoveReach(climber.outerArm, -35, true),
-        new CommandMoveReach(climber.innerArm, -35, true)
+        new CommandMoveReach(climber.outerArm, -35, false, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
+        new CommandMoveReach(climber.innerArm, -35, false, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH)
       ),  
       new ParallelCommandGroup(
-        new CommandMoveAngle(climber.outerArm, -100, true, kClimb.CLIMB_ANGLE_ALLOWED_ERROR),
-        new CommandMoveAngle(climber.innerArm, -100, true, kClimb.CLIMB_ANGLE_ALLOWED_ERROR)
+        new CommandMoveAngle(climber.outerArm, -100, CurrentLimit.ON, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_EXACT, kClimb.INNER_NOLOAD_STALL_CURRENT_ANGLE),
+        new CommandMoveAngle(climber.innerArm, -100, CurrentLimit.ON, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_EXACT, kClimb.INNER_NOLOAD_STALL_CURRENT_ANGLE)
       ),
       new WaitCommand(1),
       new InstantCommand(() ->  climber.zeroAngleEncoders()),
       new ParallelCommandGroup(
-        new CommandMoveAngle(climber.outerArm, 29, false, kClimb.CLIMB_ANGLE_ALLOWED_ERROR),
-        new CommandMoveAngle(climber.innerArm, 29, false, kClimb.CLIMB_ANGLE_ALLOWED_ERROR)
+        new CommandMoveAngle(climber.outerArm, 29, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_EXACT),
+        new CommandMoveAngle(climber.innerArm, 29, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_EXACT)
       ),
       new InstantCommand(() ->  climber.endInitialize())
     );
