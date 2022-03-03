@@ -27,7 +27,7 @@ public class CommandMoveReach extends CommandBase {
     this.arm = arm;
     this.position = position;
     this.hold = hold;
-    this.useCurrentLimits = false;
+    this.useCurrentLimits = true;
     this.currentLimit = currentLimit;
   }
 
