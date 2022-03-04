@@ -35,14 +35,14 @@ public class RobotContainer {
     private final XboxController debugController = new XboxController(2);
 
     private final Drives drives = new Drives();
-    private final Acquisition acquisition = new Acquisition();
-    private final Shooter shooter = new Shooter();
-    private final Index index = new Index();
+    // private final Acquisition acquisition = new Acquisition();
+    // private final Shooter shooter = new Shooter();
+    // private final Index index = new Index();
     private final Climber climber = new Climber();
   
-    private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
-    private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter, driverController::getAButton);
-    private final DefaultIndex defaultIndexCommand = new DefaultIndex(index, driverController::getLeftTriggerAxis);
+    // private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
+    // private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter, driverController::getAButton);
+    // private final DefaultIndex defaultIndexCommand = new DefaultIndex(index, driverController::getLeftTriggerAxis);
     
 
     /**
@@ -64,9 +64,9 @@ public class RobotContainer {
                         () -> -modifyAxis(driverController.getRightX()) * kSwerve.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.2
         ));
 
-        acquisition.setDefaultCommand(defaultAcquisitionCommand);
-        shooter.setDefaultCommand(defaultShooterCommand);
-        index.setDefaultCommand(defaultIndexCommand);
+        // acquisition.setDefaultCommand(defaultAcquisitionCommand);
+        // shooter.setDefaultCommand(defaultShooterCommand);
+        // index.setDefaultCommand(defaultIndexCommand);
 
         // Configure the button bindings
         configureDriverControllerBindings();
@@ -83,31 +83,31 @@ public class RobotContainer {
         // Back button zeros the gyroscope
         new Button(driverController::getBackButton)
                         .whenPressed(drives::zeroGyroscope);
-        new Button(driverController::getXButton)
-                        .whenPressed(new InstantCommand(() -> {
-                            acquisition.setArmsExtended(!acquisition.getArmsExtended());  
-                        }));
-        new Button (driverController::getYButton)
-                        .whenPressed(new InstantCommand(() -> {
-                            acquisition.setRollerVelocity(3800);
-                        }))
-                        .whenReleased(new InstantCommand(() -> {
-                            acquisition.setRollerVelocity(0);
-                        }));
+        // new Button(driverController::getXButton)
+        //                 .whenPressed(new InstantCommand(() -> {
+        //                     acquisition.setArmsExtended(!acquisition.getArmsExtended());  
+        //                 }));
+        // new Button (driverController::getYButton)
+        //                 .whenPressed(new InstantCommand(() -> {
+        //                     acquisition.setRollerVelocity(3800);
+        //                 }))
+        //                 .whenReleased(new InstantCommand(() -> {
+        //                     acquisition.setRollerVelocity(0);
+        //                 }));
                         
     }
 
-    private void configureClimbController(XboxController controller){
+        private void configureClimbController(XboxController controller){
         new Button(controller::getAButton)
                         .whenPressed((new CommandTestClimb(climber, controller))
                                       .withInterrupt(controller::getLeftBumper)
                         );
         new Button(controller::getBButton)
-                        .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.innerArm, 26)));
+                        .whenPressed(new InstantCommand(() -> climber.extendArm(climber.innerArm, 10)));
         new Button(controller::getXButton)
                         .whenPressed(new CommandMoveAngle(climber.outerArm, 100, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_EXACT));
         new Button(controller::getYButton)
-                        .whenPressed(new InstantCommand(() -> {climber.rotateArmTo(climber.innerArm, 0);climber.extendArm(climber.innerArm, kClimb.CLIMB_MIN_EXTEND);}));
+                        .whenPressed(new InstantCommand(() -> climber.extendArm(climber.innerArm, 0)));
         new Button(controller::getBackButton)
                         .whenPressed(new InstantCommand(() -> climber.setToCoast()));
         new Button(controller::getLeftBumper)

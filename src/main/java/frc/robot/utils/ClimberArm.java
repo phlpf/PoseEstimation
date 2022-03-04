@@ -13,6 +13,8 @@ import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.kClimb;
 import frc.robot.constants.kClimb.ClimberPid;
@@ -30,6 +32,7 @@ public class ClimberArm {
     private double reachSetpoint = 0;
     private double angleSetpoint = 0;
     private boolean isReversedReach;
+    private Debouncer debouncerAngle = new Debouncer(0.1, DebounceType.kBoth);
     public ClimberArm(int angleId, int reachId, ClimberPid anglePID, ClimberPid reachPID, boolean isReversedReach){
         angleMotor = new CANSparkMax(angleId, MotorType.kBrushless);
         angleMotor.restoreFactoryDefaults();
@@ -174,5 +177,8 @@ public class ClimberArm {
     }
     public void setAngleSmartLimit(int limit){
         angleMotor.setSmartCurrentLimit(limit);
+    }
+    public boolean debounceCurrent(boolean isHigh){
+        return debouncerAngle.calculate(isHigh);
     }
 }

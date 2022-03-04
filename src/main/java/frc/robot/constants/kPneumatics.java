@@ -7,5 +7,6 @@ package frc.robot.constants;
 /** Add your docs here. */
 public class kPneumatics {
     public static final int ACQ_ARMS = 0;
-    // public static final int CLIMB_BREAK = 1;
+    public static final int CLIMB_BREAK_1 = 1;
+    public static final int CLIMB_BREAK_2 = 2;
 }
