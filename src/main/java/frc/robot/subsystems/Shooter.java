@@ -3,22 +3,26 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import com.revrobotics.CANSparkMax.ControlType;
+
+import javax.sql.rowset.serial.SerialArray;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.kCANIDs;
+
 
 public class Shooter extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public CANSparkMax motor;
   public RelativeEncoder encoder;
   public SparkMaxPIDController pid;
+  private double setpointVelocity = 0;
   public Shooter() {
     motor = new CANSparkMax(kCANIDs.SHOOTER_MOTOR, MotorType.kBrushless);
     motor.restoreFactoryDefaults();
@@ -35,9 +39,17 @@ public class Shooter extends SubsystemBase {
     pid.setOutputRange(-1,1);
   }
 
+
+
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("A-Sht", motor.getOutputCurrent());
+    SmartDashboard.putNumber("shooter/actual Velocity Shooter", encoder.getVelocity());
+      setpointVelocity = SmartDashboard.getNumber("shooter/setpoint Velocity Shooter", setpointVelocity);
+      pid.setReference(setpointVelocity, ControlType.kVelocity);
+  }
+
+  public void setVelocity(double inputVelocity){
+    setpointVelocity = inputVelocity;
   }
 
   @Override
