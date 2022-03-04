@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
     public void autonomousInit() {
-        robotContainer.runAutonomousRoutine(AutoUtil.Routine.FORWARD);
+        robotContainer.runAutonomousRoutine(AutoUtil.Routine.FOUR_BALL);
     }
 
     /** This function is called periodically during autonomous. */
