@@ -41,7 +41,7 @@ public class RobotContainer {
   
     private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
     private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter, driverController::getAButton);
-    private final DefaultIndex defaultIndexCommand = new DefaultIndex(index, driverController::getLeftTriggerAxis);
+    private final DefaultIndex defaultIndexCommand = new DefaultIndex(index);
     
 
     /**

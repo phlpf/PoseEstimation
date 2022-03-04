@@ -8,15 +8,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Index;
 
-import java.util.function.DoubleSupplier;
-
 /** An example command that uses an example subsystem. */
 public class DefaultIndex extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Index subsystem;
-  private final DoubleSupplier rotationSupplier;
   private final double motorRevolutions = 1;
-  
+  private final double shootRotations = 5;
+
   private boolean ballIndexed = false;
   private double ballsIndexed = 0;
   private double ballToShoot = 0;
@@ -26,9 +24,8 @@ public class DefaultIndex extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DefaultIndex(Index subsystem, DoubleSupplier rotationSupplier) {
+  public DefaultIndex(Index subsystem) {
     this.subsystem = subsystem;
-    this.rotationSupplier = rotationSupplier;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -44,25 +41,28 @@ public class DefaultIndex extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double rotationSpeed = rotationSupplier.getAsDouble();
+
     double position =  subsystem.encoder.getPosition();
-    subsystem.setReference(position + rotationSpeed);
-    if(!ballIndexed && ballsIndexed <= 2){
-      if(!subsystem.beambreak.get()){//if a ball breaks the beam, ballIndexed is set to true showing a ball has entered the robot and the ball is moved up
+
+    ballCheck();
+    if(ballsIndexed < 1){
+      if(!subsystem.beambreak.get()){
         subsystem.setReference(position+motorRevolutions);
-        ballIndexed = true;
       }
     }
-    if(ballIndexed){//if a ball is has entered the robot, the total amount of balls indexed is increased
-      ballsIndexed += 1;
-      ballIndexed = false;
+  }
+  
+  public void ballCheck(){
+    if(subsystem.beambreak.get() != ballIndexed){
+      System.out.print("SENSOR CHANGE!");
+      ballsIndexed ++;
     }
-    if(ballToShoot > 0){
-      subsystem.setReference(ballToShoot*5);
-      //shooter.motor.set(shooter.); to sh
-      ballToShoot -= 1;
-      ballsIndexed -= 1;
-    }
+    ballIndexed = subsystem.beambreak.get();
+  }
+
+  public void shootBall(int ballsToShoot){
+    subsystem.setReference(ballToShoot*shootRotations);
+    ballsIndexed -= ballToShoot;
   }
 
   // Called once the command ends or is interrupted.
