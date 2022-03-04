@@ -178,7 +178,7 @@ public class ClimberArm {
     public void setAngleSmartLimit(int limit){
         angleMotor.setSmartCurrentLimit(limit);
     }
-    public boolean debounceCurrent(boolean isHigh){
+    public boolean debounceCurrentAngle(boolean isHigh){
         return debouncerAngle.calculate(isHigh);
     }
 }

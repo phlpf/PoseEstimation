@@ -41,8 +41,9 @@ public  class kClimb {
         3,
         0.0,
         0.0,
-        -1,
-        1);
+        -0.5,
+        0.5
+        );
     public static final ClimberPid climbAngleOuter = new ClimberPid(0.05,
         0,
         10,
@@ -55,8 +56,8 @@ public  class kClimb {
         3,
         0.0,
         0.0,
-        -1,
-        1);// TODO: Add real values
+        -0.5,
+        0.5);// TODO: Add real values
     public static void addPidToMotor(SparkMaxPIDController controller, ClimberPid pid){
         controller.setP(pid.p);
         controller.setI(pid.i);
