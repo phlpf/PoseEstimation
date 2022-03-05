@@ -112,7 +112,7 @@ public class RobotContainer {
         new Button(operatorController::getStartButton)
                 .whenPressed(new ComplexInitializeClimb(climber));
         new Button(operatorController::getBackButton)
-                .whenPressed(() -> {}); // TODO: Use for unlocking climber brake
+                .whenPressed(() -> climber.releaseBreak()); // TODO: Use for unlocking climber brake
 
         // Colored buttons
         new Button(operatorController::getAButton)
