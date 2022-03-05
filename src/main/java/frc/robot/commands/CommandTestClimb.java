@@ -5,9 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.CommandMoveAngle.CurrentLimit;
 import frc.robot.constants.kClimb;
@@ -33,20 +31,33 @@ public class CommandTestClimb extends SequentialCommandGroup {
       
       new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MAX_EXTEND, true, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
       new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
-      //new ParallelDeadlineGroup(
-        new SequentialCommandGroup(
-          new CommandMoveAngleDebounced(climber.innerArm, 0, CurrentLimit.BOTH, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL, kClimb.INNER_NOLOAD_STALL_CURRENT_ANGLE),
-          new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MIN_EXTEND+0.5, true, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
-          new InstantCommand(()-> climber.outerArm.setAngleToCoast()),
-          new InstantCommand(()-> climber.outerArm.moveAnglePOut(0)),
-          new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MIN_EXTEND+0.5, true)
-        ),
-      //),
+      new SequentialCommandGroup(     
+        new CommandMoveAngleDebounced(climber.innerArm, 0, CurrentLimit.BOTH, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL, kClimb.INNER_NOLOAD_STALL_CURRENT_ANGLE),
+        new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MIN_EXTEND+4, true, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
+        new InstantCommand(()-> climber.outerArm.setAngleToCoast()),
+        new InstantCommand(()-> climber.outerArm.moveAnglePOut(0)),
+        new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MIN_EXTEND+4, true)
+      ),
       new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
-      new InstantCommand(()-> climber.outerArm.setAngleToBrake()),
       
+      // TODO: UNTESTED COMMANDS
+      // WAIT FOR FULL TEST TO USE
+      new InstantCommand(()-> climber.outerArm.setAngleToBrake()),
       new CommandMoveAngle(climber.outerArm, -26, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL),
-      new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON)
+      new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
+      new CommandMoveAngle(climber.innerArm, 7, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL),
+      new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
+      
+      new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MAX_EXTEND, true, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
+      new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
+      
+      new SequentialCommandGroup(     
+        new CommandMoveAngleDebounced(climber.outerArm, 0, CurrentLimit.BOTH, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL, kClimb.INNER_NOLOAD_STALL_CURRENT_ANGLE),
+        new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MIN_EXTEND+4, true, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
+        new InstantCommand(()-> climber.innerArm.setAngleToCoast()),
+        new InstantCommand(()-> climber.innerArm.moveAnglePOut(0)),
+        new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MIN_EXTEND+4, true)
+      )
     );
   }
 }   
