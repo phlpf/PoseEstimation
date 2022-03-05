@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
+import frc.robot.commands.acquisition.CommandUnjamRollers;
 import frc.robot.commands.acquisition.DefaultAcquisition;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kSwerve;
@@ -22,28 +23,27 @@ import frc.robot.utils.AutoUtil;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-    public final PowerDistribution pdp = new PowerDistribution(kCANIDs.PDP, PowerDistribution.ModuleType.kRev);
-    public final PneumaticHub pneumaticHub = new PneumaticHub(kCANIDs.PNEUMATIC_HUB);
-    public final Compressor compressor = new Compressor(kCANIDs.PNEUMATIC_HUB, PneumaticsModuleType.REVPH);
+public final PowerDistribution pdp = new PowerDistribution(kCANIDs.PDP, PowerDistribution.ModuleType.kRev);
+public final PneumaticHub pneumaticHub = new PneumaticHub(kCANIDs.PNEUMATIC_HUB);
+public final Compressor compressor = new Compressor(kCANIDs.PNEUMATIC_HUB, PneumaticsModuleType.REVPH);
 
-    private final XboxController driverController = new XboxController(0);
-    private final XboxController operatorController = new XboxController(1);
+private final XboxController driverController = new XboxController(0);
+private final XboxController operatorController = new XboxController(1);
 
-    private final Drives drives = new Drives();
-    private final Acquisition acquisition = new Acquisition();
-    private final Shooter shooter = new Shooter();
-    private final Index index = new Index();
-    private final Climber climber = new Climber();
+private final Drives drives = new Drives();
+private final Acquisition acquisition = new Acquisition();
+private final Shooter shooter = new Shooter();
+private final Index index = new Index();
+private final Climber climber = new Climber();
 
-    private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
-    private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter);
-    private final DefaultIndex defaultIndexCommand = new DefaultIndex(index, driverController::getLeftTriggerAxis);
-
-
-    /**
+private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
+private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter);
+private final DefaultIndex defaultIndexCommand = new DefaultIndex(index, driverController::getLeftTriggerAxis);
+private final CommandUnjamRollers commandUnjamRollers = new CommandUnjamRollers(acquisition);
+/**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
-    public RobotContainer() {
+public RobotContainer() {
         pdp.clearStickyFaults();
         pneumaticHub.clearStickyFaults();
 
@@ -66,15 +66,15 @@ public class RobotContainer {
         // Configure the button bindings
         configureDriverControllerBindings();
         configureOperatorControllerBindings();
-    }
+}
 
-    /**
+/**
      * Use this method to define your button->command mappings. Buttons can be created by
      * instantiating a {@link GenericHID} or one of its subclasses ({@link
      * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
-    private void configureDriverControllerBindings() {
+private void configureDriverControllerBindings() {
         // Back button zeros the gyroscope
         new Button(driverController::getBackButton)
                         .whenPressed(drives::zeroGyroscope);
@@ -85,7 +85,8 @@ public class RobotContainer {
                 .whenPressed(() -> acquisition.setRollerRPM(3800));
         new Button(driverController::getBButton)
                 .whenPressed(() -> acquisition.setRollerRPM(0));
-        new Button(driverController::getXButton);
+        new Button(driverController::getXButton)
+                .whenPressed(new CommandUnjamRollers(acquisition));
         new Button(driverController::getYButton);
 
         // POV
@@ -107,9 +108,9 @@ public class RobotContainer {
         new Trigger(() -> driverController.getLeftTriggerAxis() > 0.5)
                 .whenActive(() -> acquisition.setRollerRPM(3800))
                 .whenInactive(() -> acquisition.setRollerRPM(0));
-    }
+}
 
-    private void configureOperatorControllerBindings() {
+private void configureOperatorControllerBindings() {
         // Start/Back
         new Button(operatorController::getStartButton)
                 .whenPressed(new ComplexInitializeClimb(climber));

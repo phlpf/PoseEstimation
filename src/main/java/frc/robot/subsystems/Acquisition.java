@@ -50,27 +50,28 @@ public class Acquisition extends SubsystemBase {
   public void retractArms(){
     arms.set(false);
   }
-
-  public void runClosedLoopRPM(){
-    pid.setReference(setpointRPM, ControlType.kVelocity);
-  }
-public void stopRollersByVoltage(){
-  motor.setVoltage(0);
-}
-
-  public void setRollerRPM(double setpoint) {
-    this.setpointRPM = setpoint;
-  }
-  public double getSetpointRPM(){
-    return setpointRPM;
-  }
-
-  public double getRollerRPM(){
-    return encoder.getVelocity();
-  }
   public boolean areArmsExtended(){
     return arms.get();
   }
+
+  public void stopRollersByVoltage(){
+    motor.setVoltage(0);
+  }
+  
+  public void runClosedLoopRPM(){
+    pid.setReference(setpointRPM, ControlType.kVelocity);
+  }
+
+  public double getSetpointRPM(){
+    return setpointRPM;
+  }
+  public void setRollerRPM(double setpoint) {
+    this.setpointRPM = setpoint;
+  }
+  public double getRollerRPM(){
+    return encoder.getVelocity();
+  }
+
 
   
   @Override
