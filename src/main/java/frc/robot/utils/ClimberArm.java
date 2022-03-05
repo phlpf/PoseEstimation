@@ -13,6 +13,8 @@ import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.kClimb;
 import frc.robot.constants.kClimb.ClimberPid;
@@ -25,19 +27,24 @@ public class ClimberArm {
     public RelativeEncoder reachEncoder;
     private SparkMaxPIDController anglePidController;
     private SparkMaxPIDController reachPidController;
+    private ClimberPid anglePid;
+    private ClimberPid reachPid;
     private double reachSetpoint = 0;
     private double angleSetpoint = 0;
     private boolean isReversedReach;
+    private Debouncer debouncerAngle = new Debouncer(0.1, DebounceType.kBoth);
     public ClimberArm(int angleId, int reachId, ClimberPid anglePID, ClimberPid reachPID, boolean isReversedReach){
         angleMotor = new CANSparkMax(angleId, MotorType.kBrushless);
         angleMotor.restoreFactoryDefaults();
         angleMotor.setInverted(false);
         angleMotor.setIdleMode(IdleMode.kBrake);
+        angleMotor.setClosedLoopRampRate(2);
 
         reachMotor = new CANSparkMax(reachId, MotorType.kBrushless);
         reachMotor.restoreFactoryDefaults();
         reachMotor.setInverted(isReversedReach);
         reachMotor.setIdleMode(IdleMode.kBrake);
+        reachMotor.setClosedLoopRampRate(0.25);
 
         angleEncoder = angleMotor.getEncoder();
         angleEncoder.setPosition(0);
@@ -50,12 +57,14 @@ public class ClimberArm {
         kClimb.addPidToMotor(anglePidController, anglePID);
         kClimb.addPidToMotor(reachPidController, reachPID);
 
+        reachPid = reachPID;
+        anglePid = anglePID;
         // Set limits for reach
-        // reachMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)(kClimb.CLIMB_MIN_EXTEND/kClimb.CLIMB_ROTATION_TO_INCH));
-        // reachMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        reachMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)(kClimb.CLIMB_MIN_EXTEND/kClimb.CLIMB_ROTATION_TO_INCH));
+        reachMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     
-        // reachMotor.setSoftLimit(SoftLimitDirection.kForward, (float)(kClimb.CLIMB_MAX_EXTEND/kClimb.CLIMB_ROTATION_TO_INCH));
-        // reachMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+        reachMotor.setSoftLimit(SoftLimitDirection.kForward, (float)(kClimb.CLIMB_MAX_EXTEND/kClimb.CLIMB_ROTATION_TO_INCH));
+        reachMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
         
         // Set soft limits for angle
         angleMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)(-26/kClimb.CLIMB_ROTATION_TO_DEGREE));
@@ -96,19 +105,80 @@ public class ClimberArm {
     public void setReachToCoast(){
         reachMotor.setIdleMode(IdleMode.kCoast);
     }
+    public void setReachToBrake(){
+        reachMotor.setIdleMode(IdleMode.kBrake);
+    }
     public void setAngleToBrake(){
         angleMotor.setIdleMode(IdleMode.kBrake);
     }
     public double getReachSetpoint(){
         return reachSetpoint;
     }
-    public void moveReach(double percent){
+    public void moveAnglePOut(double percent){
+        angleMotor.set(percent);
+    }
+    public void moveReachPOut(double percent){
         reachMotor.set(percent);
     }
     public double getReachCurrent(){
         return reachMotor.getOutputCurrent();
     }
+    public double getAngleCurrent(){
+        return angleMotor.getOutputCurrent();
+    }
     public double calculateReachError(){
         return Math.abs(reachSetpoint - reachEncoder.getPosition());
+    }
+    public double calculateAngleError(){
+        return Math.abs(angleSetpoint - angleEncoder.getPosition());
+    }
+    public void disableAngleSoftLimits(){
+        angleMotor.enableSoftLimit(SoftLimitDirection.kForward, false);
+        angleMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
+    }
+    public void disableReachSoftLimits(){
+        reachMotor.enableSoftLimit(SoftLimitDirection.kForward, false);
+        reachMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
+    }
+    public void enableAngleSoftLimits(){
+        angleMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+        angleMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    }
+    public void enableReachSoftLimits(){
+        reachMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+        reachMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    }
+    public void zeroAngleEncoders(){    
+        angleEncoder.setPosition(0);
+    }
+    public void zeroReachEncoders(){    
+        reachEncoder.setPosition(0);    
+    }
+
+    public void startInitialize(){
+        disableAngleSoftLimits();
+        disableReachSoftLimits();
+        anglePidController.setOutputRange(-0.3, 0.3);
+        angleMotor.setClosedLoopRampRate(2);
+        
+        reachPidController.setOutputRange(-0.35, 0.35);
+        reachMotor.setClosedLoopRampRate(0.25);
+    }
+    public void endInitialize(){
+        zeroAngleEncoders();
+        zeroReachEncoders();
+        enableAngleSoftLimits();
+        enableReachSoftLimits();
+        anglePidController.setOutputRange(anglePid.min, anglePid.max);
+        angleMotor.setClosedLoopRampRate(2);
+        
+        reachPidController.setOutputRange(reachPid.min, reachPid.max);
+        reachMotor.setClosedLoopRampRate(0.25);
+    }
+    public void setAngleSmartLimit(int limit){
+        angleMotor.setSmartCurrentLimit(limit);
+    }
+    public boolean debounceCurrentAngle(boolean isHigh){
+        return debouncerAngle.calculate(isHigh);
     }
 }

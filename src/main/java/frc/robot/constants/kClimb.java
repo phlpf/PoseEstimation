@@ -12,13 +12,13 @@ import frc.robot.subsystems.Climber;
 /** Add your docs here. */
 public  class kClimb {
     public static class ClimberPid{
-        double p;
-        double i;
-        double d;
-        double ff;
-        double iz;
-        double min;
-        double max;
+        public double p;
+        public double i;
+        public double d;
+        public double ff;
+        public double iz;
+        public double min;
+        public double max;
         public ClimberPid(double p, double i, double d, double ff, double iz, double min, double max){
             this.p = p;
             this.i = i;
@@ -29,34 +29,35 @@ public  class kClimb {
             this.max = max;
         }
     }
-    public static final ClimberPid climbAngleInner = new ClimberPid(0.75,
-        2e-5,
+    public static final ClimberPid climbAngleInner = new ClimberPid(0.05,
+        0,
+        10,
+        0.0,
+        0.0,
+        -0.6,
+        0.6);
+    public static final ClimberPid climbReachInner = new ClimberPid(0.1,
+        0,
         3,
         0.0,
         0.0,
-        -0.3,
-        0.3);
-    public static final ClimberPid climbReachInner = new ClimberPid(0.75,
-        2e-5,
+        -0.5,
+        0.5
+        );
+    public static final ClimberPid climbAngleOuter = new ClimberPid(0.05,
+        0,
+        10,
+        0.0,
+        0.0,
+        -0.6,
+        0.6);
+    public static final ClimberPid climbReachOuter = new ClimberPid(0.1,
+        0,
         3,
         0.0,
         0.0,
-        -0.35,
-        0.35);
-    public static final ClimberPid climbAngleOuter = new ClimberPid(0.75,
-        2e-5,
-        3,
-        0.0,
-        0.0,
-        -0.3,
-        0.3);
-    public static final ClimberPid climbReachOuter = new ClimberPid(0.75,
-        2e-5,
-        3,
-        0.0,
-        0.0,
-        -1,
-        1); // TODO: Add real values
+        -0.5,
+        0.5);// TODO: Add real values
     public static void addPidToMotor(SparkMaxPIDController controller, ClimberPid pid){
         controller.setP(pid.p);
         controller.setI(pid.i);
@@ -68,10 +69,15 @@ public  class kClimb {
 
     public static final int CLIMB_BUTTON = Button.kA.value;
     public static final double CLIMB_ROTATION_TO_INCH = 1/5.555;
-    public static final double CLIMB_ROTATION_TO_DEGREE = 1/1.111;
+    public static final double CLIMB_ROTATION_TO_DEGREE = 1/1.111111111111111111111;
     public static final double CLIMB_MAX_EXTEND = 24;
     public static final double CLIMB_MIN_EXTEND = 0;
     public static final double CLIMB_REACH_ALLOWED_ERROR = 3; 
+    public static final double CLIMB_ANGLE_ALLOWED_ERROR_EXACT = 0.25; 
+    public static final double CLIMB_ANGLE_ALLOWED_ERROR_GENERAL = 2; 
 
-    public static final double INNER_NOLOAD_STALL_CURRENT = 25;
+    public static final double INNER_NOLOAD_STALL_CURRENT_REACH = 20;
+    public static final double INNER_NOLOAD_STALL_CURRENT_ANGLE = 10;
+    public static final int ANGLE_SMART_CURRENT = 5;
 }
+

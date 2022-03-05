@@ -5,11 +5,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.constants.kCANIDs;
-import frc.robot.constants.kClimb;
 import frc.robot.constants.kSwerve;
 import frc.robot.subsystems.*;
 import frc.robot.utils.AutoUtil;
@@ -27,7 +27,6 @@ public class RobotContainer {
 
     private final XboxController driverController = new XboxController(0);
     private final XboxController operatorController = new XboxController(1);
-    private final XboxController debugController = new XboxController(2);
 
     private final Drives drives = new Drives();
     private final Acquisition acquisition = new Acquisition();
@@ -36,7 +35,7 @@ public class RobotContainer {
     private final Climber climber = new Climber();
 
     private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
-    private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter, driverController::getAButton);
+    private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter);
     private final DefaultIndex defaultIndexCommand = new DefaultIndex(index, driverController::getLeftTriggerAxis);
 
 
@@ -65,7 +64,7 @@ public class RobotContainer {
 
         // Configure the button bindings
         configureDriverControllerBindings();
-        configureClimbController(debugController);
+        configureOperatorControllerBindings();
     }
 
     /**
@@ -78,38 +77,73 @@ public class RobotContainer {
         // Back button zeros the gyroscope
         new Button(driverController::getBackButton)
                         .whenPressed(drives::zeroGyroscope);
-        new Button(driverController::getXButton)
-                        .whenPressed(new InstantCommand(() -> {
-                            acquisition.setArmsExtended(!acquisition.getArmsExtended());
-                        }));
-        new Button (driverController::getYButton)
-                        .whenPressed(new InstantCommand(() -> {
-                            acquisition.setRollerVelocity(3800);
-                        }))
-                        .whenReleased(new InstantCommand(() -> {
-                            acquisition.setRollerVelocity(0);
-                        }));
+        new Button(driverController::getStartButton);
+
+        // Colored buttons
+        new Button(driverController::getAButton)
+                .whenPressed(() -> acquisition.setArmsExtended(!acquisition.getArmsExtended()));
+        new Button(driverController::getBButton);
+        new Button(driverController::getXButton);
+        new Button(driverController::getYButton);
+
+        // POV
+        new POVButton(driverController, 0);
+        new POVButton(driverController, 90);
+        new POVButton(driverController, 180);
+        new POVButton(driverController, 270);
+
+        // Bumpers
+        new Button(driverController::getRightBumper);
+        new Button(driverController::getLeftBumper);
+
+        // Joystick Buttons
+        new Button(driverController::getRightStickButton);
+        new Button(driverController::getLeftStickButton);
+
+        // Triggers
+        new Trigger(() -> driverController.getRightTriggerAxis() > 0.5); // TODO: Shoot command
+        new Trigger(() -> driverController.getLeftTriggerAxis() > 0.5)
+                .whenActive(() -> acquisition.setRollerVelocity(3800))
+                .whenInactive(() -> acquisition.setRollerVelocity(0));
     }
 
-    private void configureClimbController(XboxController controller){
-        new Button(controller::getAButton)
-                        .whenPressed((new CommandTestClimb(climber, controller))
-                                      .withInterrupt(controller::getLeftBumper)
-                        );
-        new Button(controller::getBButton)
-                        .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.innerArm, 26)));
-        new Button(controller::getXButton)
-                        .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.innerArm, -27)));
-        new Button(controller::getYButton)
-                        .whenPressed(new InstantCommand(() -> {climber.rotateArmTo(climber.innerArm, 0);climber.extendArm(climber.innerArm, kClimb.CLIMB_MIN_EXTEND);}));
-        new Button(controller::getBackButton)
-                        .whenPressed(new InstantCommand(() -> climber.setToCoast()));
-        new Button(controller::getStartButton)
-                        .whenPressed(new ComplexInitializeClimb(climber));
-        //new Button(controller::getXButton)
-        //                 .whenPressed(() -> climber.extendArm(climber.innerArm, 23));
-        // new Button(controller::getYButton)
-        //                 .whenPressed(() -> climber.extendArm(climber.innerArm, 0));
+    private void configureOperatorControllerBindings() {
+        // Start/Back
+        new Button(operatorController::getStartButton)
+                .whenPressed(new ComplexInitializeClimb(climber));
+        new Button(operatorController::getBackButton)
+                .whenPressed(() -> {}); // TODO: Use for unlocking climber brake
+
+        // Colored buttons
+        new Button(operatorController::getAButton)
+                .whenPressed((new CommandTestClimb(climber, operatorController))
+                        .withInterrupt(() -> operatorController.getPOV() == 0)
+                );
+        new Button(operatorController::getBButton);
+        new Button(operatorController::getXButton); //TODO: Shoot 1 ball
+        new Button(operatorController::getYButton);
+
+        // POV
+        new POVButton(operatorController, 0); // TODO: Interrupt
+        new POVButton(operatorController, 90); //TODO: Climb sideways
+        new POVButton(operatorController, 180);
+        new POVButton(operatorController, 270); //TODO: Climb sideways
+
+        // Bumpers
+        new Button(operatorController::getRightBumper)
+                .whenPressed(() -> {}); // TODO: index control
+        new Button(operatorController::getLeftBumper);
+
+        // Joystick Buttons
+        new Button(operatorController::getRightStickButton);
+        new Button(operatorController::getLeftStickButton);
+
+        // Triggers
+        new Trigger(() -> operatorController.getRightTriggerAxis() > 0.5)
+                .whenActive(() -> shooter.setVelocity(5200))
+                .whenInactive(() -> shooter.setVelocity(0));
+        new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.5)
+                .whenActive(() -> {}); // TODO: index control
     }
 
     private static double modifyAxis(double rawValue) {
