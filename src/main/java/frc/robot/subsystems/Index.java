@@ -17,10 +17,11 @@ import frc.robot.constants.kDIO;
 
 
 public class Index extends SubsystemBase {
-  public CANSparkMax motor;
-  public RelativeEncoder encoder;
-  public SparkMaxPIDController pidController;
-  public DigitalInput beambreak;
+  private CANSparkMax motor;
+  private RelativeEncoder encoder;
+  private SparkMaxPIDController pidController;
+  private DigitalInput beambreak;
+  private double ballsIndexed = 0;
 
   public Index() {
     motor = new CANSparkMax(kCANIDs.IDX_MOTOR, MotorType.kBrushless);
@@ -43,10 +44,27 @@ public class Index extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("A-Idx", motor.getOutputCurrent());
     SmartDashboard.putBoolean("Beam-Idx", beambreak.get());
+    SmartDashboard.putNumber("rotations", encoder.getPosition());
+   
   }
 
-  public void setReference(double rotations){
-    
+  public boolean isBallBlockingBeam(){
+    return !beambreak.get();
+  }
+
+  public double getIndexPosition(){
+    return encoder.getPosition();
+  }
+
+  public double getBallsIndexed(){
+    return ballsIndexed;
+  }
+
+  public void setBallsIndexed(double balls){
+    ballsIndexed = balls;
+  }
+
+  public void runClosedLoopPosition(double rotations){
     pidController.setReference(rotations, CANSparkMax.ControlType.kPosition);
   }
 
