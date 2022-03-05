@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
+import frc.robot.commands.acquisition.DefaultAcquisition;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kSwerve;
 import frc.robot.subsystems.*;
@@ -81,8 +82,9 @@ public class RobotContainer {
 
         // Colored buttons
         new Button(driverController::getAButton)
-                .whenPressed(() -> acquisition.setArmsExtended(!acquisition.getArmsExtended()));
-        new Button(driverController::getBButton);
+                .whenPressed(() -> acquisition.setRollerRPM(3800));
+        new Button(driverController::getBButton)
+                .whenPressed(() -> acquisition.setRollerRPM(0));
         new Button(driverController::getXButton);
         new Button(driverController::getYButton);
 
@@ -103,8 +105,8 @@ public class RobotContainer {
         // Triggers
         new Trigger(() -> driverController.getRightTriggerAxis() > 0.5); // TODO: Shoot command
         new Trigger(() -> driverController.getLeftTriggerAxis() > 0.5)
-                .whenActive(() -> acquisition.setRollerVelocity(3800))
-                .whenInactive(() -> acquisition.setRollerVelocity(0));
+                .whenActive(() -> acquisition.setRollerRPM(3800))
+                .whenInactive(() -> acquisition.setRollerRPM(0));
     }
 
     private void configureOperatorControllerBindings() {

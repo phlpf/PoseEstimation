@@ -1,7 +1,5 @@
-package frc.robot.commands;
-
+package frc.robot.commands.acquisition;
 import com.revrobotics.CANSparkMax.ControlType;
-
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -9,27 +7,24 @@ import frc.robot.subsystems.Acquisition;
 
 /** An example command that uses an example subsystem. */
 public class DefaultAcquisition extends CommandBase {
-  private final Acquisition subsystem;
-  
+  private final Acquisition acquisition;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public DefaultAcquisition(Acquisition subsystem) {
-    this.subsystem = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+  public DefaultAcquisition(Acquisition acquisition) {
+    this.acquisition = acquisition;
   }
 
-  
-
-// Called when the command is initially scheduled.
 
   // Called every time the scheduler runs while the command is scheduled.
   
-  public void execute() {}
+  public void execute(){
+    if (acquisition.getSetpointRPM() == 0) {
+      acquisition.stopRollersByVoltage();
+      acquisition.retractArms();
+  } else {
+    acquisition.extendArms();
+    acquisition.runClosedLoopRPM();
+  }
+}
 
   // Called once the command ends or is interrupted.
   @Override
