@@ -4,11 +4,9 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.utils.AutoUtils;
+import frc.robot.utils.AutoUtil;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -54,13 +52,10 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledPeriodic() {}
 
-    public Pose2d genPose2d(double x, double y, double theta){
-        return new Pose2d(x, y, new Rotation2d(theta));
-    }
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
     public void autonomousInit() {
-        // AutoUtils.generateCommand("Forward", 2, 1, robotContainer.drives).schedule();
+        robotContainer.runAutonomousRoutine(AutoUtil.Routine.FORWARD);
     }
 
     /** This function is called periodically during autonomous. */

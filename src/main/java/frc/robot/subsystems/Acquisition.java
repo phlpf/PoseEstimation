@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -10,9 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kPneumatics;
-
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMax.IdleMode;
 
 
 
@@ -60,7 +59,6 @@ public class Acquisition extends SubsystemBase {
   public void periodic() {
     
     if (getArmsExtended()) {
-      motor.set(setpointVelocity); // TODO: what?
       SmartDashboard.putNumber("acquisition/actual Velocity", encoder.getVelocity());
       setpointVelocity = SmartDashboard.getNumber("acquisition/setpoint Velocity", setpointVelocity);
       pid.setReference(setpointVelocity, ControlType.kVelocity);

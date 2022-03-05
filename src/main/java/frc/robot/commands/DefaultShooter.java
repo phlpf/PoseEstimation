@@ -4,27 +4,22 @@
 
 package frc.robot.commands;
 
-import com.revrobotics.CANSparkMax.ControlType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
-
-import java.util.function.BooleanSupplier;
 
 /** An example command that uses an example subsystem. */
 public class DefaultShooter extends CommandBase {
   private final Shooter subsystem;
   private double setpointVelocity = 0;
-  private BooleanSupplier isOnSupplier;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DefaultShooter(Shooter subsystem, BooleanSupplier isOnSupplier ) {
+  public DefaultShooter(Shooter subsystem) {
     this.subsystem = subsystem;
-    this.isOnSupplier = isOnSupplier;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -38,19 +33,6 @@ public class DefaultShooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    boolean isOn = isOnSupplier.getAsBoolean();
-    if(isOn){  
-      subsystem.motor.set(setpointVelocity);
-      SmartDashboard.putNumber("shooter/actual Velocity Shooter", subsystem.encoder.getVelocity());
-      setpointVelocity = SmartDashboard.getNumber("shooter/setpoint Velocity Shooter", setpointVelocity);
-      subsystem.pid.setReference(setpointVelocity, ControlType.kVelocity); // Do this in Shooter Subsystem
-    }
-    else{
-      setpointVelocity = 0;
-      subsystem.pid.setReference(setpointVelocity, ControlType.kVelocity); // Do not use velocity pid
-      // e.g.: subsystem.pid.setReference(0, ControlType.kVoltage)
-
-    }
   }
 
   // Called once the command ends or is interrupted.
