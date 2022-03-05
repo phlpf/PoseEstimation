@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
+import frc.robot.commands.CommandMoveAngle.CurrentLimit;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kClimb;
 import frc.robot.constants.kSwerve;
@@ -125,11 +126,13 @@ public class RobotContainer {
         new Button(debugController::getBButton)
                         .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.innerArm, 26)));
         new Button(debugController::getXButton)
-                        .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.innerArm, -27)));
+                        .whenPressed(new CommandMoveAngle(climber.outerArm, 100, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_EXACT));
         new Button(debugController::getYButton)
                         .whenPressed(new InstantCommand(() -> {climber.rotateArmTo(climber.innerArm, 0);climber.extendArm(climber.innerArm, kClimb.CLIMB_MIN_EXTEND);}));
         new Button(debugController::getBackButton)
                         .whenPressed(new InstantCommand(() -> climber.setToCoast()));
+        new Button(debugController::getLeftBumper)
+                        .whenPressed(new InstantCommand(() -> climber.setToBrake()));
         new Button(debugController::getStartButton)
                         .whenPressed(new ComplexInitializeClimb(climber));
         //new Button(debugController::getXButton)
