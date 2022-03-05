@@ -4,7 +4,10 @@
 
 package frc.robot;
 
+import java.time.Instant;
+
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -125,9 +128,11 @@ public class RobotContainer {
 
         // POV
         new POVButton(operatorController, 0); // TODO: Interrupt
-        new POVButton(operatorController, 90); //TODO: Climb sideways
+        new POVButton(operatorController, 90)
+                .whenPressed(new InstantCommand(() -> climber.moveSidewaysPOut(0.5))); //TODO: Climb sideways
         new POVButton(operatorController, 180);
-        new POVButton(operatorController, 270); //TODO: Climb sideways
+        new POVButton(operatorController, 270)
+                .whenPressed(new InstantCommand(() -> climber.moveSidewaysPOut(-0.5)));//TODO: Climb sideways
 
         // Bumpers
         new Button(operatorController::getRightBumper)

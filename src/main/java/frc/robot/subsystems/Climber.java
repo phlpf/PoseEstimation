@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -19,12 +22,14 @@ public class Climber extends SubsystemBase {
     public ClimberArm outerArm;
     public ClimberArm innerArm;
     private DoubleSolenoid hardBreak = new DoubleSolenoid(PneumaticsModuleType.REVPH, kPneumatics.CLIMB_BREAK_2, kPneumatics.CLIMB_BREAK_1);
+    private CANSparkMax sidewaysMover;
     public Climber() {
         innerArm = new ClimberArm(kCANIDs.INNER_ANGLE,kCANIDs.INNER_REACH, 
                     kClimb.climbAngleInner, kClimb.climbReachInner, false);
         outerArm = new ClimberArm(kCANIDs.OUTER_ANGLE,kCANIDs.OUTER_REACH, 
                     kClimb.climbAngleOuter, kClimb.climbReachOuter, true);
-        
+        sidewaysMover = new CANSparkMax(kCANIDs.SIDEWAYS_MOVER, MotorType.kBrushless);
+        hardBreak.set(Value.kForward);
     }
 
     public void extendArm(ClimberArm arm, double distance){
@@ -94,5 +99,8 @@ public class Climber extends SubsystemBase {
     }
     public void releaseBreak(){
         hardBreak.set(Value.kReverse);
+    }
+    public void moveSidewaysPOut(double percent){
+        sidewaysMover.set(percent);
     }
 }
