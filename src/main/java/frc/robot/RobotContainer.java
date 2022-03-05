@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kClimb;
@@ -36,7 +37,7 @@ public class RobotContainer {
     private final Climber climber = new Climber();
 
     private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
-    private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter, driverController::getAButton);
+    private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter);
     private final DefaultIndex defaultIndexCommand = new DefaultIndex(index, driverController::getLeftTriggerAxis);
 
 
@@ -65,7 +66,8 @@ public class RobotContainer {
 
         // Configure the button bindings
         configureDriverControllerBindings();
-        configureClimbController(debugController);
+        configureOperatorControllerBindings();
+        configureClimbController();
     }
 
     /**
@@ -78,37 +80,61 @@ public class RobotContainer {
         // Back button zeros the gyroscope
         new Button(driverController::getBackButton)
                         .whenPressed(drives::zeroGyroscope);
-        new Button(driverController::getXButton)
-                        .whenPressed(new InstantCommand(() -> {
-                            acquisition.setArmsExtended(!acquisition.getArmsExtended());
-                        }));
-        new Button (driverController::getYButton)
-                        .whenPressed(new InstantCommand(() -> {
-                            acquisition.setRollerVelocity(3800);
-                        }))
-                        .whenReleased(new InstantCommand(() -> {
-                            acquisition.setRollerVelocity(0);
-                        }));
+
+        // Colored buttons
+        new Button(driverController::getAButton)
+                .whenPressed(() -> acquisition.setArmsExtended(!acquisition.getArmsExtended()));
+
+        // Bumpers
+        new Button(driverController::getRightBumper)
+                .whenPressed(() -> {}); // TODO create shoot command
+        new Button(driverController::getLeftBumper)
+                .whenPressed(() -> acquisition.setRollerVelocity(-2600))
+                .whenReleased(() -> acquisition.setRollerVelocity(0));
+
+        // Triggers
+        new Trigger(() -> driverController.getLeftTriggerAxis() > 0.5)
+                .whenActive(() -> acquisition.setRollerVelocity(3800))
+                .whenInactive(() -> acquisition.setRollerVelocity(0));
     }
 
-    private void configureClimbController(XboxController controller){
-        new Button(controller::getAButton)
-                        .whenPressed((new CommandTestClimb(climber, controller))
-                                      .withInterrupt(controller::getLeftBumper)
+    private void configureOperatorControllerBindings() {
+        // Start/Back
+        new Button(operatorController::getBackButton)
+                .whenPressed(() -> {}); // TODO: create run everything backwards command
+
+        // Colored buttons
+
+        // Bumpers
+        new Button(operatorController::getRightBumper)
+                .whenPressed(() -> {}); // TODO: index control
+
+        // Triggers
+        new Trigger(() -> operatorController.getRightTriggerAxis() > 0.5)
+                .whenActive(() -> shooter.setVelocity(5200))
+                .whenInactive(() -> shooter.setVelocity(0));
+        new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.5)
+                .whenActive(() -> {}); // TODO: index control
+    }
+
+    private void configureClimbController(){
+        new Button(debugController::getAButton)
+                        .whenPressed((new CommandTestClimb(climber, debugController))
+                                      .withInterrupt(debugController::getLeftBumper)
                         );
-        new Button(controller::getBButton)
+        new Button(debugController::getBButton)
                         .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.innerArm, 26)));
-        new Button(controller::getXButton)
+        new Button(debugController::getXButton)
                         .whenPressed(new InstantCommand(() -> climber.rotateArmTo(climber.innerArm, -27)));
-        new Button(controller::getYButton)
+        new Button(debugController::getYButton)
                         .whenPressed(new InstantCommand(() -> {climber.rotateArmTo(climber.innerArm, 0);climber.extendArm(climber.innerArm, kClimb.CLIMB_MIN_EXTEND);}));
-        new Button(controller::getBackButton)
+        new Button(debugController::getBackButton)
                         .whenPressed(new InstantCommand(() -> climber.setToCoast()));
-        new Button(controller::getStartButton)
+        new Button(debugController::getStartButton)
                         .whenPressed(new ComplexInitializeClimb(climber));
-        //new Button(controller::getXButton)
+        //new Button(debugController::getXButton)
         //                 .whenPressed(() -> climber.extendArm(climber.innerArm, 23));
-        // new Button(controller::getYButton)
+        // new Button(debugController::getYButton)
         //                 .whenPressed(() -> climber.extendArm(climber.innerArm, 0));
     }
 
