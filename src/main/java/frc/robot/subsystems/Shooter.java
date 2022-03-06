@@ -42,6 +42,9 @@ public class Shooter extends SubsystemBase {
   public void setVelocity(double setpoint) {
     setpointVelocity = setpoint;
   }
+  public double getVelocity() {
+    return encoder.getVelocity();
+  }
 
   public void setPercentOut(double percent) {
     motor.set(percent);
