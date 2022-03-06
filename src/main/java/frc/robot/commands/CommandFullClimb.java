@@ -17,6 +17,7 @@ public class CommandFullClimb extends SequentialCommandGroup {
     addCommands(
       new CommandMoveAngle(climber.innerArm, -26, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL),
       new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MAX_EXTEND-2, true),
+      new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MIN_EXTEND+0.5, true),
       new CommandMoveAngle(climber.outerArm, 7, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL),
       
