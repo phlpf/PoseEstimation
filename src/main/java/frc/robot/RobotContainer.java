@@ -175,8 +175,17 @@ public class RobotContainer {
 
     public void runAutonomousRoutine(AutoUtil.Routine routine) {
         switch (routine) {
-            case FORWARD:
-                AutoUtil.generateCommand("Test", 1, 0.5, drives).schedule();
+            case FOUR_BALL:
+                AutoUtil.generateCommand("Four-Ball-1", 1, 0.5, drives).schedule();
+                break;
+            case THREE_BALL:
+                AutoUtil.generateCommand("Three-Ball-1", 1, 0.5, drives).schedule();
+                break;
+            case TWO_BALL:
+                AutoUtil.generateCommand("Northern-Two-Ball-1", 1, 0.5, drives).schedule();
+                break;
+            case POTATO:
+                AutoUtil.generateCommand("Potato", 1, 0.5, drives).schedule();
                 break;
         }
     }
