@@ -108,8 +108,7 @@ public class RobotContainer {
         // Triggers
         new Trigger(() -> driverController.getRightTriggerAxis() > 0.5); // TODO: Shoot command
         new Trigger(() -> driverController.getLeftTriggerAxis() > 0.5)
-                .whenActive(() -> acquisition.setRollerRPM(3800))
-                .whenInactive(() -> acquisition.setRollerRPM(0));
+                .whenActive(new ComplexShootBalls(shooter, index, acquisition));
 }
 
     private void configureOperatorControllerBindings() {
@@ -147,8 +146,7 @@ public class RobotContainer {
 
         // Triggers
         new Trigger(() -> operatorController.getRightTriggerAxis() > 0.5)
-                .whenActive(() -> shooter.setVelocity(5200))
-                .whenInactive(() -> shooter.setVelocity(0));
+                .whenActive(() -> shooter.setVelocity(5200));
         new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.5)
                 .whenActive(() -> {}); // TODO: index control
     }
