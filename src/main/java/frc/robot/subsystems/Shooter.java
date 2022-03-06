@@ -3,9 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-import com.revrobotics.CANSparkMax.ControlType;
-
-import javax.sql.rowset.serial.SerialArray;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -28,6 +25,7 @@ public class Shooter extends SubsystemBase {
   public Shooter() {
     motor = new CANSparkMax(kCANIDs.SHOOTER_MOTOR, MotorType.kBrushless);
     motor.restoreFactoryDefaults();
+    motor.setInverted(true);
     motor.setIdleMode(IdleMode.kCoast);
 
     encoder = motor.getEncoder();
@@ -43,6 +41,10 @@ public class Shooter extends SubsystemBase {
 
   public void setVelocity(double setpoint) {
     setpointVelocity = setpoint;
+  }
+
+  public void setPercentOut(double percent) {
+    motor.set(percent);
   }
 
   @Override

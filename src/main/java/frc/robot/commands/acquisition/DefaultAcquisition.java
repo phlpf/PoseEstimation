@@ -1,7 +1,5 @@
 package frc.robot.commands.acquisition;
-import com.revrobotics.CANSparkMax.ControlType;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Acquisition;
 
@@ -11,6 +9,7 @@ public class DefaultAcquisition extends CommandBase {
 
   public DefaultAcquisition(Acquisition acquisition) {
     this.acquisition = acquisition;
+    addRequirements(acquisition);
   }
 
 

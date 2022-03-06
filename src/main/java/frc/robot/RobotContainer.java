@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
-import frc.robot.commands.acquisition.CommandUnjamRollers;
 import frc.robot.commands.acquisition.DefaultAcquisition;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kSwerve;
@@ -57,7 +56,7 @@ public class RobotContainer {
         drives.setDefaultCommand(new DefaultDriveCommand(
                 drives,
                         () -> -modifyAxis(driverController.getLeftY()) * kSwerve.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
-                        () -> -modifyAxis(driverController.getLeftX()) * kSwerve.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
+                        () -> -modifyAxis(driverController.getLeftX()) * kSwerve.MAX_VELOCITY_METERS_PER_SECOND * 0.5,
                         () -> -modifyAxis(driverController.getRightX()) * kSwerve.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.2
         ));
 
@@ -88,8 +87,8 @@ public class RobotContainer {
                 .whenPressed(() -> acquisition.setRollerRPM(3800));
         new Button(driverController::getBButton)
                 .whenPressed(() -> acquisition.setRollerRPM(0));
-        new Button(driverController::getXButton)
-                .whenPressed(new CommandUnjamRollers(acquisition));
+        new Button(driverController::getXButton);
+                //.whenPressed(new CommandUnjamRollers(acquisition));
         new Button(driverController::getYButton);
 
         // POV

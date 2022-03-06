@@ -3,13 +3,9 @@
 // the WPILib BSD license file in the root directory of this project.
 // bring down arms, reverse rollers, bring up arms or change direction of rpllers to original
 package frc.robot.commands.acquisition;
-import com.revrobotics.CANSparkMax.ControlType;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Acquisition;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class CommandUnjamRollers extends CommandBase {
   private Acquisition acquisition;
@@ -25,7 +21,7 @@ public CommandUnjamRollers(Acquisition acquisition) {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
-//(┬┬﹏┬┬)
+
   double currentRollerRPM = acquisition.getSetpointRPM();
 
   @Override

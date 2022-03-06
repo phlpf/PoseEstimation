@@ -6,22 +6,21 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utils.ClimberArm;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kClimb;
 import frc.robot.constants.kPneumatics;
+import frc.robot.utils.ClimberArm;
 
 public class Climber extends SubsystemBase {
     /** Creates a new Climber. */
     public ClimberArm outerArm;
     public ClimberArm innerArm;
-    private DoubleSolenoid hardBreak = new DoubleSolenoid(PneumaticsModuleType.REVPH, kPneumatics.CLIMB_BREAK_2, kPneumatics.CLIMB_BREAK_1);
+    private DoubleSolenoid hardBreak = new DoubleSolenoid(kCANIDs.PNEUMATIC_HUB, PneumaticsModuleType.REVPH, kPneumatics.CLIMB_BREAK_2, kPneumatics.CLIMB_BREAK_1);
     private CANSparkMax sidewaysMover;
     public Climber() {
         innerArm = new ClimberArm(kCANIDs.INNER_ANGLE,kCANIDs.INNER_REACH, 
@@ -99,6 +98,9 @@ public class Climber extends SubsystemBase {
     }
     public void releaseBreak(){
         hardBreak.set(Value.kReverse);
+    }
+    public void extendBreak(){
+        hardBreak.set(Value.kForward);
     }
     public void moveSidewaysPOut(double percent){
         sidewaysMover.set(percent);
