@@ -64,6 +64,7 @@ public class RobotContainer {
         acquisition.setDefaultCommand(defaultAcquisitionCommand);
         shooter.setDefaultCommand(defaultShooterCommand);
         index.setDefaultCommand(defaultIndexCommand);
+        climber.setDefaultCommand(defaultClimberCommand);
 
         // Configure the button bindings
         configureDriverControllerBindings();
