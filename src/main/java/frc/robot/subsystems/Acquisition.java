@@ -1,5 +1,4 @@
 package frc.robot.subsystems;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -16,11 +15,11 @@ import frc.robot.constants.kPneumatics;
 
 
 public class Acquisition extends SubsystemBase {
-  double setpointVelocity = 0;
-  public CANSparkMax motor;
-  public RelativeEncoder encoder;
-  public SparkMaxPIDController pid;
-  public Solenoid arms = new Solenoid(kCANIDs.PNEUMATIC_HUB, PneumaticsModuleType.REVPH, kPneumatics.ACQ_ARMS);
+  private double setpointRPM = 0;
+  private CANSparkMax motor;
+  private RelativeEncoder encoder;
+  private SparkMaxPIDController pid;
+  private Solenoid arms = new Solenoid(kCANIDs.PNEUMATIC_HUB, PneumaticsModuleType.REVPH, kPneumatics.ACQ_ARMS);
   public Acquisition() {
     motor = new CANSparkMax(kCANIDs.ACQ_MOTOR, MotorType.kBrushless);
     motor.restoreFactoryDefaults();
@@ -37,36 +36,50 @@ public class Acquisition extends SubsystemBase {
     pid.setOutputRange(-1,1);    
   }
 
-  public void setArmsExtended(boolean isExtended) {
-    arms.set(isExtended);
+  /*public void setArmsExtended(boolean isExtended) {
+    arms.set(isExtended);}*/
+    /*public boolean getArmsExtended(){
+    return arms.get();
+  }*/
+  
+  
+  
+    public void extendArms(){
+    arms.set(true);
   }
-
-  public boolean getArmsExtended(){
+  public void retractArms(){
+    arms.set(false);
+  }
+  public boolean areArmsExtended(){
     return arms.get();
   }
 
-  public void setRollerVelocity(double setpoint) {
-    this.setpointVelocity = setpoint;
+  public void stopRollersByVoltage(){
+    motor.setVoltage(0);
+  }
+  
+  public void runClosedLoopRPM(){
+    pid.setReference(setpointRPM, ControlType.kVelocity);
   }
 
-  public double getRollerVelocity(){
-    return setpointVelocity;
+  public double getSetpointRPM(){
+    return setpointRPM;
+  }
+  public void setRollerRPM(double setpoint) {
+    this.setpointRPM = setpoint;
+  }
+  public double getRollerRPM(){
+    return encoder.getVelocity();
   }
 
 
   
   @Override
   public void periodic() {
-    
-    if (getArmsExtended()) {
-      SmartDashboard.putNumber("acquisition/actual Velocity", encoder.getVelocity());
-      setpointVelocity = SmartDashboard.getNumber("acquisition/setpoint Velocity", setpointVelocity);
-      pid.setReference(setpointVelocity, ControlType.kVelocity);
-    } else {
-      motor.set(0);
-    }
-
     SmartDashboard.putNumber("A-Acq", motor.getOutputCurrent());
+    SmartDashboard.putNumber("Acq-RPM", getRollerRPM());
+    SmartDashboard.putNumber("Acq-setpointRPM", getSetpointRPM());
+    SmartDashboard.putBoolean("Acq-armsOut", areArmsExtended());//make it green or red box
     // This method will be called once per scheduler run
   }
 

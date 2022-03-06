@@ -4,14 +4,14 @@
 
 package frc.robot;
 
-import java.time.Instant;
-
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
+import frc.robot.commands.acquisition.CommandUnjamRollers;
+import frc.robot.commands.acquisition.DefaultAcquisition;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kSwerve;
 import frc.robot.subsystems.*;
@@ -41,7 +41,6 @@ public class RobotContainer {
     private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter);
     private final DefaultIndex defaultIndexCommand = new DefaultIndex(index);
     private final DefaultClimber defaultClimberCommand = new DefaultClimber(climber, operatorController);
-
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -85,9 +84,11 @@ public class RobotContainer {
 
         // Colored buttons
         new Button(driverController::getAButton)
-                .whenPressed(() -> acquisition.setArmsExtended(!acquisition.getArmsExtended()));
-        new Button(driverController::getBButton);
-        new Button(driverController::getXButton);
+                .whenPressed(() -> acquisition.setRollerRPM(3800));
+        new Button(driverController::getBButton)
+                .whenPressed(() -> acquisition.setRollerRPM(0));
+        new Button(driverController::getXButton)
+                .whenPressed(new CommandUnjamRollers(acquisition));
         new Button(driverController::getYButton);
 
         // POV
@@ -107,9 +108,9 @@ public class RobotContainer {
         // Triggers
         new Trigger(() -> driverController.getRightTriggerAxis() > 0.5); // TODO: Shoot command
         new Trigger(() -> driverController.getLeftTriggerAxis() > 0.5)
-                .whenActive(() -> acquisition.setRollerVelocity(3800))
-                .whenInactive(() -> acquisition.setRollerVelocity(0));
-    }
+                .whenActive(() -> acquisition.setRollerRPM(3800))
+                .whenInactive(() -> acquisition.setRollerRPM(0));
+}
 
     private void configureOperatorControllerBindings() {
         // Start/Back
