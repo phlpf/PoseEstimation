@@ -39,7 +39,7 @@ public class DefaultIndex extends CommandBase {
     }
     if(!ballIsBreakingSensor && ballWasBreakingSensor){
       index.setBallsIndexed(index.getBallsIndexed()+1);//🤷‍♂️
-      ballIsBreakingSensor = false;
+      ballWasBreakingSensor = false;
     }
 
     if(ballIsBreakingSensor && index.getBallsIndexed() < 1){
