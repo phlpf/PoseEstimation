@@ -19,8 +19,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 public class ComplexInitializeClimb extends SequentialCommandGroup {
   /** Creates a new ComplexInitializeArm. */
   public ComplexInitializeClimb(Climber climber) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+    addRequirements(climber);
     addCommands(
       new InstantCommand(() -> climber.startInitialize()),
       new ParallelCommandGroup(

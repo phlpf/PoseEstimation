@@ -13,8 +13,7 @@ import frc.robot.subsystems.Climber;
 
 public class CommandFullClimb extends SequentialCommandGroup {
   public CommandFullClimb(Climber climber, XboxController gamepad) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+    addRequirements(climber);
     addCommands(
       new CommandMoveAngle(climber.innerArm, -26, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL),
       new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MAX_EXTEND-2, true),
@@ -29,7 +28,7 @@ public class CommandFullClimb extends SequentialCommandGroup {
         new InstantCommand(()-> climber.outerArm.moveAnglePOut(0)),
         new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MIN_EXTEND+4, true)
       ),
-      
+      new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       // TODO: UNTESTED COMMANDS
       // WAIT FOR FULL TEST TO USE
       new InstantCommand(()-> climber.outerArm.setAngleToBrake()),

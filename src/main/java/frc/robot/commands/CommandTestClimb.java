@@ -17,8 +17,7 @@ import frc.robot.subsystems.Climber;
 public class CommandTestClimb extends SequentialCommandGroup {
   /** Creates a new CommandClimb. */
   public CommandTestClimb(Climber climber, XboxController gamepad) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+    addRequirements(climber);
     addCommands(
       new CommandMoveAngle(climber.innerArm, -26, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL),
       new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),

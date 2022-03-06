@@ -40,6 +40,7 @@ public class RobotContainer {
     private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
     private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter);
     private final DefaultIndex defaultIndexCommand = new DefaultIndex(index, driverController::getLeftTriggerAxis);
+    private final DefaultClimber defaultClimberCommand = new DefaultClimber(climber, operatorController);
 
 
     /**
@@ -64,6 +65,7 @@ public class RobotContainer {
         acquisition.setDefaultCommand(defaultAcquisitionCommand);
         shooter.setDefaultCommand(defaultShooterCommand);
         index.setDefaultCommand(defaultIndexCommand);
+        climber.setDefaultCommand(defaultClimberCommand);
 
         // Configure the button bindings
         configureDriverControllerBindings();
