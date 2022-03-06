@@ -4,46 +4,49 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Index;
-
-import java.util.function.DoubleSupplier;
 
 /** An example command that uses an example subsystem. */
 public class DefaultIndex extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Index subsystem;
-  private final double rotations = 0;
-  private final DoubleSupplier rotationSupplier;
-
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public DefaultIndex(Index subsystem, DoubleSupplier rotationSupplier) {
-    this.subsystem = subsystem;
-    this.rotationSupplier = rotationSupplier;
+  private final Index index;
+  private final double minIndexIncrement = 1;
+  private boolean ballWasBreakingSensor;
+  
+  
+  public DefaultIndex(Index index) {
+    this.index = index;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    addRequirements(index);
   }
-
+  
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-   SmartDashboard.putNumber("rotations", subsystem.encoder.getPosition());
-     
+    //🤔
+    ballWasBreakingSensor = index.isBallBlockingBeam();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double rotationSpeed = rotationSupplier.getAsDouble();
-    double position =  subsystem.encoder.getPosition();
-    subsystem.setReference(position + rotationSpeed);
-  }
+    boolean ballIsBreakingSensor = index.isBallBlockingBeam();
+    if(ballIsBreakingSensor && !ballWasBreakingSensor){
+      System.out.print("SENSOR CHANGE!");
+      ballWasBreakingSensor = true;
+      index.runClosedLoopPosition(index.getIndexPosition() + minIndexIncrement);
+    }
+    if(!ballIsBreakingSensor && ballWasBreakingSensor){
+      index.setBallsIndexed(index.getBallsIndexed()+1);//🤷‍♂️
+      ballWasBreakingSensor = false;
+    }
 
+    if(ballIsBreakingSensor && index.getBallsIndexed() < 1){
+      index.runClosedLoopPosition(index.getIndexPosition() + minIndexIncrement);
+    }
+  }
+  
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
