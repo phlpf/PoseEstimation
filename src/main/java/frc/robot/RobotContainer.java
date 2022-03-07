@@ -55,9 +55,9 @@ public class RobotContainer {
         // Right stick X axis -> rotation
         drives.setDefaultCommand(new DefaultDriveCommand(
                 drives,
-                        () -> -modifyAxis(driverController.getLeftY()) * kSwerve.MAX_VELOCITY_METERS_PER_SECOND * 0.7,
-                        () -> -modifyAxis(driverController.getLeftX()) * kSwerve.MAX_VELOCITY_METERS_PER_SECOND * 0.5,
-                        () -> -modifyAxis(driverController.getRightX()) * kSwerve.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.2
+                        () -> -modifyAxis(driverController.getLeftY()) * kSwerve.MAX_VELOCITY_METERS_PER_SECOND * 1,
+                        () -> -modifyAxis(driverController.getLeftX()) * kSwerve.MAX_VELOCITY_METERS_PER_SECOND * 1,
+                        () -> -modifyAxis(driverController.getRightX()) * kSwerve.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 1
         ));
 
         acquisition.setDefaultCommand(defaultAcquisitionCommand);
@@ -146,7 +146,8 @@ public class RobotContainer {
 
         // Triggers
         new Trigger(() -> operatorController.getRightTriggerAxis() > 0.5)
-                .whenActive(() -> shooter.setVelocity(5200));
+                .whenActive(() -> shooter.setVelocity(5200))
+                .whenInactive(() -> shooter.setVelocity(0));
         new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.5)
                 .whenActive(() -> {}); // TODO: index control
     }
