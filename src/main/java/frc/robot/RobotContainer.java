@@ -39,7 +39,10 @@ public class RobotContainer {
     private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
     private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter);
     private final DefaultIndex defaultIndexCommand = new DefaultIndex(index);
-    private final DefaultClimber defaultClimberCommand = new DefaultClimber(climber, operatorController);
+
+    private final DefaultClimber defaultClimberCommand = new DefaultClimber(climber,
+                                                 () -> -operatorController.getRightY(), () -> -operatorController.getRightX(),
+                                                 () -> -operatorController.getLeftY(), () -> -operatorController.getLeftX());
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
