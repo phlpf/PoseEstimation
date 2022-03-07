@@ -4,14 +4,12 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
 /** An example command that uses an example subsystem. */
 public class DefaultShooter extends CommandBase {
   private final Shooter subsystem;
-  private double setpointVelocity = 0;
 
   /**
    * Creates a new ExampleCommand.
@@ -27,7 +25,7 @@ public class DefaultShooter extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    SmartDashboard.putNumber("shooter/setpoint Velocity Shooter", setpointVelocity);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.

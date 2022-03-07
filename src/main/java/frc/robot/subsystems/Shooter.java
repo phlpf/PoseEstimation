@@ -54,6 +54,7 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("A-Sht", motor.getOutputCurrent());
     SmartDashboard.putNumber("shooter/actual Velocity Shooter", encoder.getVelocity());
+    SmartDashboard.putNumber("shooter/setpoint Velocity Shooter", setpointVelocity);
     pid.setReference(setpointVelocity, CANSparkMax.ControlType.kVelocity);
   }
 

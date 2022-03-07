@@ -89,7 +89,8 @@ public class RobotContainer {
                 .whenPressed(() -> acquisition.setRollerRPM(0));
         new Button(driverController::getXButton);
                 //.whenPressed(new CommandUnjamRollers(acquisition));
-        new Button(driverController::getYButton);
+        new Button(driverController::getYButton)
+                .whenPressed(new CommandIndexBalls(index, 1));
 
         // POV
         new POVButton(driverController, 0);
