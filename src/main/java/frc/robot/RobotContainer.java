@@ -98,18 +98,20 @@ public class RobotContainer {
         new POVButton(driverController, 270);
 
         // Bumpers
-        new Button(driverController::getRightBumper);
-        new Button(driverController::getLeftBumper);
+        new Button(driverController::getRightBumper)
+                .whenPressed(() -> acquisition.setRollerRPM(3800));
+        new Button(driverController::getLeftBumper)
+                .whenInactive(() -> acquisition.setRollerRPM(0));
 
         // Joystick Buttons
         new Button(driverController::getRightStickButton);
         new Button(driverController::getLeftStickButton);
 
         // Triggers
-        new Trigger(() -> driverController.getRightTriggerAxis() > 0.5); // TODO: Shoot command
-        new Trigger(() -> driverController.getLeftTriggerAxis() > 0.5)
+        new Trigger(() -> driverController.getRightTriggerAxis() > 0.5)
                 .whenActive(new ComplexShootBalls(shooter, index, acquisition));
-}
+        new Trigger(() -> driverController.getLeftTriggerAxis() > 0.5);
+    }
 
     private void configureOperatorControllerBindings() {
         // Start/Back
@@ -137,8 +139,9 @@ public class RobotContainer {
 
         // Bumpers
         new Button(operatorController::getRightBumper)
-                .whenPressed(() -> {}); // TODO: index control
-        new Button(operatorController::getLeftBumper);
+                .whenPressed(() -> acquisition.setRollerRPM(3800));
+        new Button(operatorController::getLeftBumper)
+                .whenInactive(() -> acquisition.setRollerRPM(0));
 
         // Joystick Buttons
         new Button(operatorController::getRightStickButton);
