@@ -8,6 +8,8 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.constants.kAuto;
 import frc.robot.subsystems.Drives;
 
@@ -23,14 +25,17 @@ public class AutoUtil {
     public static Command generateCommand(String pathName, double maxVelocity, double maxAcceleration, Drives drives) {
         PathPlannerTrajectory path = PathPlanner.loadPath(pathName, maxVelocity, maxAcceleration);
 
-        return new PPSwerveControllerCommand(
-                path,
-                drives::getPose,
-                drives.kinematics,
-                kAuto.LEFT_PID_CONTROLLER,
-                kAuto.RIGHT_PID_CONTROLLER,
-                kAuto.THETA_PID_CONTROLLER,
-                drives::updateModules
+        return new SequentialCommandGroup(
+                new InstantCommand(() -> drives.setOdometryRotation(path.getInitialPose().getRotation())),
+                new PPSwerveControllerCommand(
+                    path,
+                    drives::getPose,
+                    drives.kinematics,
+                    kAuto.LEFT_PID_CONTROLLER,
+                    kAuto.RIGHT_PID_CONTROLLER,
+                    kAuto.THETA_PID_CONTROLLER,
+                    drives::updateModules
+                )
         );
     }
 }

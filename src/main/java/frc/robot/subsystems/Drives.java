@@ -53,6 +53,8 @@ public class Drives extends SubsystemBase {
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
     public Drives() {
+        pigeon.reset();
+
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Front Left Module", BuiltInLayouts.kList)
@@ -112,8 +114,8 @@ public class Drives extends SubsystemBase {
         return Rotation2d.fromDegrees(pigeon.getYaw());
     }
 
-    public Rotation2d getDesiredRotation(){
-        return new Rotation2d(1, 0);
+    public void setOdometryRotation(Rotation2d rotation) {
+        odometry.resetPosition(new Pose2d(odometry.getPoseMeters().getTranslation(), rotation), getGyroscopeRotation());
     }
 
     public Pose2d getPose() {
@@ -139,5 +141,7 @@ public class Drives extends SubsystemBase {
         updateModules(states);
         odometry.update(getGyroscopeRotation(), states);
         //TODO: add current for all module motors
+
+        SmartDashboard.putNumber("Drives-Gyro", getGyroscopeRotation().getDegrees());
     }
 }

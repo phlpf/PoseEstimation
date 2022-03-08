@@ -6,6 +6,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -29,8 +31,8 @@ public class RobotContainer {
 
     private final XboxController driverController = new XboxController(0);
     private final XboxController operatorController = new XboxController(1);
-
     private final Drives drives = new Drives();
+
     private final Acquisition acquisition = new Acquisition();
     private final Shooter shooter = new Shooter();
     private final Index index = new Index();
@@ -179,7 +181,13 @@ public class RobotContainer {
     public void runAutonomousRoutine(AutoUtil.Routine routine) {
         switch (routine) {
             case FOUR_BALL:
-                AutoUtil.generateCommand("Four-Ball-1", 1, 0.5, drives).schedule();
+                new SequentialCommandGroup(
+                    AutoUtil.generateCommand("Four-Ball-1", 1, 0.5, drives),
+                    new WaitCommand(2),
+                    AutoUtil.generateCommand("Four-Ball-2", 1, 0.5, drives),
+                    new WaitCommand(2),
+                    AutoUtil.generateCommand("Four-Ball-3", 1, 0.5, drives)
+                ).schedule();
                 break;
             case THREE_BALL:
                 AutoUtil.generateCommand("Three-Ball-1", 1, 0.5, drives).schedule();
@@ -188,7 +196,7 @@ public class RobotContainer {
                 AutoUtil.generateCommand("Northern-Two-Ball-1", 1, 0.5, drives).schedule();
                 break;
             case POTATO:
-                AutoUtil.generateCommand("Potato", 1, 0.5, drives).schedule();
+                AutoUtil.generateCommand("Forward", 2, 1.5, drives).schedule();
                 break;
         }
     }
