@@ -37,21 +37,22 @@ public class CommandTestClimb extends SequentialCommandGroup {
       new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       new SequentialCommandGroup(     
         new CommandMoveAngleDebounced(climber.innerArm, 0, CurrentLimit.BOTH, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL, kClimb.INNER_NOLOAD_STALL_CURRENT_ANGLE),
-        new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MIN_EXTEND+0, true, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
+        new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MIN_EXTEND, true, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
         new InstantCommand(()-> climber.outerArm.setAngleToCoast()),
         new InstantCommand(()-> climber.outerArm.moveAnglePOut(0)),
-        new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MIN_EXTEND+0, true)
+        new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MIN_EXTEND, true)
       ),
-      new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
-      new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MIN_EXTEND+6, true, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
       new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       
       // TODO: UNTESTED COMMANDS
       // WAIT FOR FULL TEST TO USE
       new InstantCommand(()-> climber.outerArm.setAngleToBrake()),
+      new CommandMoveAngle(climber.outerArm, 5, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL),
+      new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MIN_EXTEND+4, true),
       new CommandMoveAngle(climber.outerArm, -26, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL),
+      new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MIN_EXTEND, true),
       new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
-      new CommandMoveAngle(climber.innerArm, 7, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL),
+      new CommandMoveAngle(climber.innerArm, 7, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_EXACT),
       new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       
       new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MAX_EXTEND, true, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
@@ -63,7 +64,9 @@ public class CommandTestClimb extends SequentialCommandGroup {
         new InstantCommand(()-> climber.innerArm.setAngleToCoast()),
         new InstantCommand(()-> climber.innerArm.moveAnglePOut(0)),
         new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MIN_EXTEND+4, true)
-      )
+      ),
+      new CommandMoveAngle(climber.innerArm, 0, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL)
+      
     );
   }
 }   

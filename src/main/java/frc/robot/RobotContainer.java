@@ -133,7 +133,8 @@ public class RobotContainer {
         new Button(operatorController::getYButton);
 
         // POV
-        new POVButton(operatorController, 0); // TODO: Interrupt
+        new POVButton(operatorController, 0)
+                .whenPressed(new CommandOnCancelClimb(climber, drives)); // TODO: Interrupt
         new POVButton(operatorController, 90)
                 .whenPressed(new InstantCommand(() -> climber.moveSidewaysPOut(0.5))); //TODO: Climb sideways
         new POVButton(operatorController, 180);
