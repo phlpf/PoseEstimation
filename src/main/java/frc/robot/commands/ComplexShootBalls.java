@@ -21,11 +21,11 @@ public class ComplexShootBalls extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new InstantCommand(() -> acquisition.setRollerRPM(0)),
-      new CommandRunShooter(shooter, 1000),
+      new CommandRunShooter(shooter, 3000),
       new CommandIndexBalls(index, 2),
       new WaitCommand(3),
       new InstantCommand(() -> index.setBallsIndexed(0)),
-      new InstantCommand(() -> shooter.setVelocity(0))
+      new InstantCommand(() -> shooter.setPercentOut(0))
     );
   }
 }

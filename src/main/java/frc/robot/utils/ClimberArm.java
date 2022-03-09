@@ -158,7 +158,7 @@ public class ClimberArm {
     public void startInitialize(){
         disableAngleSoftLimits();
         disableReachSoftLimits();
-        anglePidController.setOutputRange(-0.3, 0.3);
+        anglePidController.setOutputRange(-0.5, 0.5);
         angleMotor.setClosedLoopRampRate(2);
         
         reachPidController.setOutputRange(-0.35, 0.35);

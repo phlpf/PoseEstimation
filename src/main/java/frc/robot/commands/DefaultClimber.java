@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Climber;
 
 public class DefaultClimber extends CommandBase {
@@ -27,10 +28,10 @@ public class DefaultClimber extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        climber.innerArm.moveReachPOut(gamepad.getRightY());
-        climber.innerArm.moveAnglePOut(gamepad.getRightX());
-        climber.outerArm.moveReachPOut(gamepad.getLeftY());
-        climber.outerArm.moveAnglePOut(gamepad.getLeftX());
+        climber.innerArm.moveReachPOut(RobotContainer.modifyAxis(gamepad.getRightY()));
+        climber.innerArm.moveAnglePOut(RobotContainer.modifyAxis(gamepad.getRightX()));
+        climber.outerArm.moveReachPOut(RobotContainer.modifyAxis(gamepad.getLeftY()));
+        climber.outerArm.moveAnglePOut(RobotContainer.modifyAxis(gamepad.getLeftX()));
         
     }
 
