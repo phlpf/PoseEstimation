@@ -33,7 +33,7 @@ public class Drives extends SubsystemBase {
     private final SwerveModule frontRightModule;
     private final SwerveModule backLeftModule;
     private final SwerveModule backRightModule;
-
+    private boolean runDrive = true;
     
     public final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
                     // Front Right
@@ -132,14 +132,18 @@ public class Drives extends SubsystemBase {
     public void drive(ChassisSpeeds chassisSpeeds) {
         this.chassisSpeeds = chassisSpeeds;
     }
-
+    public void setRunDrives(boolean runDrives){
+        this.runDrive = runDrives;
+    }
     @Override
     public void periodic() {
-        states = kinematics.toSwerveModuleStates(chassisSpeeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
+        if(runDrive){
+            states = kinematics.toSwerveModuleStates(chassisSpeeds);
+            SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
 
-        updateModules(states);
-        odometry.update(getGyroscopeRotation(), states);
+            updateModules(states);
+            odometry.update(getGyroscopeRotation(), states);
+        }
         //TODO: add current for all module motors
 
         SmartDashboard.putNumber("Drives-Gyro", getGyroscopeRotation().getDegrees());

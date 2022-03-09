@@ -41,7 +41,10 @@ public class RobotContainer {
     private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
     private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter);
     private final DefaultIndex defaultIndexCommand = new DefaultIndex(index);
-    private final DefaultClimber defaultClimberCommand = new DefaultClimber(climber, operatorController);
+
+    private final DefaultClimber defaultClimberCommand = new DefaultClimber(climber,
+                                                 () -> -operatorController.getRightY()*0.4, () -> operatorController.getRightX()*0.4,
+                                                 () -> -operatorController.getLeftY()*0.4, () -> operatorController.getLeftX()*0.4);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -121,11 +124,11 @@ public class RobotContainer {
         new Button(operatorController::getStartButton)
                 .whenPressed(new ComplexInitializeClimb(climber));
         new Button(operatorController::getBackButton)
-                .whenPressed(() -> climber.releaseBreak());
+                .whenPressed(() -> climber.releaseLock());
 
         // Colored buttons
         new Button(operatorController::getAButton)
-                .whenPressed((new CommandTestClimb(climber, operatorController))
+                .whenPressed((new CommandTestClimb(climber, drives, operatorController))
                         .withInterrupt(() -> operatorController.getPOV() == 0)
                 );
         new Button(operatorController::getBButton);
@@ -133,7 +136,8 @@ public class RobotContainer {
         new Button(operatorController::getYButton);
 
         // POV
-        new POVButton(operatorController, 0); // TODO: Interrupt
+        new POVButton(operatorController, 0)
+                .whenPressed(new CommandOnCancelClimb(climber, drives)); // TODO: Interrupt
         new POVButton(operatorController, 90)
                 .whenPressed(new InstantCommand(() -> climber.moveSidewaysPOut(0.5))); //TODO: Climb sideways
         new POVButton(operatorController, 180);

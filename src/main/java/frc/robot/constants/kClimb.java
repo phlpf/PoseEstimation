@@ -74,8 +74,8 @@ public  class kClimb {
     public static final double CLIMB_ANGLE_ALLOWED_ERROR_EXACT = 0.25; 
     public static final double CLIMB_ANGLE_ALLOWED_ERROR_GENERAL = 2; 
 
-    public static final double INNER_NOLOAD_STALL_CURRENT_REACH = 18;
-    public static final double INNER_NOLOAD_STALL_CURRENT_ANGLE = 9;
+    public static final double INNER_NOLOAD_STALL_CURRENT_REACH = 20;
+    public static final double INNER_NOLOAD_STALL_CURRENT_ANGLE = 10;
     public static final int ANGLE_SMART_CURRENT = 5;
 }
 

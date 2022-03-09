@@ -20,7 +20,7 @@ public class Climber extends SubsystemBase {
     /** Creates a new Climber. */
     public ClimberArm outerArm;
     public ClimberArm innerArm;
-    private DoubleSolenoid hardBreak = new DoubleSolenoid(kCANIDs.PNEUMATIC_HUB, PneumaticsModuleType.REVPH, kPneumatics.CLIMB_BREAK_2, kPneumatics.CLIMB_BREAK_1);
+    private DoubleSolenoid lock = new DoubleSolenoid(kCANIDs.PNEUMATIC_HUB, PneumaticsModuleType.REVPH, kPneumatics.CLIMB_BREAK_2, kPneumatics.CLIMB_BREAK_1);
     private CANSparkMax sidewaysMover;
     public Climber() {
         innerArm = new ClimberArm(kCANIDs.INNER_ANGLE,kCANIDs.INNER_REACH, 
@@ -28,7 +28,7 @@ public class Climber extends SubsystemBase {
         outerArm = new ClimberArm(kCANIDs.OUTER_ANGLE,kCANIDs.OUTER_REACH, 
                     kClimb.climbAngleOuter, kClimb.climbReachOuter, true);
         sidewaysMover = new CANSparkMax(kCANIDs.SIDEWAYS_MOVER, MotorType.kBrushless);
-        hardBreak.set(Value.kForward);
+        lock.set(Value.kForward);
     }
 
     public void extendArm(ClimberArm arm, double distance){
@@ -88,19 +88,17 @@ public class Climber extends SubsystemBase {
     public void startInitialize(){
         innerArm.startInitialize();
         outerArm.startInitialize();
-        releaseBreak();
+        releaseLock();
     }
     public void endInitialize(){
         innerArm.endInitialize();
         outerArm.endInitialize();
-        innerArm.setAngleToCoast();
-        outerArm.setAngleToCoast();
     }
-    public void releaseBreak(){
-        hardBreak.set(Value.kReverse);
+    public void releaseLock(){
+        lock.set(Value.kReverse);
     }
     public void extendBreak(){
-        hardBreak.set(Value.kForward);
+        lock.set(Value.kForward);
     }
     public void moveSidewaysPOut(double percent){
         sidewaysMover.set(percent);
