@@ -47,6 +47,10 @@ public class Shooter extends SubsystemBase {
 
   public void setVelocity(double setpoint) {
     setpointVelocity = setpoint;
+    if(setpointVelocity != 0)
+      pid.setReference(setpointVelocity, CANSparkMax.ControlType.kVelocity);
+    else
+      motor.set(0);
   }
   public double getVelocity() {
     return encoder.getVelocity();
@@ -61,7 +65,6 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("A-Sht", motor.getOutputCurrent());
     SmartDashboard.putNumber("shooter/actual Velocity Shooter", encoder.getVelocity());
     SmartDashboard.putNumber("shooter/setpoint Velocity Shooter", setpointVelocity);
-    pid.setReference(setpointVelocity, CANSparkMax.ControlType.kVelocity);
   }
 
   @Override

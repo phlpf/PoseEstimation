@@ -89,7 +89,7 @@ public class RobotContainer {
 
         // Colored buttons
         new Button(driverController::getAButton)
-                .whenPressed(() -> acquisition.setRollerRPM(3800));
+                .whenPressed(() -> acquisition.setRollerRPM(5000));
         new Button(driverController::getBButton)
                 .whenPressed(() -> acquisition.setRollerRPM(0));
         new Button(driverController::getXButton);
@@ -115,7 +115,7 @@ public class RobotContainer {
 
         // Triggers
         new Trigger(() -> driverController.getRightTriggerAxis() > 0.5)
-                .whenActive(new ComplexShootBalls(shooter, index, acquisition));
+                .whenActive(new ComplexShootBalls(shooter, index, acquisition), false);
         new Trigger(() -> driverController.getLeftTriggerAxis() > 0.5);
     }
 
@@ -162,7 +162,7 @@ public class RobotContainer {
                 .whenActive(() -> {}); // TODO: index control
     }
 
-    private static double modifyAxis(double rawValue) {
+    public static double modifyAxis(double rawValue) {
         // Deadband
         double deadband = 0.05;
         double computedValue = rawValue;
