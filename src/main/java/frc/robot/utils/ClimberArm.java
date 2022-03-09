@@ -5,14 +5,13 @@
 package frc.robot.utils;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
+import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import edu.wpi.first.math.controller.PIDController;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -39,12 +38,22 @@ public class ClimberArm {
         angleMotor.setInverted(false);
         angleMotor.setIdleMode(IdleMode.kBrake);
         angleMotor.setClosedLoopRampRate(2);
+        angleMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 1000);
+        angleMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 1000);
+        angleMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 20);
+        angleMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, 1000);
+        angleMotor.setControlFramePeriodMs(20);
 
         reachMotor = new CANSparkMax(reachId, MotorType.kBrushless);
         reachMotor.restoreFactoryDefaults();
         reachMotor.setInverted(isReversedReach);
         reachMotor.setIdleMode(IdleMode.kBrake);
         reachMotor.setClosedLoopRampRate(0.25);
+        reachMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 1000);
+        reachMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 1000);
+        reachMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 20);
+        reachMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, 1000);
+        reachMotor.setControlFramePeriodMs(20);
 
         angleEncoder = angleMotor.getEncoder();
         angleEncoder.setPosition(0);
