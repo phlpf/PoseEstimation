@@ -31,6 +31,7 @@ public class CanCoderFactoryBuilder {
             config.initializationStrategy = configuration.getInitStrategy();
 
             CANCoder encoder = new CANCoder(configuration.getId());
+            encoder.configFactoryDefault();
             CtreUtils.checkCtreError(encoder.configAllSettings(config, 250), "Failed to configure CANCoder");
 
             CtreUtils.checkCtreError(encoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, periodMilliseconds, 250), "Failed to configure CANCoder update rate");
@@ -39,7 +40,7 @@ public class CanCoderFactoryBuilder {
         };
     }
 
-    private static class EncoderImplementation implements AbsoluteEncoder {
+    public static class EncoderImplementation implements AbsoluteEncoder {
         private final int ATTEMPTS = 3; // TODO: Allow changing number of tries for getting correct position
 
         private final CANCoder encoder;
@@ -68,6 +69,10 @@ public class CanCoderFactoryBuilder {
             }
 
             return angle;
+        }
+
+        public CANCoder getEncoder() {
+            return encoder;
         }
     }
 

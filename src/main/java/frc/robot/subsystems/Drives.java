@@ -4,8 +4,14 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.StatusFrame;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.CANCoderStatusFrame;
+import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SwerveModule;
+import com.swervedrivespecialties.swervelib.ctre.CanCoderFactoryBuilder;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -53,7 +59,15 @@ public class Drives extends SubsystemBase {
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
     public Drives() {
+        pigeon.configFactoryDefault();
         pigeon.reset();
+        pigeon.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_1_General, 1000);
+        pigeon.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_3_GeneralAccel, 300);
+        pigeon.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_6_SensorFusion, 20);
+        pigeon.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_9_SixDeg_YPR, 20);
+        pigeon.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_10_SixDeg_Quat, 200);
+        pigeon.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_11_GyroAccum, 40);
+
 
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -67,6 +81,8 @@ public class Drives extends SubsystemBase {
                         kSwerve.FRONT_LEFT_MODULE_STEER_OFFSET
         );
 
+        setupModule(frontLeftModule);
+
         frontRightModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Front Right Module", BuiltInLayouts.kList)
                                         .withSize(2, 4)
@@ -77,6 +93,8 @@ public class Drives extends SubsystemBase {
                         kCANIDs.FRONT_RIGHT_CANCODER,
                         kSwerve.FRONT_RIGHT_MODULE_STEER_OFFSET
         );
+
+        setupModule(frontRightModule);
 
         backLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Back Left Module", BuiltInLayouts.kList)
@@ -89,6 +107,8 @@ public class Drives extends SubsystemBase {
                         kSwerve.REAR_LEFT_MODULE_STEER_OFFSET
         );
 
+        setupModule(backLeftModule);
+
         backRightModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Back Right Module", BuiltInLayouts.kList)
                                         .withSize(2, 4)
@@ -99,6 +119,8 @@ public class Drives extends SubsystemBase {
                         kCANIDs.REAR_RIGHT_CANCODER,
                         kSwerve.REAR_RIGHT_MODULE_STEER_OFFSET
         );
+
+        setupModule(backRightModule);
         
     }
 
@@ -135,6 +157,24 @@ public class Drives extends SubsystemBase {
     public void setRunDrives(boolean runDrives){
         this.runDrive = runDrives;
     }
+
+    private void setupModule(SwerveModule module) {
+        TalonFX driveMotor = ((TalonFX)module.getDriveMotor());
+        driveMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 1000);
+        driveMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+        driveMotor.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 100);
+        driveMotor.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
+
+        TalonFX angleMotor = ((TalonFX)module.getDriveMotor());
+        angleMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 1000);
+        angleMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+        angleMotor.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 100);
+        angleMotor.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
+
+        CANCoder canCoder = ((CanCoderFactoryBuilder.EncoderImplementation)module.getSteerEncoder()).getEncoder();
+        canCoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 20);
+    }
+
     @Override
     public void periodic() {
         if(runDrive){
