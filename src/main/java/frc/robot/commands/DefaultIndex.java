@@ -11,7 +11,7 @@ import frc.robot.subsystems.Index;
 public class DefaultIndex extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Index index;
-  private final double minIndexIncrement = 1;
+  private final double minIndexIncrement = 0.5;
   private boolean ballWasBreakingSensor;
   
   
