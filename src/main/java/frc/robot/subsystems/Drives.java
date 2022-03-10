@@ -54,7 +54,7 @@ public class Drives extends SubsystemBase {
 
     private final PigeonWrapper pigeon = new PigeonWrapper(kCANIDs.DRIVETRAIN_PIGEON_ID);
 
-    private final SwerveDriveOdometry odometry = new SwerveDriveOdometry(kinematics, getGyroscopeRotation(), new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
+    private final SwerveDriveOdometry odometry;
     
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
@@ -68,6 +68,7 @@ public class Drives extends SubsystemBase {
         pigeon.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_10_SixDeg_Quat, 200);
         pigeon.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_11_GyroAccum, 40);
 
+        odometry = new SwerveDriveOdometry(kinematics, getGyroscopeRotation(), new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
 
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -136,8 +137,8 @@ public class Drives extends SubsystemBase {
         return pigeon.getRotation2d();
     }
 
-    public void setOdometryRotation(Rotation2d rotation) {
-        odometry.resetPosition(new Pose2d(odometry.getPoseMeters().getTranslation(), rotation), getGyroscopeRotation());
+    public void setOdometryRotation(Pose2d pose) {
+        odometry.resetPosition(pose, getGyroscopeRotation());
     }
 
     public Pose2d getPose() {
@@ -160,10 +161,6 @@ public class Drives extends SubsystemBase {
 
     private void setupModule(SwerveModule module) {
         TalonFX driveMotor = ((TalonFX)module.getDriveMotor());
-        driveMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 1000);
-        driveMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
-        driveMotor.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 100);
-        driveMotor.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
 
         TalonFX angleMotor = ((TalonFX)module.getDriveMotor());
         angleMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 1000);
@@ -187,5 +184,12 @@ public class Drives extends SubsystemBase {
         //TODO: add current for all module motors
 
         SmartDashboard.putNumber("Drives-Gyro", getGyroscopeRotation().getDegrees());
+
+        SmartDashboard.putNumber("FR-D-Temp", ((TalonFX)frontRightModule.getDriveMotor()).getSupplyCurrent());
+        SmartDashboard.putNumber("FL-D-Temp", ((TalonFX)frontLeftModule.getDriveMotor()).getSupplyCurrent());
+        SmartDashboard.putNumber("BR-D-Temp", ((TalonFX)backRightModule.getDriveMotor()).getSupplyCurrent());
+        SmartDashboard.putNumber("BL-D-Temp", ((TalonFX)backLeftModule.getDriveMotor()).getSupplyCurrent());
+
+        SmartDashboard.putString("Odometry", odometry.getPoseMeters().toString());
     }
 }
