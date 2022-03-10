@@ -200,7 +200,10 @@ public class RobotContainer {
                 AutoUtil.generateCommand("Northern-Two-Ball-1", 1, 0.5, drives).schedule();
                 break;
             case POTATO:
-                AutoUtil.generateCommand("Forward", 2, 1.5, drives).schedule();
+                new SequentialCommandGroup(
+                        new ComplexShootBalls(shooter, index, acquisition),
+                        AutoUtil.generateCommand("Potato", 2, 1.5, drives)
+                ).schedule();
                 break;
         }
     }
