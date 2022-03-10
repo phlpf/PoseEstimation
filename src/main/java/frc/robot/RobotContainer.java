@@ -73,6 +73,8 @@ public class RobotContainer {
         // Configure the button bindings
         configureDriverControllerBindings();
         configureOperatorControllerBindings();
+
+        //TODO: add init function
     }
 
     /**
@@ -89,11 +91,13 @@ public class RobotContainer {
 
         // Colored buttons
         new Button(driverController::getAButton);
-        new Button(driverController::getBButton);
+        new Button(driverController::getBButton)
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition), false);
         new Button(driverController::getXButton);
                 //.whenPressed(new CommandUnjamRollers(acquisition));
         new Button(driverController::getYButton)
-                .whenPressed(new CommandIndexBalls(index, 1));
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition), false);
+
 
         // POV
         new POVButton(driverController, 0);
@@ -112,8 +116,7 @@ public class RobotContainer {
         new Button(driverController::getLeftStickButton);
 
         // Triggers
-        new Trigger(() -> driverController.getRightTriggerAxis() > 0.5)
-                .whenActive(new ComplexShootBalls(shooter, index, acquisition), false);
+        new Trigger(() -> driverController.getRightTriggerAxis() > 0.5);
         new Trigger(() -> driverController.getLeftTriggerAxis() > 0.5);
     }
 
@@ -129,9 +132,11 @@ public class RobotContainer {
                 .whenPressed((new CommandTestClimb(climber, drives, operatorController))
                         .withInterrupt(() -> operatorController.getPOV() == 0)
                 );
-        new Button(operatorController::getBButton);
+        new Button(operatorController::getBButton)
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition), false);
         new Button(operatorController::getXButton); //TODO: Shoot 1 ball
-        new Button(operatorController::getYButton);
+        new Button(operatorController::getYButton)
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition), false);
 
         // POV
         new POVButton(operatorController, 0)

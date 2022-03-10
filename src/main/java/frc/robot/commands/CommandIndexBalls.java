@@ -19,7 +19,7 @@ public class CommandIndexBalls extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    index.runClosedLoopPosition(index.getIndexPosition() + balls);
+    index.runClosedLoopPosition(index.getIndexPosition() + balls*10);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

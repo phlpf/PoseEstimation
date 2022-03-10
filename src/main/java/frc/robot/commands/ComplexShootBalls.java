@@ -20,8 +20,8 @@ public class ComplexShootBalls extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new InstantCommand(() -> acquisition.setRollerRPM(0)),
-      new CommandRunShooter(shooter, 3000),
+      new InstantCommand(() -> acquisition.setRollerRPM(100)),
+      new CommandRunShooter(shooter, 4000),
       new CommandIndexBalls(index, 2),
       new WaitCommand(3),
       new InstantCommand(() -> index.setBallsIndexed(0)),
