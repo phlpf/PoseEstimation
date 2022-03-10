@@ -39,8 +39,8 @@ public  class kClimb {
         3,
         0.0,
         0.0,
-        -0.5,
-        0.5
+        -1,
+        1
         );
     public static final ClimberPid climbAngleOuter = new ClimberPid(0.05,
         0,
@@ -54,8 +54,8 @@ public  class kClimb {
         3,
         0.0,
         0.0,
-        -0.5,
-        0.5);// TODO: Add real values
+        -1,
+        1);// TODO: Add real values
     public static void addPidToMotor(SparkMaxPIDController controller, ClimberPid pid){
         controller.setP(pid.p);
         controller.setI(pid.i);
@@ -75,7 +75,8 @@ public  class kClimb {
     public static final double CLIMB_ANGLE_ALLOWED_ERROR_GENERAL = 2; 
 
     public static final double INNER_NOLOAD_STALL_CURRENT_REACH = 20;
-    public static final double INNER_NOLOAD_STALL_CURRENT_ANGLE = 10;
+    public static final double INNER_NOLOAD_STALL_CURRENT_ANGLE = 5;
+    public static final double INNER_LOAD_STALL_CURRENT_ANGLE = 10;
     public static final int ANGLE_SMART_CURRENT = 5;
 }
 

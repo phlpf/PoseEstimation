@@ -28,23 +28,24 @@ public class CommandTestClimb extends SequentialCommandGroup {
       ),
       new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       new InstantCommand(() -> drives.setRunDrives(false)),
-      new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MIN_EXTEND, true),
-      new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
-      new CommandMoveAngle(climber.outerArm, 7, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL),
-      new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
+      new ParallelCommandGroup(
+        new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MIN_EXTEND, true),
+        new CommandMoveAngle(climber.outerArm, 7, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL)
+      ),
+        //new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       
       new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MAX_EXTEND, true, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
-      new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
+      //new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       new SequentialCommandGroup(     
-        new CommandMoveAngleDebounced(climber.innerArm, 0, CurrentLimit.BOTH, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL, kClimb.INNER_NOLOAD_STALL_CURRENT_ANGLE),
+        new CommandMoveAngleDebounced(climber.innerArm, 0, CurrentLimit.BOTH, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL, kClimb.INNER_LOAD_STALL_CURRENT_ANGLE),
         new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MAX_EXTEND-2, true),
         new InstantCommand(()-> climber.outerArm.setAngleToCoast()),
         new InstantCommand(()-> climber.outerArm.moveAnglePOut(0)),
         new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MIN_EXTEND, true)
       ),
-      new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
+      //new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MIN_EXTEND+5, true),
-      new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
+      //new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       
       
       // TODO: UNTESTED COMMANDS
@@ -57,15 +58,15 @@ public class CommandTestClimb extends SequentialCommandGroup {
       ),
       new CommandMoveAngle(climber.outerArm, -26, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL),
       new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MIN_EXTEND, true),
-      new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
+      //new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       new CommandMoveAngle(climber.innerArm, 15, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_EXACT),
-      new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
+      //new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       
       new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MAX_EXTEND, true, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
-      new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
+      //new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       
       new SequentialCommandGroup(     
-        new CommandMoveAngleDebounced(climber.outerArm, 0, CurrentLimit.BOTH, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL, kClimb.INNER_NOLOAD_STALL_CURRENT_ANGLE),
+        new CommandMoveAngleDebounced(climber.outerArm, 0, CurrentLimit.BOTH, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL, kClimb.INNER_LOAD_STALL_CURRENT_ANGLE),
         new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MIN_EXTEND+4, true, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
         new InstantCommand(()-> climber.innerArm.setAngleToCoast()),
         new InstantCommand(()-> climber.innerArm.moveAnglePOut(0)),

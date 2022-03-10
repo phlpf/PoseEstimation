@@ -26,7 +26,7 @@ public class ComplexInitializeClimb extends SequentialCommandGroup {
        new CommandMoveReach(climber.outerArm, 4, false, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
        new CommandMoveReach(climber.innerArm, 4, false, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH)
       ),
-      new WaitCommand(1),
+      //new WaitCommand(1),
       new ParallelCommandGroup(
         new CommandMoveReach(climber.outerArm, -35, false, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
         new CommandMoveReach(climber.innerArm, -35, false, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH)
@@ -38,7 +38,7 @@ public class ComplexInitializeClimb extends SequentialCommandGroup {
           new CommandMoveAngle(climber.innerArm, -100, kClimb.INNER_NOLOAD_STALL_CURRENT_ANGLE)
         )    
       ),
-      new WaitCommand(1),
+      new WaitCommand(0.5),
       new InstantCommand(() ->  climber.zeroAngleEncoders()),
       new ParallelCommandGroup(
         new CommandMoveAngle(climber.outerArm, 29, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_EXACT),
