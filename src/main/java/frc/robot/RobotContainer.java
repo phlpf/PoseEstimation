@@ -70,11 +70,11 @@ public class RobotContainer {
         index.setDefaultCommand(defaultIndexCommand);
         climber.setDefaultCommand(defaultClimberCommand);
 
+        resetSubsystems();
+
         // Configure the button bindings
         configureDriverControllerBindings();
         configureOperatorControllerBindings();
-
-        //TODO: add init function
     }
 
     /**
@@ -163,6 +163,11 @@ public class RobotContainer {
                 .whenInactive(() -> shooter.setVelocity(0));
         new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.5)
                 .whenActive(() -> {}); // TODO: index control
+    }
+
+    public void resetSubsystems() {
+        acquisition.setRollerRPM(0);
+        shooter.setVelocity(0);
     }
 
     public static double modifyAxis(double rawValue) {

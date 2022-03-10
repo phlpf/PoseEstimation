@@ -47,7 +47,9 @@ public class Robot extends TimedRobot {
 
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
-    public void disabledInit() {}
+    public void disabledInit() {
+        robotContainer.resetSubsystems();
+    }
 
     @Override
     public void disabledPeriodic() {}
@@ -55,7 +57,8 @@ public class Robot extends TimedRobot {
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
     public void autonomousInit() {
-    //    robotContainer.runAutonomousRoutine(AutoUtil.Routine.POTATO);
+        robotContainer.resetSubsystems();
+        robotContainer.runAutonomousRoutine(AutoUtil.Routine.POTATO);
     }
 
     /** This function is called periodically during autonomous. */
@@ -68,6 +71,8 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
+        CommandScheduler.getInstance().cancelAll();
+        robotContainer.resetSubsystems();
     }
 
     /** This function is called periodically during operator control. */
