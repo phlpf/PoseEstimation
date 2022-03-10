@@ -32,19 +32,14 @@ public class DefaultIndex extends CommandBase {
   @Override
   public void execute() {
     boolean ballIsBreakingSensor = index.isBallBlockingBeam();
-    if(ballIsBreakingSensor && !ballWasBreakingSensor){
-      System.out.print("SENSOR CHANGE!");
-      ballWasBreakingSensor = true;
-      index.runClosedLoopPosition(index.getIndexPosition() + minIndexIncrement);
-    }
     if(!ballIsBreakingSensor && ballWasBreakingSensor){
       index.setBallsIndexed(index.getBallsIndexed()+1);
-      ballWasBreakingSensor = false;
     }
 
     if(ballIsBreakingSensor && index.getBallsIndexed() < 1){
       index.runClosedLoopPosition(index.getIndexPosition() + minIndexIncrement);
     }
+    ballWasBreakingSensor = ballIsBreakingSensor;
   }
   
   // Called once the command ends or is interrupted.

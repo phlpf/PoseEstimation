@@ -51,6 +51,7 @@ public class Index extends SubsystemBase {
     SmartDashboard.putNumber("A-Idx", motor.getOutputCurrent());
     SmartDashboard.putBoolean("Beam-Idx", beambreak.get());
     SmartDashboard.putNumber("rotations", encoder.getPosition());
+    SmartDashboard.putNumber("balls", ballsIndexed);
   }
 
   public boolean isBallBlockingBeam(){
