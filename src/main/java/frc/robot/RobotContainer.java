@@ -88,10 +88,8 @@ public class RobotContainer {
         new Button(driverController::getStartButton);
 
         // Colored buttons
-        new Button(driverController::getAButton)
-                .whenPressed(() -> acquisition.setRollerRPM(5000));
-        new Button(driverController::getBButton)
-                .whenPressed(() -> acquisition.setRollerRPM(0));
+        new Button(driverController::getAButton);
+        new Button(driverController::getBButton);
         new Button(driverController::getXButton);
                 //.whenPressed(new CommandUnjamRollers(acquisition));
         new Button(driverController::getYButton)
@@ -105,7 +103,7 @@ public class RobotContainer {
 
         // Bumpers
         new Button(driverController::getRightBumper)
-                .whenPressed(() -> acquisition.setRollerRPM(3800));
+                .whenPressed(() -> acquisition.setRollerRPM(5000));
         new Button(driverController::getLeftBumper)
                 .whenInactive(() -> acquisition.setRollerRPM(0));
 
@@ -146,7 +144,7 @@ public class RobotContainer {
 
         // Bumpers
         new Button(operatorController::getRightBumper)
-                .whenPressed(() -> acquisition.setRollerRPM(3800));
+                .whenPressed(() -> acquisition.setRollerRPM(5000));
         new Button(operatorController::getLeftBumper)
                 .whenInactive(() -> acquisition.setRollerRPM(0));
 
