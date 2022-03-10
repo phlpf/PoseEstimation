@@ -43,8 +43,8 @@ public class RobotContainer {
     private final DefaultIndex defaultIndexCommand = new DefaultIndex(index);
 
     private final DefaultClimber defaultClimberCommand = new DefaultClimber(climber,
-                                                 () -> -operatorController.getRightY()*0.4, () -> operatorController.getRightX()*0.4,
-                                                 () -> -operatorController.getLeftY()*0.4, () -> operatorController.getLeftX()*0.4);
+                                                 () -> 0*-operatorController.getRightY()*0.4, () -> 0*operatorController.getRightX()*0.4,
+                                                 () -> 0*-operatorController.getLeftY()*0.4, () -> 0*operatorController.getLeftX()*0.4);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
