@@ -133,7 +133,7 @@ public class Drives extends SubsystemBase {
     }
 
     public Rotation2d getGyroscopeRotation() {
-        return Rotation2d.fromDegrees(pigeon.getYaw());
+        return pigeon.getRotation2d();
     }
 
     public void setOdometryRotation(Rotation2d rotation) {
