@@ -32,7 +32,7 @@ public class CommandTestClimb extends SequentialCommandGroup {
         new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MIN_EXTEND, true),
         new CommandMoveAngle(climber.outerArm, 7, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL)
       ),
-        //new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
+      new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       
       new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MAX_EXTEND, true, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
       //new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),

@@ -28,7 +28,6 @@ public class Climber extends SubsystemBase {
         outerArm = new ClimberArm(kCANIDs.OUTER_ANGLE,kCANIDs.OUTER_REACH, 
                     kClimb.climbAngleOuter, kClimb.climbReachOuter, true);
         sidewaysMover = new CANSparkMax(kCANIDs.SIDEWAYS_MOVER, MotorType.kBrushless);
-        lock.set(Value.kForward);
     }
 
     public void extendArm(ClimberArm arm, double distance){
