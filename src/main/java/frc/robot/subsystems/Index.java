@@ -37,7 +37,7 @@ public class Index extends SubsystemBase {
 
     encoder = motor.getEncoder();
     pidController = motor.getPIDController();
-    pidController.setP(0.1);
+    pidController.setP(0.3);
     pidController.setI(0);
     pidController.setD(0);
     pidController.setIZone(0);

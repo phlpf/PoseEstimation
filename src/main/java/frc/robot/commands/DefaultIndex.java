@@ -36,7 +36,7 @@ public class DefaultIndex extends CommandBase {
       index.setBallsIndexed(index.getBallsIndexed()+1);
     }
 
-    if(ballIsBreakingSensor && index.getBallsIndexed() < 0){
+    if(ballIsBreakingSensor && index.getBallsIndexed() < 1){
       index.runClosedLoopPosition(index.getIndexPosition() + minIndexIncrement);
     }
     ballWasBreakingSensor = ballIsBreakingSensor;
