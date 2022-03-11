@@ -146,6 +146,7 @@ public class Drives extends SubsystemBase {
     }
 
     public void updateModules(SwerveModuleState[] newStates){
+        SwerveDriveKinematics.desaturateWheelSpeeds(newStates, MAX_VELOCITY_METERS_PER_SECOND);
         frontRightModule.set(newStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[0].angle.getRadians());
         frontLeftModule.set(newStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[1].angle.getRadians());
         backRightModule.set(newStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[2].angle.getRadians());
@@ -176,11 +177,11 @@ public class Drives extends SubsystemBase {
     public void periodic() {
         if(runDrive){
             states = kinematics.toSwerveModuleStates(chassisSpeeds);
-            SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
-
             updateModules(states);
-            odometry.update(getGyroscopeRotation(), states);
         }
+
+        odometry.update(getGyroscopeRotation(), states);
+
         //TODO: add current for all module motors
 
         SmartDashboard.putNumber("Drives-Gyro", getGyroscopeRotation().getDegrees());
