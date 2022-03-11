@@ -189,7 +189,7 @@ public class Drives extends SubsystemBase {
     public void periodic() {
         states = kinematics.toSwerveModuleStates(chassisSpeeds);
 
-        if(runDrive) { // not sure if we need to check for auto enabled, but seems like a good step to stop teleop in auto
+        if(runDrive) {
             updateModules(states);
         }
 
@@ -203,7 +203,6 @@ public class Drives extends SubsystemBase {
         //TODO: add current for all module motors
 
         SmartDashboard.putNumber("Drives-Gyro", getGyroscopeRotation().getDegrees());
-        SmartDashboard.putString("Odometry-Pose", odometry.getPoseMeters().toString());
 
         field.setRobotPose(getPose());
     }
