@@ -20,10 +20,12 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.kCANIDs;
@@ -59,6 +61,8 @@ public class Drives extends SubsystemBase {
     
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
+    private final Field2d field = new Field2d();
+
     public Drives() {
         pigeon.configFactoryDefault();
         pigeon.reset();
@@ -70,6 +74,8 @@ public class Drives extends SubsystemBase {
         pigeon.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_11_GyroAccum, 40);
 
         odometry = new SwerveDriveOdometry(kinematics, getGyroscopeRotation(), new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
+
+        SmartDashboard.putData("Field", field);
 
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -174,6 +180,10 @@ public class Drives extends SubsystemBase {
         canCoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 20);
     }
 
+    public void setFieldTrajectory(Trajectory trajectory) {
+        field.getObject("traj").setTrajectory(trajectory);
+    }
+
     @Override
     public void periodic() {
         if(runDrive && !DriverStation.isAutonomousEnabled()) { // not sure if we need to check for auto enabled, but seems like a good step to stop teleop in auto
@@ -191,5 +201,7 @@ public class Drives extends SubsystemBase {
 
         SmartDashboard.putNumber("Drives-Gyro", getGyroscopeRotation().getDegrees());
         SmartDashboard.putString("Odometry-Pose", odometry.getPoseMeters().toString());
+
+        field.setRobotPose(getPose());
     }
 }

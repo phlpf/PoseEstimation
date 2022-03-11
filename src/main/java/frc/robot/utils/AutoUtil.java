@@ -30,6 +30,7 @@ public class AutoUtil {
         SmartDashboard.putString("End", path.getEndState().poseMeters.toString());
 
         return new SequentialCommandGroup(
+                new InstantCommand(() -> drives.setFieldTrajectory(path)),
                 new InstantCommand(() -> drives.setOdometryRotation(path.getInitialPose())),
                 new PPSwerveControllerCommand(
                     path,
