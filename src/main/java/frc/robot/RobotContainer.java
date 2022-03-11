@@ -209,8 +209,7 @@ public class RobotContainer {
                 break;
             case POTATO:
                 new SequentialCommandGroup(
-                        new ComplexShootBalls(shooter, index, acquisition),
-                        AutoUtil.generateCommand("Potato", 2, 1.5, drives)
+                        AutoUtil.generateCommand("Potato", 5, 1.5, drives)
                 ).schedule();
                 break;
         }

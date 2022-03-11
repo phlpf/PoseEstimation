@@ -20,9 +20,11 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.kCANIDs;
@@ -54,9 +56,11 @@ public class Drives extends SubsystemBase {
 
     private final PigeonWrapper pigeon = new PigeonWrapper(kCANIDs.DRIVETRAIN_PIGEON_ID);
 
-    private final SwerveDriveOdometry odometry = new SwerveDriveOdometry(kinematics, getGyroscopeRotation(), new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
+    private final SwerveDriveOdometry odometry;
     
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
+
+    private final Field2d field = new Field2d();
 
     public Drives() {
         pigeon.configFactoryDefault();
@@ -68,6 +72,9 @@ public class Drives extends SubsystemBase {
         pigeon.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_10_SixDeg_Quat, 200);
         pigeon.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_11_GyroAccum, 40);
 
+        odometry = new SwerveDriveOdometry(kinematics, getGyroscopeRotation(), new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
+
+        SmartDashboard.putData("Field", field);
 
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -130,14 +137,16 @@ public class Drives extends SubsystemBase {
      */
     public void zeroGyroscope() {
         pigeon.reset();
+        odometry.resetPosition(new Pose2d(odometry.getPoseMeters().getTranslation(), Rotation2d.fromDegrees(0)), getGyroscopeRotation());
     }
 
     public Rotation2d getGyroscopeRotation() {
         return pigeon.getRotation2d();
     }
 
-    public void setOdometryRotation(Rotation2d rotation) {
-        odometry.resetPosition(new Pose2d(odometry.getPoseMeters().getTranslation(), rotation), getGyroscopeRotation());
+    public void setOdometryRotation(Pose2d pose) {
+        pigeon.setYaw(pose.getRotation().getDegrees());
+        odometry.resetPosition(pose, getGyroscopeRotation());
     }
 
     public Pose2d getPose() {
@@ -145,6 +154,7 @@ public class Drives extends SubsystemBase {
     }
 
     public void updateModules(SwerveModuleState[] newStates){
+        SwerveDriveKinematics.desaturateWheelSpeeds(newStates, MAX_VELOCITY_METERS_PER_SECOND);
         frontRightModule.set(newStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[0].angle.getRadians());
         frontLeftModule.set(newStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[1].angle.getRadians());
         backRightModule.set(newStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[2].angle.getRadians());
@@ -160,10 +170,6 @@ public class Drives extends SubsystemBase {
 
     private void setupModule(SwerveModule module) {
         TalonFX driveMotor = ((TalonFX)module.getDriveMotor());
-        driveMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 1000);
-        driveMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
-        driveMotor.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 100);
-        driveMotor.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
 
         TalonFX angleMotor = ((TalonFX)module.getDriveMotor());
         angleMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 1000);
@@ -175,17 +181,29 @@ public class Drives extends SubsystemBase {
         canCoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 20);
     }
 
+    public void setFieldTrajectory(Trajectory trajectory) {
+        field.getObject("traj").setTrajectory(trajectory);
+    }
+
     @Override
     public void periodic() {
-        if(runDrive){
-            states = kinematics.toSwerveModuleStates(chassisSpeeds);
-            SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
+        states = kinematics.toSwerveModuleStates(chassisSpeeds);
 
+        if(runDrive) {
             updateModules(states);
-            odometry.update(getGyroscopeRotation(), states);
         }
+
+        states[0].speedMetersPerSecond = Math.abs(frontLeftModule.getDriveVelocity());
+        states[1].speedMetersPerSecond = Math.abs(frontRightModule.getDriveVelocity());
+        states[2].speedMetersPerSecond = Math.abs(backLeftModule.getDriveVelocity());
+        states[3].speedMetersPerSecond = Math.abs(backRightModule.getDriveVelocity());
+
+        odometry.update(getGyroscopeRotation(), states);
+
         //TODO: add current for all module motors
 
         SmartDashboard.putNumber("Drives-Gyro", getGyroscopeRotation().getDegrees());
+
+        field.setRobotPose(getPose());
     }
 }
