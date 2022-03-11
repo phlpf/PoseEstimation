@@ -119,9 +119,9 @@ public class RobotContainer {
         // Start/Back
         new Button(operatorController::getStartButton)
                 //.whenPressed(new ComplexInitializeClimb(climber));
-                .whenPressed(() -> {climber.extendBreak()});
-        new Button(operatorController::getBackButton)
                 .whenPressed(() -> {climber.releaseLock();});
+        new Button(operatorController::getBackButton)
+                .whenPressed(() -> {climber.extendBreak();});
 
         // Colored buttons
         new Button(operatorController::getAButton)
