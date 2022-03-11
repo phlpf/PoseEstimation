@@ -31,7 +31,6 @@ public class AutoUtil {
 
         return new SequentialCommandGroup(
                 new InstantCommand(() -> drives.setFieldTrajectory(path)),
-                new InstantCommand(() -> drives.setOdometryRotation(path.getInitialPose())),
                 new PPSwerveControllerCommand(
                     path,
                     drives::getPose,

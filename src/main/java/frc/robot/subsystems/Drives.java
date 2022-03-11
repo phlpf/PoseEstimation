@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -189,7 +190,7 @@ public class Drives extends SubsystemBase {
     public void periodic() {
         states = kinematics.toSwerveModuleStates(chassisSpeeds);
 
-        if(runDrive) {
+        if(runDrive && !DriverStation.isAutonomous()) {
             updateModules(states);
         }
 
