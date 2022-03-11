@@ -20,6 +20,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -175,7 +176,7 @@ public class Drives extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if(runDrive){
+        if(runDrive && !DriverStation.isAutonomousEnabled()) { // not sure if we need to check for auto enabled, but seems like a good step to stop teleop in auto
             states = kinematics.toSwerveModuleStates(chassisSpeeds);
             updateModules(states);
         }
@@ -189,12 +190,6 @@ public class Drives extends SubsystemBase {
         //TODO: add current for all module motors
 
         SmartDashboard.putNumber("Drives-Gyro", getGyroscopeRotation().getDegrees());
-
-        SmartDashboard.putNumber("FR-D-Temp", ((TalonFX)frontRightModule.getDriveMotor()).getSupplyCurrent());
-        SmartDashboard.putNumber("FL-D-Temp", ((TalonFX)frontLeftModule.getDriveMotor()).getSupplyCurrent());
-        SmartDashboard.putNumber("BR-D-Temp", ((TalonFX)backRightModule.getDriveMotor()).getSupplyCurrent());
-        SmartDashboard.putNumber("BL-D-Temp", ((TalonFX)backLeftModule.getDriveMotor()).getSupplyCurrent());
-
-        SmartDashboard.putString("Odometry", odometry.getPoseMeters().toString());
+        SmartDashboard.putString("Odometry-Pose", odometry.getPoseMeters().toString());
     }
 }
