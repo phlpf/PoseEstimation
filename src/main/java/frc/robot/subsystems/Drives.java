@@ -137,6 +137,7 @@ public class Drives extends SubsystemBase {
      */
     public void zeroGyroscope() {
         pigeon.reset();
+        odometry.resetPosition(new Pose2d(odometry.getPoseMeters().getTranslation(), Rotation2d.fromDegrees(0)), getGyroscopeRotation());
     }
 
     public Rotation2d getGyroscopeRotation() {
@@ -144,6 +145,7 @@ public class Drives extends SubsystemBase {
     }
 
     public void setOdometryRotation(Pose2d pose) {
+        pigeon.setYaw(pose.getRotation().getDegrees());
         odometry.resetPosition(pose, getGyroscopeRotation());
     }
 
