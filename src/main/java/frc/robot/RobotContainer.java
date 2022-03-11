@@ -50,9 +50,6 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        pdp.clearStickyFaults();
-        pneumaticHub.clearStickyFaults();
-
         // Set up the default command for the drivetrain.
         // The controls are for field-oriented driving:
         // Left stick Y axis -> forward and backwards movement
@@ -69,8 +66,6 @@ public class RobotContainer {
         shooter.setDefaultCommand(defaultShooterCommand);
         index.setDefaultCommand(defaultIndexCommand);
         climber.setDefaultCommand(defaultClimberCommand);
-
-        resetSubsystems();
 
         // Configure the button bindings
         configureDriverControllerBindings();
@@ -166,6 +161,8 @@ public class RobotContainer {
     }
 
     public void resetSubsystems() {
+        pdp.clearStickyFaults();
+        pneumaticHub.clearStickyFaults();
         acquisition.setRollerRPM(0);
         shooter.setVelocity(0);
     }
