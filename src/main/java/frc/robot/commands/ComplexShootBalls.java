@@ -16,7 +16,7 @@ import frc.robot.subsystems.Shooter;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ComplexShootBalls extends SequentialCommandGroup {
   /** Creates a new ComplexShootBalls. */
-  public ComplexShootBalls(Shooter shooter, Index index, Acquisition acquisition) {
+  public ComplexShootBalls(Shooter shooter, Index index, Acquisition acquisition, double speed) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(

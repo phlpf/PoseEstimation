@@ -92,11 +92,11 @@ public class RobotContainer {
         // Colored buttons
         new Button(driverController::getAButton);
         new Button(driverController::getBButton)
-                .whenPressed(new ComplexShootBalls(shooter, index, acquisition), false);
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4000), false);
         new Button(driverController::getXButton);
                 //.whenPressed(new CommandUnjamRollers(acquisition));
         new Button(driverController::getYButton)
-                .whenPressed(new ComplexShootBalls(shooter, index, acquisition), false);
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4000), false);
 
 
         // POV
@@ -133,10 +133,10 @@ public class RobotContainer {
                         .withInterrupt(() -> operatorController.getPOV() == 0)
                 );
         new Button(operatorController::getBButton)
-                .whenPressed(new ComplexShootBalls(shooter, index, acquisition), false);
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4000), false);
         new Button(operatorController::getXButton); //TODO: Shoot 1 ball
         new Button(operatorController::getYButton)
-                .whenPressed(new ComplexShootBalls(shooter, index, acquisition), false);
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4000), false);
 
         // POV
         new POVButton(operatorController, 0)
@@ -209,6 +209,7 @@ public class RobotContainer {
                 break;
             case POTATO:
                 new SequentialCommandGroup(
+                        new ComplexShootBalls(shooter, index, acquisition, 3000),
                         AutoUtil.generateCommand("Potato", 5, 1.5, drives)
                 ).schedule();
                 break;
