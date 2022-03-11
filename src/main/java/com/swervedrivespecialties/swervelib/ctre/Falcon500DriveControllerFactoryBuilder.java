@@ -53,6 +53,7 @@ public final class Falcon500DriveControllerFactoryBuilder {
             TalonFX motor = new TalonFX(driveConfiguration);
             motor.configFactoryDefault();
             motor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 35, 40, 0.25));
+            motor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.25));
 
             CtreUtils.checkCtreError(motor.configAllSettings(motorConfiguration), "Failed to configure Falcon 500");
 
