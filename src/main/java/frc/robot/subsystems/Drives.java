@@ -180,6 +180,10 @@ public class Drives extends SubsystemBase {
             updateModules(states);
         }
 
+        states[0].speedMetersPerSecond = Math.abs(frontLeftModule.getDriveVelocity());
+        states[1].speedMetersPerSecond = Math.abs(frontRightModule.getDriveVelocity());
+        states[2].speedMetersPerSecond = Math.abs(backLeftModule.getDriveVelocity());
+        states[3].speedMetersPerSecond = Math.abs(backRightModule.getDriveVelocity());
         odometry.update(getGyroscopeRotation(), states);
 
         //TODO: add current for all module motors
