@@ -21,7 +21,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -186,8 +185,9 @@ public class Drives extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if(runDrive && !DriverStation.isAutonomousEnabled()) { // not sure if we need to check for auto enabled, but seems like a good step to stop teleop in auto
-            states = kinematics.toSwerveModuleStates(chassisSpeeds);
+        states = kinematics.toSwerveModuleStates(chassisSpeeds);
+
+        if(runDrive) { // not sure if we need to check for auto enabled, but seems like a good step to stop teleop in auto
             updateModules(states);
         }
 
@@ -195,6 +195,7 @@ public class Drives extends SubsystemBase {
         states[1].speedMetersPerSecond = Math.abs(frontRightModule.getDriveVelocity());
         states[2].speedMetersPerSecond = Math.abs(backLeftModule.getDriveVelocity());
         states[3].speedMetersPerSecond = Math.abs(backRightModule.getDriveVelocity());
+
         odometry.update(getGyroscopeRotation(), states);
 
         //TODO: add current for all module motors
