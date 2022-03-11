@@ -1,9 +1,6 @@
 package com.swervedrivespecialties.swervelib.ctre;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
-import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.swervedrivespecialties.swervelib.DriveController;
@@ -53,13 +50,10 @@ public final class Falcon500DriveControllerFactoryBuilder {
                 motorConfiguration.voltageCompSaturation = nominalVoltage;
             }
 
-            if (hasCurrentLimit()) {
-                motorConfiguration.supplyCurrLimit.currentLimit = currentLimit;
-                motorConfiguration.supplyCurrLimit.enable = true;
-            }
-
             TalonFX motor = new TalonFX(driveConfiguration);
             motor.configFactoryDefault();
+            motor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 35, 40, 0.25));
+
             CtreUtils.checkCtreError(motor.configAllSettings(motorConfiguration), "Failed to configure Falcon 500");
 
             if (hasVoltageCompensation()) {
