@@ -28,7 +28,6 @@ public class Climber extends SubsystemBase {
         outerArm = new ClimberArm(kCANIDs.OUTER_ANGLE,kCANIDs.OUTER_REACH, 
                     kClimb.climbAngleOuter, kClimb.climbReachOuter, true);
         sidewaysMover = new CANSparkMax(kCANIDs.SIDEWAYS_MOVER, MotorType.kBrushless);
-        lock.set(Value.kForward);
     }
 
     public void extendArm(ClimberArm arm, double distance){
@@ -61,6 +60,7 @@ public class Climber extends SubsystemBase {
         SmartDashboard.putNumber("Climb Encoder In Angle", innerArm.angleEncoder.getPosition());
         SmartDashboard.putNumber("Climb Setpoint Out Reach", outerArm.getReachSetpoint());
         SmartDashboard.putNumber("Climb Setpoint In Reach", innerArm.getReachSetpoint());
+        SmartDashboard.putBoolean("Climb lock", lock.get() == Value.kForward);
         outerArm.periodic();
         innerArm.periodic();
     }

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.utils.AutoUtil;
@@ -27,6 +28,7 @@ public class Robot extends TimedRobot {
         // autonomous chooser on the dashboard.
         robotContainer = new RobotContainer();
         //robotContainer.acquisition.extendArms(false);
+        CameraServer.startAutomaticCapture();
     }
 
     /**
