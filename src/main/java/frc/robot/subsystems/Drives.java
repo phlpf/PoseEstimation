@@ -162,7 +162,7 @@ public class Drives extends SubsystemBase {
         backRightModule.set(newStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[2].angle.getRadians());
         backLeftModule.set(newStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[3].angle.getRadians());
 
-        states = newStates;
+        if(DriverStation.isAutonomous()) states = newStates;
     }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
@@ -192,8 +192,8 @@ public class Drives extends SubsystemBase {
     @Override
     public void periodic() {
         if(runDrive && !DriverStation.isAutonomous()) {
-            SwerveModuleState[] driveStates = kinematics.toSwerveModuleStates(chassisSpeeds);
-            updateModules(driveStates);
+            states = kinematics.toSwerveModuleStates(chassisSpeeds);
+            updateModules(states);
         }
 
         states[0].speedMetersPerSecond = Math.abs(frontLeftModule.getDriveVelocity());
