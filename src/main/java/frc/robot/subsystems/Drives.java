@@ -35,15 +35,14 @@ import frc.robot.utils.PigeonWrapper;
 import static frc.robot.constants.kSwerve.*;
 
 public class Drives extends SubsystemBase {
-    ProfiledPIDController thetaController; 
-    SwerveModuleState[] states;
-    
+    ProfiledPIDController thetaController;
+
     private final SwerveModule frontLeftModule;
     private final SwerveModule frontRightModule;
     private final SwerveModule backLeftModule;
     private final SwerveModule backRightModule;
     private boolean runDrive = true;
-    
+
     public final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
                     // Front Right
                     new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
@@ -58,10 +57,12 @@ public class Drives extends SubsystemBase {
     private final PigeonWrapper pigeon = new PigeonWrapper(kCANIDs.DRIVETRAIN_PIGEON_ID);
 
     private final SwerveDriveOdometry odometry;
-    
+
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
     private final Field2d field = new Field2d();
+
+    private SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
 
     public Drives() {
         pigeon.configFactoryDefault();
@@ -129,7 +130,7 @@ public class Drives extends SubsystemBase {
         );
 
         setupModule(backRightModule);
-        
+
     }
 
     /**
@@ -160,6 +161,8 @@ public class Drives extends SubsystemBase {
         frontLeftModule.set(newStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[1].angle.getRadians());
         backRightModule.set(newStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[2].angle.getRadians());
         backLeftModule.set(newStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[3].angle.getRadians());
+
+        states = newStates;
     }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
@@ -188,10 +191,9 @@ public class Drives extends SubsystemBase {
 
     @Override
     public void periodic() {
-        states = kinematics.toSwerveModuleStates(chassisSpeeds);
-
         if(runDrive && !DriverStation.isAutonomous()) {
-            updateModules(states);
+            SwerveModuleState[] driveStates = kinematics.toSwerveModuleStates(chassisSpeeds);
+            updateModules(driveStates);
         }
 
         states[0].speedMetersPerSecond = Math.abs(frontLeftModule.getDriveVelocity());
