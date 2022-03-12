@@ -54,8 +54,8 @@ public final class Falcon500DriveControllerFactoryBuilder {
             motor.configFactoryDefault();
 
             CtreUtils.checkCtreError(motor.configAllSettings(motorConfiguration), "Failed to configure Falcon 500");
-            motor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 35, 40, 0.25));
-            motor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 35, 40, 0.25));
+            motor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 60, 0.1));
+            motor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 60, 0.1));
 
             if (hasVoltageCompensation()) {
                 // Enable voltage compensation
