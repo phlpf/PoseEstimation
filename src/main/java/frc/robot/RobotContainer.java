@@ -164,6 +164,7 @@ public class RobotContainer {
     public void resetSubsystems() {
         pdp.clearStickyFaults();
         pneumaticHub.clearStickyFaults();
+        drives.zeroGyroscope();
         acquisition.setRollerRPM(0);
         shooter.setVelocity(0);
     }
@@ -207,7 +208,6 @@ public class RobotContainer {
                 break;
             case POTATO:
                 new SequentialCommandGroup(
-                        new ComplexShootBalls(shooter, index, acquisition, 3000),
                         AutoUtil.generateCommand("Potato", 5, 1.5, drives)
                 ).schedule();
                 break;
