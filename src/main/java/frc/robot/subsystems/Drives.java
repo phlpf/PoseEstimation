@@ -116,7 +116,6 @@ public class Drives extends SubsystemBase {
         );
 
         setupModule(backLeftModule);
-
         backRightModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Back Right Module", BuiltInLayouts.kList)
                                         .withSize(2, 4)

@@ -65,6 +65,8 @@ dependencies {
     nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
     simulationRelease wpi.sim.enableRelease()
 
+    implementation 'com.github.McQuaidRobotics:swerve-lib:prod-SNAPSHOT'
+
     testImplementation 'junit:junit:4.12'
 }
 
@@ -85,3 +87,9 @@ jar {
 deployArtifact.jarTask = jar
 wpi.java.configureExecutableTasks(jar)
 wpi.java.configureTestTasks(test)
+
+repositories {
+  maven {
+       url 'https://jitpack.io'
+  }
+}
