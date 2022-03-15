@@ -84,7 +84,9 @@ public class Drives extends SubsystemBase {
                                         .withPosition(0, 0),
                         kSwerve.VEL_GEAR_RATIO,
                         kCANIDs.FRONT_LEFT_DRIVE,
+                        kSwerve.CANIVORE_NAME,
                         kCANIDs.FRONT_LEFT_STEER,
+                        kSwerve.CANIVORE_NAME,
                         kCANIDs.FRONT_LEFT_CANCODER,
                         kSwerve.FRONT_LEFT_MODULE_STEER_OFFSET
         );
@@ -97,7 +99,9 @@ public class Drives extends SubsystemBase {
                                         .withPosition(2, 0),
                         kSwerve.VEL_GEAR_RATIO,
                         kCANIDs.FRONT_RIGHT_DRIVE,
+                        kSwerve.CANIVORE_NAME,
                         kCANIDs.FRONT_RIGHT_STEER,
+                        kSwerve.CANIVORE_NAME,
                         kCANIDs.FRONT_RIGHT_CANCODER,
                         kSwerve.FRONT_RIGHT_MODULE_STEER_OFFSET
         );
@@ -110,7 +114,9 @@ public class Drives extends SubsystemBase {
                                         .withPosition(4, 0),
                         kSwerve.VEL_GEAR_RATIO,
                         kCANIDs.REAR_LEFT_DRIVE,
+                        kSwerve.CANIVORE_NAME,
                         kCANIDs.REAR_LEFT_STEER,
+                        kSwerve.CANIVORE_NAME,
                         kCANIDs.REAR_LEFT_CANCODER,
                         kSwerve.REAR_LEFT_MODULE_STEER_OFFSET
         );
@@ -122,7 +128,9 @@ public class Drives extends SubsystemBase {
                                         .withPosition(6, 0),
                         kSwerve.VEL_GEAR_RATIO,
                         kCANIDs.REAR_RIGHT_DRIVE,
+                        kSwerve.CANIVORE_NAME,
                         kCANIDs.REAR_RIGHT_STEER,
+                        kSwerve.CANIVORE_NAME,
                         kCANIDs.REAR_RIGHT_CANCODER,
                         kSwerve.REAR_RIGHT_MODULE_STEER_OFFSET
         );
