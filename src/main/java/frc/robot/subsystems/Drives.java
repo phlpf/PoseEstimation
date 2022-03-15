@@ -20,7 +20,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -185,8 +184,8 @@ public class Drives extends SubsystemBase {
         canCoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 20);
     }
 
-    public void setFieldTrajectory(Trajectory trajectory) {
-        field.getObject("traj").setTrajectory(trajectory);
+    public Field2d getField() {
+        return field;
     }
 
     @Override
