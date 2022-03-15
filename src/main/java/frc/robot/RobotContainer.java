@@ -33,18 +33,18 @@ public class RobotContainer {
     private final XboxController operatorController = new XboxController(1);
     private final Drives drives = new Drives();
 
-    private final Acquisition acquisition = new Acquisition();
-    private final Shooter shooter = new Shooter();
-    private final Index index = new Index();
-    private final Climber climber = new Climber();
+//     private final Acquisition acquisition = new Acquisition();
+//     private final Shooter shooter = new Shooter();
+//     private final Index index = new Index();
+//     private final Climber climber = new Climber();
 
-    private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
-    private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter);
-    private final DefaultIndex defaultIndexCommand = new DefaultIndex(index);
+//     private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
+//     private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter);
+//     private final DefaultIndex defaultIndexCommand = new DefaultIndex(index);
 
-    private final DefaultClimber defaultClimberCommand = new DefaultClimber(climber,
-                                                 () -> 0*-operatorController.getRightY()*0.4, () -> 0*operatorController.getRightX()*0.4,
-                                                 () -> 0*-operatorController.getLeftY()*0.4, () -> 0*operatorController.getLeftX()*0.4);
+//     private final DefaultClimber defaultClimberCommand = new DefaultClimber(climber,
+//                                                  () -> 0*-operatorController.getRightY()*0.4, () -> 0*operatorController.getRightX()*0.4,
+//                                                  () -> 0*-operatorController.getLeftY()*0.4, () -> 0*operatorController.getLeftX()*0.4);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -63,10 +63,10 @@ public class RobotContainer {
         ));
         
 
-        acquisition.setDefaultCommand(defaultAcquisitionCommand);
-        shooter.setDefaultCommand(defaultShooterCommand);
-        index.setDefaultCommand(defaultIndexCommand);
-        climber.setDefaultCommand(defaultClimberCommand);
+        // acquisition.setDefaultCommand(defaultAcquisitionCommand);
+        // shooter.setDefaultCommand(defaultShooterCommand);
+        // index.setDefaultCommand(defaultIndexCommand);
+        // climber.setDefaultCommand(defaultClimberCommand);
 
         // Configure the button bindings
         configureDriverControllerBindings();
@@ -87,12 +87,12 @@ public class RobotContainer {
 
         // Colored buttons
         new Button(driverController::getAButton);
-        new Button(driverController::getBButton)
-                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4000), false);
+        // new Button(driverController::getBButton)
+        //         .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4000), false);
         new Button(driverController::getXButton);
                 //.whenPressed(new CommandUnjamRollers(acquisition));
-        new Button(driverController::getYButton)
-                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4000), false);
+        // new Button(driverController::getYButton)
+        //         .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4000), false);
 
 
         // POV
@@ -102,10 +102,10 @@ public class RobotContainer {
         new POVButton(driverController, 270);
 
         // Bumpers
-        new Button(driverController::getRightBumper)
-                .whenPressed(() -> acquisition.setRollerRPM(5000));
-        new Button(driverController::getLeftBumper)
-                .whenInactive(() -> acquisition.setRollerRPM(0));
+        // new Button(driverController::getRightBumper)
+        //         .whenPressed(() -> acquisition.setRollerRPM(5000));
+        // new Button(driverController::getLeftBumper)
+        //         .whenInactive(() -> acquisition.setRollerRPM(0));
 
         // Joystick Buttons
         new Button(driverController::getRightStickButton);
@@ -118,55 +118,55 @@ public class RobotContainer {
 
     private void configureOperatorControllerBindings() {
         // Start/Back
-        new Button(operatorController::getStartButton)
-                //.whenPressed(new ComplexInitializeClimb(climber));
-                .whenPressed(() -> {climber.releaseLock();});
-        new Button(operatorController::getBackButton)
-                .whenPressed(() -> {climber.extendBreak();});
+        // new Button(operatorController::getStartButton)
+        //         //.whenPressed(new ComplexInitializeClimb(climber));
+        //         .whenPressed(() -> {climber.releaseLock();});
+        // new Button(operatorController::getBackButton)
+        //         .whenPressed(() -> {climber.extendBreak();});
 
         // Colored buttons
-        new Button(operatorController::getAButton)
-                .whenPressed((new CommandTestClimb(climber, drives, operatorController))
-                        .withInterrupt(() -> operatorController.getPOV() == 0)
-                );
-        new Button(operatorController::getBButton)
-                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4000), false);
-        new Button(operatorController::getXButton); //TODO: Shoot 1 ball
-        new Button(operatorController::getYButton)
-                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4000), false);
+        // new Button(operatorController::getAButton)
+        //         .whenPressed((new CommandTestClimb(climber, drives, operatorController))
+        //                 .withInterrupt(() -> operatorController.getPOV() == 0)
+        //         );
+        // new Button(operatorController::getBButton)
+        //         .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4000), false);
+        // new Button(operatorController::getXButton); //TODO: Shoot 1 ball
+        // new Button(operatorController::getYButton)
+        //         .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4000), false);
 
-        // POV
-        new POVButton(operatorController, 0)
-                .whenPressed(new CommandOnCancelClimb(climber, drives)); // TODO: Interrupt
-        new POVButton(operatorController, 90)
-                .whenPressed(new InstantCommand(() -> climber.moveSidewaysPOut(0.5))); //TODO: Climb sideways
-        new POVButton(operatorController, 180);
-        new POVButton(operatorController, 270)
-                .whenPressed(new InstantCommand(() -> climber.moveSidewaysPOut(-0.5)));//TODO: Climb sideways
+        // // POV
+        // new POVButton(operatorController, 0)
+        //         .whenPressed(new CommandOnCancelClimb(climber, drives)); // TODO: Interrupt
+        // new POVButton(operatorController, 90)
+        //         .whenPressed(new InstantCommand(() -> climber.moveSidewaysPOut(0.5))); //TODO: Climb sideways
+        // new POVButton(operatorController, 180);
+        // new POVButton(operatorController, 270)
+        //         .whenPressed(new InstantCommand(() -> climber.moveSidewaysPOut(-0.5)));//TODO: Climb sideways
 
-        // Bumpers
-        new Button(operatorController::getRightBumper)
-                .whenPressed(() -> acquisition.setRollerRPM(5000));
-        new Button(operatorController::getLeftBumper)
-                .whenInactive(() -> acquisition.setRollerRPM(0));
+        // // Bumpers
+        // new Button(operatorController::getRightBumper)
+        //         .whenPressed(() -> acquisition.setRollerRPM(5000));
+        // new Button(operatorController::getLeftBumper)
+        //         .whenInactive(() -> acquisition.setRollerRPM(0));
 
-        // Joystick Buttons
-        new Button(operatorController::getRightStickButton);
-        new Button(operatorController::getLeftStickButton);
+        // // Joystick Buttons
+        // new Button(operatorController::getRightStickButton);
+        // new Button(operatorController::getLeftStickButton);
 
-        // Triggers
-        new Trigger(() -> operatorController.getRightTriggerAxis() > 0.5)
-                .whenActive(() -> shooter.setVelocity(5200))
-                .whenInactive(() -> shooter.setVelocity(0));
-        new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.5)
-                .whenActive(() -> {}); // TODO: index control
+        // // Triggers
+        // new Trigger(() -> operatorController.getRightTriggerAxis() > 0.5)
+        //         .whenActive(() -> shooter.setVelocity(5200))
+        //         .whenInactive(() -> shooter.setVelocity(0));
+        // new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.5)
+        //         .whenActive(() -> {}); // TODO: index control
     }
 
     public void resetSubsystems() {
         pdp.clearStickyFaults();
         pneumaticHub.clearStickyFaults();
-        acquisition.setRollerRPM(0);
-        shooter.setVelocity(0);
+        // acquisition.setRollerRPM(0);
+        // shooter.setVelocity(0);
     }
 
     public static double modifyAxis(double rawValue) {
@@ -208,7 +208,7 @@ public class RobotContainer {
                 break;
             case POTATO:
                 new SequentialCommandGroup(
-                        new ComplexShootBalls(shooter, index, acquisition, 3000),
+                        // new ComplexShootBalls(shooter, index, acquisition, 3000),
                         AutoUtil.generateCommand("Potato", 5, 1.5, drives)
                 ).schedule();
                 break;
