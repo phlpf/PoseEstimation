@@ -7,21 +7,21 @@ public class kCANIDs {
     public static final int PNEUMATIC_HUB = 31;
 
     // Swerves
-    public static final int FRONT_LEFT_DRIVE = 3;
-    public static final int FRONT_LEFT_STEER = 4;
-    public static final int FRONT_LEFT_CANCODER = 22;
+    public static final int FRONT_LEFT_DRIVE = 7;
+    public static final int FRONT_LEFT_STEER = 8;
+    public static final int FRONT_LEFT_CANCODER = 24;
 
-    public static final int FRONT_RIGHT_DRIVE = 1;
-    public static final int FRONT_RIGHT_STEER = 2;
-    public static final int FRONT_RIGHT_CANCODER = 21;
+    public static final int FRONT_RIGHT_DRIVE = 5;
+    public static final int FRONT_RIGHT_STEER = 6;
+    public static final int FRONT_RIGHT_CANCODER = 23;
 
-    public static final int REAR_LEFT_DRIVE = 5;
-    public static final int REAR_LEFT_STEER = 6;
-    public static final int REAR_LEFT_CANCODER = 23;
+    public static final int REAR_LEFT_DRIVE = 1;
+    public static final int REAR_LEFT_STEER = 2;
+    public static final int REAR_LEFT_CANCODER = 21;
 
-    public static final int REAR_RIGHT_DRIVE = 7;
-    public static final int REAR_RIGHT_STEER = 8;
-    public static final int REAR_RIGHT_CANCODER = 24;
+    public static final int REAR_RIGHT_DRIVE = 3;
+    public static final int REAR_RIGHT_STEER = 4;
+    public static final int REAR_RIGHT_CANCODER = 22;
 
     // Acquisition
     public static final int ACQ_MOTOR = 11;

@@ -65,7 +65,7 @@ dependencies {
     nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
     simulationRelease wpi.sim.enableRelease()
 
-    implementation 'com.github.McQuaidRobotics:swerve-lib:prod-SNAPSHOT'
+    implementation 'com.github.McQuaidRobotics:swerve-lib:McQProd-SNAPSHOT'
 
     testImplementation 'junit:junit:4.12'
 }
@@ -92,5 +92,4 @@ repositories {
   maven {
        url 'https://jitpack.io'
   }
-  mavenLocal()
 }
