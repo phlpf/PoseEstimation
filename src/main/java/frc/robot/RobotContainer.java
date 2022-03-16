@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -193,6 +196,7 @@ public class RobotContainer {
     }
 
     public void runAutonomousRoutine(AutoUtil.Routine routine) {
+        drives.setOdometryRotation(new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
         switch (routine) {
             case FOUR_BALL:
                 new SequentialCommandGroup(
@@ -211,7 +215,8 @@ public class RobotContainer {
                 break;
             case POTATO:
                 new SequentialCommandGroup(
-                        AutoUtil.generateCommand("Forward_4_Meters_90_Turn", 5, 1.6, drives)
+                        new ComplexShootBalls(shooter, index, acquisition, 3000),
+                        AutoUtil.generateCommand("Potato", 5, 1.6, drives)
                 ).schedule();
                 break;
         }

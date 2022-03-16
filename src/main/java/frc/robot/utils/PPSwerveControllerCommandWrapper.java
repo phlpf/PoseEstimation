@@ -60,9 +60,4 @@ public class PPSwerveControllerCommandWrapper extends PPSwerveControllerCommand 
         outputModuleStates.accept(kinematics.toSwerveModuleStates(new ChassisSpeeds(0, 0, 0)));
         super.end(interrupted);
     }
-
-    @Override
-    public boolean isFinished() {
-        return poseSupplier.get().equals(trajectory.getEndState().poseMeters);
-    }
 }

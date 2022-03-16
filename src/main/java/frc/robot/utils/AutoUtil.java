@@ -6,9 +6,6 @@ package frc.robot.utils;
 
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -30,7 +27,6 @@ public class AutoUtil {
 
         return new SequentialCommandGroup(
                 new InstantCommand(() -> logPath(path, drives.getField())),
-                new InstantCommand(() -> drives.setOdometryRotation(new Pose2d(new Translation2d(0, 0), new Rotation2d(0)))),
                 new PPSwerveControllerCommandWrapper(
                     path,
                     drives::getPose,
