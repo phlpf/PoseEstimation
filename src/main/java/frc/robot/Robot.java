@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         robotContainer.resetSubsystems();
-        robotContainer.runAutonomousRoutine(AutoUtil.Routine.POTATO);
+        robotContainer.runAutonomousRoutine(AutoUtil.Routine.TWO_BALL);
     }
 
     /** This function is called periodically during autonomous. */

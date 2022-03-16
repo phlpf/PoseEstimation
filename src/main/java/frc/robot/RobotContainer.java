@@ -196,7 +196,7 @@ public class RobotContainer {
     }
 
     public void runAutonomousRoutine(AutoUtil.Routine routine) {
-        drives.setOdometryRotation(new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
+        drives.setOdometryRotation(new Pose2d(new Translation2d(5.99, 5.15), new Rotation2d(133.8)));
         switch (routine) {
             case FOUR_BALL:
                 new SequentialCommandGroup(
@@ -208,10 +208,16 @@ public class RobotContainer {
                 ).schedule();
                 break;
             case THREE_BALL:
-                AutoUtil.generateCommand("Three-Ball-1", 1, 0.5, drives).schedule();
+                AutoUtil.generateCommand("Three-Ball-1", 1, 0.5, drives);
                 break;
             case TWO_BALL:
-                AutoUtil.generateCommand("Northern-Two-Ball-1", 1, 0.5, drives).schedule();
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> acquisition.setRollerRPM(3800)),
+                        AutoUtil.generateCommand("Northern-Two-Ball-1", 5, 1.6, drives),
+                        new ComplexShootBalls(shooter, index, acquisition, 3500),
+                        new InstantCommand(() -> acquisition.setRollerRPM(3800)),
+                        AutoUtil.generateCommand("Northern-Two-Ball-2", 5, 1.6, drives)
+                ).schedule();
                 break;
             case POTATO:
                 new SequentialCommandGroup(
