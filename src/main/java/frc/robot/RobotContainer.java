@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -66,6 +67,8 @@ public class RobotContainer {
         shooter.setDefaultCommand(defaultShooterCommand);
         index.setDefaultCommand(defaultIndexCommand);
         climber.setDefaultCommand(defaultClimberCommand);
+
+        SmartDashboard.putNumber("max vel", kSwerve.MAX_VELOCITY_METERS_PER_SECOND);
 
         // Configure the button bindings
         configureDriverControllerBindings();
@@ -208,7 +211,7 @@ public class RobotContainer {
                 break;
             case POTATO:
                 new SequentialCommandGroup(
-                        AutoUtil.generateCommand("Potato", 5, 1.5, drives)
+                        AutoUtil.generateCommand("Forward_4_Meters_90_Turn", 5, 1.6, drives)
                 ).schedule();
                 break;
         }

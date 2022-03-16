@@ -16,6 +16,8 @@ import java.util.function.Supplier;
 public class PPSwerveControllerCommandWrapper extends PPSwerveControllerCommand {
     public Consumer<SwerveModuleState[]> outputModuleStates;
     public SwerveDriveKinematics kinematics;
+    public Supplier<Pose2d> poseSupplier;
+    public PathPlannerTrajectory trajectory;
 
     /**
      * Constructs a new PPSwerveControllerCommand that when executed will follow the
@@ -49,11 +51,18 @@ public class PPSwerveControllerCommandWrapper extends PPSwerveControllerCommand 
         super(trajectory, pose, kinematics, xController, yController, thetaController, outputModuleStates, requirements);
         this.outputModuleStates = outputModuleStates;
         this.kinematics = kinematics;
+        this.poseSupplier = pose;
+        this.trajectory = trajectory;
     }
 
     @Override
     public void end(boolean interrupted) {
         outputModuleStates.accept(kinematics.toSwerveModuleStates(new ChassisSpeeds(0, 0, 0)));
         super.end(interrupted);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return poseSupplier.get().equals(trajectory.getEndState().poseMeters);
     }
 }
