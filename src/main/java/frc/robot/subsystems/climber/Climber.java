@@ -60,6 +60,9 @@ public class Climber extends SubsystemBase {
         SmartDashboard.putNumber("Climb Setpoint Out Reach", outerArm.getReachSetpoint());
         SmartDashboard.putNumber("Climb Setpoint In Reach", innerArm.getReachSetpoint());
         SmartDashboard.putBoolean("Climb lock", lock.get() == Value.kForward);
+
+        SmartDashboard.putNumber("Sideways Mover Current", sidewaysMover.getOutputCurrent());
+
         outerArm.periodic();
         innerArm.periodic();
     }

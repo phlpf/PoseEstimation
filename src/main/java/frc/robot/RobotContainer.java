@@ -15,15 +15,18 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.acquisition.DefaultAcquisition;
-import frc.robot.commands.climber.CommandOnCancelClimb;
 import frc.robot.commands.climber.CommandAutoClimb;
+import frc.robot.commands.climber.CommandOnCancelClimb;
 import frc.robot.commands.climber.DefaultClimber;
 import frc.robot.commands.drives.DefaultDriveCommand;
 import frc.robot.commands.index.DefaultIndex;
 import frc.robot.commands.shooter.ComplexShootBalls;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kSwerve;
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.Drives;
+import frc.robot.subsystems.Index;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.utils.AutoUtil;
 
@@ -137,10 +140,12 @@ public class RobotContainer {
         new POVButton(operatorController, 0)
                 .whenPressed(new CommandOnCancelClimb(climber, drives)); 
         new POVButton(operatorController, 90)
-                .whenPressed(new InstantCommand(() -> climber.moveSidewaysPOut(0.5))); 
+                .whenHeld(new InstantCommand(() -> climber.moveSidewaysPOut(0.5)))
+                .whenReleased(new InstantCommand(() -> climber.moveSidewaysPOut(0)));
         // new POVButton(operatorController, 180);
         new POVButton(operatorController, 270)
-                .whenPressed(new InstantCommand(() -> climber.moveSidewaysPOut(-0.5)));
+                .whenHeld(new InstantCommand(() -> climber.moveSidewaysPOut(-0.5)))
+                .whenReleased(new InstantCommand(() -> climber.moveSidewaysPOut(0)));
 
         // Bumpers
         new Button(operatorController::getRightBumper)
