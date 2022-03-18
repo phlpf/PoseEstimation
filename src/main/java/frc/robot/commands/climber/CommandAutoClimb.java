@@ -50,8 +50,6 @@ public class CommandAutoClimb extends SequentialCommandGroup {
       //new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       
       
-      // TODO: UNTESTED COMMANDS
-      // WAIT FOR FULL TEST TO USE
       new InstantCommand(()-> climber.outerArm.setAngleToBrake()),
       new CommandMoveAngle(climber.outerArm, 5, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL),
       new ParallelCommandGroup(

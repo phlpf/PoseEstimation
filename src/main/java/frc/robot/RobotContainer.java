@@ -134,18 +134,18 @@ public class RobotContainer {
                 );
         new Button(operatorController::getBButton)
                 .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4000), false);
-        new Button(operatorController::getXButton); //TODO: Shoot 1 ball
+        new Button(operatorController::getXButton); 
         new Button(operatorController::getYButton)
                 .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4000), false);
 
         // POV
         new POVButton(operatorController, 0)
-                .whenPressed(new CommandOnCancelClimb(climber, drives)); // TODO: Interrupt
+                .whenPressed(new CommandOnCancelClimb(climber, drives)); 
         new POVButton(operatorController, 90)
-                .whenPressed(new InstantCommand(() -> climber.moveSidewaysPOut(0.5))); //TODO: Climb sideways
+                .whenPressed(new InstantCommand(() -> climber.moveSidewaysPOut(0.5))); 
         new POVButton(operatorController, 180);
         new POVButton(operatorController, 270)
-                .whenPressed(new InstantCommand(() -> climber.moveSidewaysPOut(-0.5)));//TODO: Climb sideways
+                .whenPressed(new InstantCommand(() -> climber.moveSidewaysPOut(-0.5)));
 
         // Bumpers
         new Button(operatorController::getRightBumper)
@@ -162,7 +162,7 @@ public class RobotContainer {
                 .whenActive(() -> shooter.setVelocity(5200))
                 .whenInactive(() -> shooter.setVelocity(0));
         new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.5)
-                .whenActive(() -> {}); // TODO: index control
+                .whenActive(() -> {}); 
     }
 
     public void resetSubsystems() {

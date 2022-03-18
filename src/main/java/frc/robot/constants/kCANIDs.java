@@ -35,5 +35,5 @@ public class kCANIDs {
     public static final int INNER_REACH = 14;
     public static final int OUTER_ANGLE = 17;
     public static final int OUTER_REACH = 16;
-    public static final int SIDEWAYS_MOVER = 18; // TODO: GET REAL ID
+    public static final int SIDEWAYS_MOVER = 18;
 }

@@ -55,7 +55,7 @@ public  class kClimb {
         0.0,
         0.0,
         -1,
-        1);// TODO: Add real values
+        1);
     public static void addPidToMotor(SparkMaxPIDController controller, ClimberPid pid){
         controller.setP(pid.p);
         controller.setI(pid.i);

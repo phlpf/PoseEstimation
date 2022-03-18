@@ -181,8 +181,6 @@ public class Drives extends SubsystemBase {
     }
 
     private void setupModule(SwerveModule module) {
-        TalonFX driveMotor = ((TalonFX)module.getDriveMotor());
-
         TalonFX angleMotor = ((TalonFX)module.getDriveMotor());
         angleMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 1000);
         angleMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
@@ -211,8 +209,6 @@ public class Drives extends SubsystemBase {
         states[3].speedMetersPerSecond = Math.abs(backRightModule.getDriveVelocity());
 
         odometry.update(getGyroscopeRotation(), states);
-
-        //TODO: add current for all module motors
 
         SmartDashboard.putNumber("Drives-Gyro", getGyroscopeRotation().getDegrees());
 
