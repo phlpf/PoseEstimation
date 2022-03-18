@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 import com.swervedrivespecialties.swervelib.ctre.CanCoderFactoryBuilder;
@@ -30,7 +31,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kSwerve;
-import frc.robot.utils.PigeonWrapper;
 
 import static frc.robot.constants.kSwerve.*;
 
@@ -55,7 +55,7 @@ public class Drives extends SubsystemBase {
                     new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0)
     );
 
-    private final PigeonWrapper pigeon = new PigeonWrapper(kCANIDs.DRIVETRAIN_PIGEON_ID, kSwerve.CANIVORE_NAME);
+    private final WPI_Pigeon2 pigeonTwo = new WPI_Pigeon2(kCANIDs.DRIVETRAIN_PIGEON_ID, kSwerve.CANIVORE_NAME);
 
     private final SwerveDriveOdometry odometry;
     
@@ -64,14 +64,14 @@ public class Drives extends SubsystemBase {
     private final Field2d field = new Field2d();
 
     public Drives() {
-        pigeon.configFactoryDefault();
-        pigeon.reset();
-        pigeon.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_1_General, 1000);
-        pigeon.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_3_GeneralAccel, 300);
-        pigeon.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_6_SensorFusion, 20);
-        pigeon.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_9_SixDeg_YPR, 20);
-        pigeon.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_10_SixDeg_Quat, 200);
-        pigeon.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_11_GyroAccum, 40);
+        pigeonTwo.configFactoryDefault();
+        pigeonTwo.reset();
+        pigeonTwo.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_1_General, 1000);
+        pigeonTwo.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_3_GeneralAccel, 300);
+        pigeonTwo.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_6_SensorFusion, 20);
+        pigeonTwo.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_9_SixDeg_YPR, 20);
+        pigeonTwo.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_10_SixDeg_Quat, 200);
+        pigeonTwo.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_11_GyroAccum, 40);
 
         odometry = new SwerveDriveOdometry(kinematics, getGyroscopeRotation(), new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
 
@@ -148,16 +148,16 @@ public class Drives extends SubsystemBase {
      * 'forwards' direction.
      */
     public void zeroGyroscope() {
-        pigeon.reset();
+        pigeonTwo.reset();
         odometry.resetPosition(new Pose2d(odometry.getPoseMeters().getTranslation(), Rotation2d.fromDegrees(0)), getGyroscopeRotation());
     }
 
     public Rotation2d getGyroscopeRotation() {
-        return pigeon.getRotation2d();
+        return pigeonTwo.getRotation2d();
     }
 
     public void setOdometryRotation(Pose2d pose) {
-        pigeon.setYaw(pose.getRotation().getDegrees());
+        pigeonTwo.setYaw(pose.getRotation().getDegrees());
         odometry.resetPosition(pose, getGyroscopeRotation());
     }
 
