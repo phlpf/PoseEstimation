@@ -18,7 +18,6 @@ import frc.robot.commands.climber.DefaultClimber;
 import frc.robot.commands.drives.DefaultDriveCommand;
 import frc.robot.commands.index.DefaultIndex;
 import frc.robot.commands.shooter.ComplexShootBalls;
-import frc.robot.commands.shooter.DefaultShooter;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kSwerve;
 import frc.robot.subsystems.*;
@@ -46,7 +45,6 @@ public class RobotContainer {
     private final Climber climber = new Climber();
 
     private final DefaultAcquisition defaultAcquisitionCommand = new DefaultAcquisition(acquisition);
-    private final DefaultShooter defaultShooterCommand = new DefaultShooter(shooter);
     private final DefaultIndex defaultIndexCommand = new DefaultIndex(index);
 
     private final DefaultClimber defaultClimberCommand = new DefaultClimber(climber,
@@ -70,7 +68,6 @@ public class RobotContainer {
         ));
 
         acquisition.setDefaultCommand(defaultAcquisitionCommand);
-        shooter.setDefaultCommand(defaultShooterCommand);
         index.setDefaultCommand(defaultIndexCommand);
         climber.setDefaultCommand(defaultClimberCommand);
 
