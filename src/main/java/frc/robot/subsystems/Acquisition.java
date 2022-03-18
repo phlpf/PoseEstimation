@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -25,11 +24,6 @@ public class Acquisition extends SubsystemBase {
     motor = new CANSparkMax(kCANIDs.ACQ_MOTOR, MotorType.kBrushless);
     motor.restoreFactoryDefaults();
     motor.setIdleMode(IdleMode.kCoast);
-    motor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 1000);
-    motor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 60);
-    motor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 1000);
-    motor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, 1000);
-    motor.setControlFramePeriodMs(40);
 
     encoder = motor.getEncoder();
     
