@@ -4,7 +4,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -60,6 +64,8 @@ public class RobotContainer {
                 () -> 0 * -operatorController.getLeftY() * 0.4,
                 () -> 0 * operatorController.getLeftX() * 0.4 // CURRENTLY DISABLED
         ));
+
+        SmartDashboard.putNumber("max vel", kSwerve.MAX_VELOCITY_METERS_PER_SECOND);
 
         // Configure the button bindings
         configureDriverControllerBindings();
@@ -184,6 +190,7 @@ public class RobotContainer {
     }
 
     public void runAutonomousRoutine(AutoUtil.Routine routine) {
+        drives.setOdometryRotation(new Pose2d(new Translation2d(5.99, 5.15), new Rotation2d(133.8)));
         switch (routine) {
             case FOUR_BALL:
                 new SequentialCommandGroup(
@@ -195,14 +202,21 @@ public class RobotContainer {
                 ).schedule();
                 break;
             case THREE_BALL:
-                AutoUtil.generateCommand("Three-Ball-1", 1, 0.5, drives).schedule();
+                AutoUtil.generateCommand("Three-Ball-1", 1, 0.5, drives);
                 break;
             case TWO_BALL:
-                AutoUtil.generateCommand("Northern-Two-Ball-1", 1, 0.5, drives).schedule();
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> acquisition.setRollerRPM(3800)),
+                        AutoUtil.generateCommand("Northern-Two-Ball-1", 5, 1.6, drives),
+                        new ComplexShootBalls(shooter, index, acquisition, 3500),
+                        new InstantCommand(() -> acquisition.setRollerRPM(3800)),
+                        AutoUtil.generateCommand("Northern-Two-Ball-2", 5, 1.6, drives)
+                ).schedule();
                 break;
             case POTATO:
                 new SequentialCommandGroup(
-                        AutoUtil.generateCommand("Potato", 5, 1.5, drives)
+                        new ComplexShootBalls(shooter, index, acquisition, 3000),
+                        AutoUtil.generateCommand("Potato", 5, 1.6, drives)
                 ).schedule();
                 break;
         }

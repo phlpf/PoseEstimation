@@ -6,8 +6,7 @@ package frc.robot.utils;
 
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.commands.PPSwerveControllerCommand;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -26,12 +25,9 @@ public class AutoUtil {
     public static Command generateCommand(String pathName, double maxVelocity, double maxAcceleration, Drives drives) {
         PathPlannerTrajectory path = PathPlanner.loadPath(pathName, maxVelocity, maxAcceleration);
 
-        SmartDashboard.putString("Initial", path.getInitialPose().toString());
-        SmartDashboard.putString("End", path.getEndState().poseMeters.toString());
-
         return new SequentialCommandGroup(
-                new InstantCommand(() -> drives.setFieldTrajectory(path)),
-                new PPSwerveControllerCommand(
+                new InstantCommand(() -> logPath(path, drives.getField())),
+                new PPSwerveControllerCommandWrapper(
                     path,
                     drives::getPose,
                     drives.kinematics,
@@ -41,5 +37,11 @@ public class AutoUtil {
                     drives::updateModules
                 )
         );
+    }
+
+    private static void logPath(PathPlannerTrajectory path, Field2d field) {
+        field.getObject("traj").setTrajectory(path);
+        field.getObject("beginpos").setPose(path.getInitialState().poseMeters);
+        field.getObject("endpos").setPose(path.getEndState().poseMeters);
     }
 }

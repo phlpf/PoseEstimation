@@ -21,7 +21,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -35,15 +34,14 @@ import frc.robot.constants.kSwerve;
 import static frc.robot.constants.kSwerve.*;
 
 public class Drives extends SubsystemBase {
-    ProfiledPIDController thetaController; 
-    SwerveModuleState[] states;
-    
+    ProfiledPIDController thetaController;
+
     private final SwerveModule frontLeftModule;
     private final SwerveModule frontRightModule;
     private final SwerveModule backLeftModule;
     private final SwerveModule backRightModule;
     private boolean runDrive = true;
-    
+
     public final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
                     // Front Right
                     new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
@@ -58,10 +56,12 @@ public class Drives extends SubsystemBase {
     private final WPI_Pigeon2 pigeonTwo = new WPI_Pigeon2(kCANIDs.DRIVETRAIN_PIGEON_ID, kSwerve.CANIVORE_NAME);
 
     private final SwerveDriveOdometry odometry;
-    
+
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
     private final Field2d field = new Field2d();
+
+    private SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
 
     public Drives() {
         pigeonTwo.configFactoryDefault();
@@ -140,7 +140,7 @@ public class Drives extends SubsystemBase {
         );
 
         setupModule(backRightModule);
-        
+
     }
 
     /**
@@ -171,6 +171,8 @@ public class Drives extends SubsystemBase {
         frontLeftModule.set(newStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[1].angle.getRadians());
         backRightModule.set(newStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[2].angle.getRadians());
         backLeftModule.set(newStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[3].angle.getRadians());
+
+        if(DriverStation.isAutonomous()) states = newStates;
     }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
@@ -191,15 +193,14 @@ public class Drives extends SubsystemBase {
         canCoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 20);
     }
 
-    public void setFieldTrajectory(Trajectory trajectory) {
-        field.getObject("traj").setTrajectory(trajectory);
+    public Field2d getField() {
+        return field;
     }
 
     @Override
     public void periodic() {
-        states = kinematics.toSwerveModuleStates(chassisSpeeds);
-
         if(runDrive && !DriverStation.isAutonomous()) {
+            states = kinematics.toSwerveModuleStates(chassisSpeeds);
             updateModules(states);
         }
 
