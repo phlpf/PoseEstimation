@@ -21,7 +21,7 @@ public class ComplexShootBalls extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new InstantCommand(() -> acquisition.setRollerRPM(100)),
-      new CommandRunShooter(shooter, 5000),
+      new CommandRunShooter(shooter, 3000, 5400),
       new WaitCommand(0.25),
       new InstantCommand(() -> index.runPercentOut(1)),
       new WaitCommand(3),

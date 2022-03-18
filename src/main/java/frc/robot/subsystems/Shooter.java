@@ -23,10 +23,11 @@ public class Shooter extends SubsystemBase {
   private RelativeEncoder encoderBack;
   private SparkMaxPIDController pidBack;
 
-  private double setpointVelocity = 0;
+  private double setpointVelocityFront = 0;
+  private double setpointVelocityBack = 0;
 
   public Shooter() {
-    motorFront = new CANSparkMax(kCANIDs.SHOOTER_MOTOR, MotorType.kBrushless);
+    motorFront = new CANSparkMax(kCANIDs.SHOOTER_MOTOR_FRONT, MotorType.kBrushless);
     motorFront.restoreFactoryDefaults();
     motorFront.setInverted(true);
     motorFront.setIdleMode(IdleMode.kCoast);
@@ -41,7 +42,7 @@ public class Shooter extends SubsystemBase {
     pidFront.setIZone(0);
     pidFront.setOutputRange(-1,1);
 
-    motorBack = new CANSparkMax(kCANIDs.SHOOTER_MOTOR, MotorType.kBrushless);
+    motorBack = new CANSparkMax(kCANIDs.SHOOTER_MOTOR_BACK, MotorType.kBrushless);
     motorBack.restoreFactoryDefaults();
     motorBack.setInverted(false);
     motorBack.setIdleMode(IdleMode.kCoast);
@@ -57,14 +58,21 @@ public class Shooter extends SubsystemBase {
     pidBack.setOutputRange(-1,1);
   }
 
-  public void setVelocity(double setpoint) {
-    setpointVelocity = setpoint;
-    if(setpointVelocity != 0){
-      pidFront.setReference(setpointVelocity, CANSparkMax.ControlType.kVelocity);
-      pidBack.setReference(setpointVelocity, CANSparkMax.ControlType.kVelocity);
+  public void setVelocityFront(double setpoint) {
+    setpointVelocityFront = setpoint;
+    if(setpointVelocityFront != 0){
+      pidFront.setReference(setpointVelocityFront, CANSparkMax.ControlType.kVelocity);
     }
     else{
       motorFront.set(0);
+    }
+  }
+  public void setVelocityBack(double setpoint) {
+    setpointVelocityBack = setpoint;
+    if(setpointVelocityBack != 0){
+      pidBack.setReference(setpointVelocityBack, CANSparkMax.ControlType.kVelocity);
+    }
+    else{
       motorBack.set(0);
     }
   }
@@ -84,7 +92,7 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("A-ShtFrnt", motorFront.getOutputCurrent());
     SmartDashboard.putNumber("shooter/actual Velocity Shooter Front", encoderFront.getVelocity());
-    SmartDashboard.putNumber("shooter/setpoint Velocity Shooter", setpointVelocity);
+    SmartDashboard.putNumber("shooter/setpoint Velocity Shooter", setpointVelocityFront);
     SmartDashboard.putNumber("A-ShtBck", motorBack.getOutputCurrent());
     SmartDashboard.putNumber("shooter/actual Velocity Shooter Back", encoderBack.getVelocity());
   }

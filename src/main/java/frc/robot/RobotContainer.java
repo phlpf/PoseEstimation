@@ -170,7 +170,7 @@ public class RobotContainer {
         pneumaticHub.clearStickyFaults();
         drives.zeroGyroscope();
         acquisition.setRollerRPM(0);
-        shooter.setVelocity(0);
+        shooter.setVelocityFront(0);
     }
 
     public static double modifyAxis(double rawValue) {

@@ -28,7 +28,8 @@ public class kCANIDs {
     // Index
     public static final int IDX_MOTOR = 12;
     // Shooter
-    public static final int SHOOTER_MOTOR = 13;
+    public static final int SHOOTER_MOTOR_FRONT = 13;
+    public static final int SHOOTER_MOTOR_BACK = 19;
 
     // Climber
     public static final int INNER_ANGLE = 15;

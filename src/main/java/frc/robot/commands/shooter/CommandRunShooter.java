@@ -10,10 +10,12 @@ import frc.robot.subsystems.Shooter;
 public class CommandRunShooter extends CommandBase {
   /** Creates a new CommandRunShooter. */
   Shooter shooter;
-  double RPM;
-  public CommandRunShooter(Shooter shooter, double RPM) {
+  double RPMFront;
+  double RPMBack;
+  public CommandRunShooter(Shooter shooter, double RPMFront, double RPMBack) {
     this.shooter = shooter;
-    this.RPM = RPM;
+    this.RPMFront = RPMFront;
+    this.RPMBack = RPMBack;
   }
 
   // Called when the command is initially scheduled.
@@ -24,7 +26,8 @@ public class CommandRunShooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setVelocity(RPM);
+    shooter.setVelocityFront(RPMFront);
+    shooter.setVelocityBack(RPMBack);
   }
 
   // Called once the command ends or is interrupted.
@@ -34,6 +37,6 @@ public class CommandRunShooter extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(shooter.getVelocityFront() - RPM) < 100 && Math.abs(shooter.getVelocityBack() - RPM) < 100;
+    return Math.abs(shooter.getVelocityFront() - RPMFront) < 100 && Math.abs(shooter.getVelocityBack() - RPMBack) < 100;
   }
 }
