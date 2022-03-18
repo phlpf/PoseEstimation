@@ -55,7 +55,7 @@ public class Drives extends SubsystemBase {
                     new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0)
     );
 
-    private final PigeonWrapper pigeon = new PigeonWrapper(kCANIDs.DRIVETRAIN_PIGEON_ID);
+    private final PigeonWrapper pigeon = new PigeonWrapper(kCANIDs.DRIVETRAIN_PIGEON_ID, kSwerve.CANIVORE_NAME);
 
     private final SwerveDriveOdometry odometry;
     
@@ -84,8 +84,11 @@ public class Drives extends SubsystemBase {
                                         .withPosition(0, 0),
                         kSwerve.VEL_GEAR_RATIO,
                         kCANIDs.FRONT_LEFT_DRIVE,
+                        kSwerve.CANIVORE_NAME,
                         kCANIDs.FRONT_LEFT_STEER,
+                        kSwerve.CANIVORE_NAME,
                         kCANIDs.FRONT_LEFT_CANCODER,
+                        kSwerve.CANIVORE_NAME,
                         kSwerve.FRONT_LEFT_MODULE_STEER_OFFSET
         );
 
@@ -97,8 +100,11 @@ public class Drives extends SubsystemBase {
                                         .withPosition(2, 0),
                         kSwerve.VEL_GEAR_RATIO,
                         kCANIDs.FRONT_RIGHT_DRIVE,
+                        kSwerve.CANIVORE_NAME,
                         kCANIDs.FRONT_RIGHT_STEER,
+                        kSwerve.CANIVORE_NAME,
                         kCANIDs.FRONT_RIGHT_CANCODER,
+                        kSwerve.CANIVORE_NAME,
                         kSwerve.FRONT_RIGHT_MODULE_STEER_OFFSET
         );
 
@@ -110,21 +116,26 @@ public class Drives extends SubsystemBase {
                                         .withPosition(4, 0),
                         kSwerve.VEL_GEAR_RATIO,
                         kCANIDs.REAR_LEFT_DRIVE,
+                        kSwerve.CANIVORE_NAME,
                         kCANIDs.REAR_LEFT_STEER,
+                        kSwerve.CANIVORE_NAME,
                         kCANIDs.REAR_LEFT_CANCODER,
+                        kSwerve.CANIVORE_NAME,
                         kSwerve.REAR_LEFT_MODULE_STEER_OFFSET
         );
 
         setupModule(backLeftModule);
-
         backRightModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Back Right Module", BuiltInLayouts.kList)
                                         .withSize(2, 4)
                                         .withPosition(6, 0),
                         kSwerve.VEL_GEAR_RATIO,
                         kCANIDs.REAR_RIGHT_DRIVE,
+                        kSwerve.CANIVORE_NAME,
                         kCANIDs.REAR_RIGHT_STEER,
+                        kSwerve.CANIVORE_NAME,
                         kCANIDs.REAR_RIGHT_CANCODER,
+                        kSwerve.CANIVORE_NAME,
                         kSwerve.REAR_RIGHT_MODULE_STEER_OFFSET
         );
 
@@ -178,7 +189,7 @@ public class Drives extends SubsystemBase {
         angleMotor.setStatusFramePeriod(StatusFrame.Status_4_AinTempVbat, 100);
         angleMotor.setStatusFramePeriod(StatusFrame.Status_15_FirmwareApiStatus, 1000);
 
-        CANCoder canCoder = ((CanCoderFactoryBuilder.EncoderImplementation)module.getSteerEncoder()).getEncoder();
+        CANCoder canCoder = (CANCoder)((CanCoderFactoryBuilder.EncoderImplementation)module.getSteerEncoder()).getInternal();
         canCoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 20);
     }
 

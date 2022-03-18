@@ -4,6 +4,16 @@ import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 public class PigeonWrapper extends WPI_Pigeon2 {
+    public PigeonWrapper(int id, String canivore) {
+        super(id, canivore);
+        System.out.println("--------------------------");
+        if (isPigeonConnected()) {
+            System.out.println("---- PIGEON CONNECTED ----");
+        } else {
+            System.out.println("----- PIGEON MISSING -----");
+        }
+        System.out.println("--------------------------");
+    }
     public PigeonWrapper(int id) {
         super(id);
         System.out.println("--------------------------");
