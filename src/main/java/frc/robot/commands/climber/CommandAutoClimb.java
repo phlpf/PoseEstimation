@@ -17,9 +17,9 @@ import frc.robot.subsystems.Drives;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class CommandTestClimb extends SequentialCommandGroup {
+public class CommandAutoClimb extends SequentialCommandGroup {
   /** Creates a new CommandClimb. */
-  public CommandTestClimb(Climber climber, Drives drives, XboxController gamepad) {
+  public CommandAutoClimb(Climber climber, Drives drives, XboxController gamepad) {
     addRequirements(climber);
     addCommands(
       new InstantCommand(() -> climber.releaseLock()),

@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.acquisition.DefaultAcquisition;
 import frc.robot.commands.climber.CommandOnCancelClimb;
-import frc.robot.commands.climber.CommandTestClimb;
+import frc.robot.commands.climber.CommandAutoClimb;
 import frc.robot.commands.climber.DefaultClimber;
 import frc.robot.commands.drives.DefaultDriveCommand;
 import frc.robot.commands.index.DefaultIndex;
@@ -131,7 +131,7 @@ public class RobotContainer {
 
         // Colored buttons
         new Button(operatorController::getAButton)
-                .whenPressed((new CommandTestClimb(climber, drives, operatorController))
+                .whenPressed((new CommandAutoClimb(climber, drives, operatorController))
                         .withInterrupt(() -> operatorController.getPOV() == 0)
                 );
         new Button(operatorController::getBButton)
