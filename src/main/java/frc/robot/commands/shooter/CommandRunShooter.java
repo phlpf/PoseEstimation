@@ -34,6 +34,6 @@ public class CommandRunShooter extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(shooter.getVelocity() - RPM) < 100;
+    return Math.abs(shooter.getVelocityFront() - RPM) < 100 && Math.abs(shooter.getVelocityBack() - RPM) < 100;
   }
 }
