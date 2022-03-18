@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.climber.CommandMoveAngle.CurrentLimit;
 import frc.robot.constants.kClimb;
-import frc.robot.utils.ClimberArm;
+import frc.robot.subsystems.climber.ClimberArm;
 
 public class CommandMoveAngleDebounced extends CommandBase {
   /** Creates a new CommandSetReach. */

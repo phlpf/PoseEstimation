@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.climber.CommandMoveAngle.CurrentLimit;
 import frc.robot.commands.utils.CommandWaitForButton;
 import frc.robot.constants.kClimb;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drives;
+import frc.robot.subsystems.climber.Climber;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

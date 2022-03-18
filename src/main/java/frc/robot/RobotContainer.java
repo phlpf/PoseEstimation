@@ -22,6 +22,7 @@ import frc.robot.commands.shooter.DefaultShooter;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kSwerve;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.climber.Climber;
 import frc.robot.utils.AutoUtil;
 
 /**

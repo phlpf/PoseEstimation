@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.climber.CommandMoveAngle.CurrentLimit;
 import frc.robot.constants.kClimb;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.climber.Climber;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 
