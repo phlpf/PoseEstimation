@@ -28,7 +28,7 @@ public class AutoUtil {
 
         return new SequentialCommandGroup(
                 new InstantCommand(() -> logPath(path, drives.getField())),
-                new PPSwerveControllerCommandWrapper(
+                new MCQSwerveControllerCommand(
                     path,
                     drives::getPose,
                     drives.getKinematics(),
