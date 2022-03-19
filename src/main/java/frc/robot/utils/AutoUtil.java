@@ -30,7 +30,7 @@ public class AutoUtil {
                 new PPSwerveControllerCommandWrapper(
                     path,
                     drives::getPose,
-                    drives.kinematics,
+                    drives.getKinematics(),
                     kAuto.LEFT_PID_CONTROLLER,
                     kAuto.RIGHT_PID_CONTROLLER,
                     kAuto.THETA_PID_CONTROLLER,

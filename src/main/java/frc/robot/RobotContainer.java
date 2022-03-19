@@ -66,8 +66,6 @@ public class RobotContainer {
                 () -> 0 * operatorController.getLeftX() * 0.4 // CURRENTLY DISABLED
         ));
 
-        SmartDashboard.putNumber("max vel", kSwerve.MAX_VELOCITY_METERS_PER_SECOND);
-
         // Configure the button bindings
         configureDriverControllerBindings();
         configureOperatorControllerBindings();
@@ -193,7 +191,7 @@ public class RobotContainer {
     }
 
     public void runAutonomousRoutine(AutoUtil.Routine routine) {
-        drives.setOdometryRotation(new Pose2d(new Translation2d(5.99, 5.15), new Rotation2d(133.8)));
+        drives.setOdometryRotation(new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
         switch (routine) {
             case FOUR_BALL:
                 new SequentialCommandGroup(
@@ -218,7 +216,7 @@ public class RobotContainer {
                 break;
             case POTATO:
                 new SequentialCommandGroup(
-                        new ComplexShootBalls(shooter, index, acquisition, 3000),
+                        //new ComplexShootBalls(shooter, index, acquisition, 3000),
                         AutoUtil.generateCommand("Potato", 5, 1.6, drives)
                 ).schedule();
                 break;
