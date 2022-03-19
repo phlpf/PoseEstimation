@@ -8,25 +8,12 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.button.Button;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.robot.commands.acquisition.DefaultAcquisition;
-import frc.robot.commands.climber.CommandAutoClimb;
-import frc.robot.commands.climber.CommandOnCancelClimb;
-import frc.robot.commands.climber.DefaultClimber;
 import frc.robot.commands.drives.DefaultDriveCommand;
-import frc.robot.commands.index.DefaultIndex;
-import frc.robot.commands.shooter.ComplexShootBalls;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kSwerve;
-import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.Drives;
-import frc.robot.subsystems.Index;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.climber.Climber;
 import frc.robot.utils.AutoUtil;
 
 public class RobotContainer {
@@ -37,11 +24,13 @@ public class RobotContainer {
     private final XboxController driverController = new XboxController(0);
     private final XboxController operatorController = new XboxController(1);
     private final Drives drives = new Drives();
-
+/*
     private final Acquisition acquisition = new Acquisition();
     private final Shooter shooter = new Shooter();
     private final Index index = new Index();
     private final Climber climber = new Climber();
+
+ */
 
     public RobotContainer() {
         // Set up the default command for the drivetrain.
@@ -55,7 +44,7 @@ public class RobotContainer {
                         () -> -modifyAxis(driverController.getLeftX()) * kSwerve.MAX_VELOCITY_METERS_PER_SECOND * (1 - (modifyAxis(driverController.getLeftTriggerAxis()) * 0.9)),
                         () -> -modifyAxis(driverController.getRightX()) * kSwerve.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * (1 - (modifyAxis(driverController.getLeftTriggerAxis()) * 0.9))
         ));
-
+/*
         acquisition.setDefaultCommand(new DefaultAcquisition(acquisition));
         index.setDefaultCommand(new DefaultIndex(index));
 
@@ -65,6 +54,8 @@ public class RobotContainer {
                 () -> 0 * -operatorController.getLeftY() * 0.4,
                 () -> 0 * operatorController.getLeftX() * 0.4 // CURRENTLY DISABLED
         ));
+
+ */
 
         // Configure the button bindings
         configureDriverControllerBindings();
@@ -78,6 +69,7 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureDriverControllerBindings() {
+        /*
         // Back button zeros the gyroscope
         new Button(driverController::getBackButton)
                         .whenPressed(drives::zeroGyroscope);
@@ -112,9 +104,12 @@ public class RobotContainer {
         // Triggers
         // new Trigger(() -> driverController.getRightTriggerAxis() > 0.5);
         // new Trigger(() -> driverController.getLeftTriggerAxis() > 0.5);
+
+         */
     }
 
     private void configureOperatorControllerBindings() {
+        /*
         // Start/Back
         new Button(operatorController::getStartButton)
                 //.whenPressed(new ComplexInitializeClimb(climber));
@@ -159,15 +154,17 @@ public class RobotContainer {
         //         .whenActive(() -> shooter.setVelocity(5200))
         //         .whenInactive(() -> shooter.setVelocity(0));
         // new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.5)
-                // .whenActive(() -> {}); 
+                // .whenActive(() -> {});
+
+         */
     }
 
     public void resetSubsystems() {
         pdp.clearStickyFaults();
         pneumaticHub.clearStickyFaults();
         drives.zeroGyroscope();
-        acquisition.setRollerRPM(0);
-        shooter.setVelocityFront(0);
+//        acquisition.setRollerRPM(0);
+//        shooter.setVelocityFront(0);
     }
 
     public static double modifyAxis(double rawValue) {
@@ -207,10 +204,10 @@ public class RobotContainer {
                 break;
             case TWO_BALL:
                 new SequentialCommandGroup(
-                        new InstantCommand(() -> acquisition.setRollerRPM(3800)),
+//                        new InstantCommand(() -> acquisition.setRollerRPM(3800)),
                         AutoUtil.generateCommand("Northern-Two-Ball-1", 5, 1.6, drives),
-                        new ComplexShootBalls(shooter, index, acquisition, 3500),
-                        new InstantCommand(() -> acquisition.setRollerRPM(3800)),
+//                        new ComplexShootBalls(shooter, index, acquisition, 3500),
+//                        new InstantCommand(() -> acquisition.setRollerRPM(3800)),
                         AutoUtil.generateCommand("Northern-Two-Ball-2", 5, 1.6, drives)
                 ).schedule();
                 break;

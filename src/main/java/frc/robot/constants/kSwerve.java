@@ -12,7 +12,7 @@ public class kSwerve {
     public static final GearRatio VEL_GEAR_RATIO = GearRatio.L2;
     public static final ModuleConfiguration VEL_GEAR_RATIO_CFG = VEL_GEAR_RATIO.getConfiguration();
     public static double MAX_VOLTAGE = 12.0;
-    public static String CANIVORE_NAME = "McQDriveBus";
+    public static String CANIVORE_NAME = "rio";
 
     /**
      * The maximum velocity of the robot in meters per second.
@@ -49,10 +49,10 @@ public class kSwerve {
     public static double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
                     Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);
 
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(271.0);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(8.0);
-    public static final double REAR_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(54.0);
-    public static final double REAR_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(321.0);
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(208.2);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(163.7);
+    public static final double REAR_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(195.5);
+    public static final double REAR_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(70.2);
 
     public static final double SWERVE_ALLOWED_OFFSET = 1.0;
 
