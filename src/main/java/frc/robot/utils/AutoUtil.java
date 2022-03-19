@@ -31,8 +31,8 @@ public class AutoUtil {
                     path,
                     drives::getPose,
                     drives.getKinematics(),
-                    kAuto.LEFT_PID_CONTROLLER,
-                    kAuto.RIGHT_PID_CONTROLLER,
+                    kAuto.X_PID_CONTROLLER,
+                    kAuto.Y_PID_CONTROLLER,
                     kAuto.THETA_PID_CONTROLLER,
                     drives::updateModules
                 )
