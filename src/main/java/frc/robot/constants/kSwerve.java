@@ -23,7 +23,7 @@ public class kSwerve {
             * VEL_GEAR_RATIO_CFG.getDriveReduction()
             * VEL_GEAR_RATIO_CFG.getWheelDiameter() * Math.PI;
 
-    public static final double MAX_ACCELERATION = 1.6; //1.7;
+    public static final double MAX_ACCELERATION = 3; //1.7;
     
 
     /**

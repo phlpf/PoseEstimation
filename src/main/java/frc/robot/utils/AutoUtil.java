@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.constants.kAuto;
+import frc.robot.constants.kSwerve;
 import frc.robot.subsystems.Drives;
 
 /** Add your docs here. */
@@ -22,8 +23,8 @@ public class AutoUtil {
         POTATO
     }
 
-    public static Command generateCommand(String pathName, double maxVelocity, double maxAcceleration, Drives drives) {
-        PathPlannerTrajectory path = PathPlanner.loadPath(pathName, maxVelocity, maxAcceleration);
+    public static Command generateCommand(String pathName, Drives drives) {
+        PathPlannerTrajectory path = PathPlanner.loadPath(pathName, kSwerve.MAX_VELOCITY_METERS_PER_SECOND, kSwerve.MAX_ACCELERATION);
 
         return new SequentialCommandGroup(
                 new InstantCommand(() -> logPath(path, drives.getField())),

@@ -192,29 +192,29 @@ public class RobotContainer {
         switch (routine) {
             case FOUR_BALL:
                 new SequentialCommandGroup(
-                    AutoUtil.generateCommand("Four-Ball-1", 1, 0.5, drives),
+                    AutoUtil.generateCommand("Four-Ball-1", drives),
                     new WaitCommand(2),
-                    AutoUtil.generateCommand("Four-Ball-2", 1, 0.5, drives),
+                    AutoUtil.generateCommand("Four-Ball-2", drives),
                     new WaitCommand(2),
-                    AutoUtil.generateCommand("Four-Ball-3", 1, 0.5, drives)
+                    AutoUtil.generateCommand("Four-Ball-3", drives)
                 ).schedule();
                 break;
             case THREE_BALL:
-                AutoUtil.generateCommand("Three-Ball-1", 1, 0.5, drives);
+                AutoUtil.generateCommand("Three-Ball-1", drives);
                 break;
             case TWO_BALL:
                 new SequentialCommandGroup(
 //                        new InstantCommand(() -> acquisition.setRollerRPM(3800)),
-                        AutoUtil.generateCommand("Northern-Two-Ball-1", 5, 1.6, drives),
+                        AutoUtil.generateCommand("Northern-Two-Ball-1", drives),
 //                        new ComplexShootBalls(shooter, index, acquisition, 3500),
 //                        new InstantCommand(() -> acquisition.setRollerRPM(3800)),
-                        AutoUtil.generateCommand("Northern-Two-Ball-2", 5, 1.6, drives)
+                        AutoUtil.generateCommand("Northern-Two-Ball-2", drives)
                 ).schedule();
                 break;
             case POTATO:
                 new SequentialCommandGroup(
                         //new ComplexShootBalls(shooter, index, acquisition, 3000),
-                        AutoUtil.generateCommand("Forward_3_Meters", 5, 1.6, drives)
+                        AutoUtil.generateCommand("Forward_3_Meters", drives)
                 ).schedule();
                 break;
         }
