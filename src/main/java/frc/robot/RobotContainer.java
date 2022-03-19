@@ -188,7 +188,7 @@ public class RobotContainer {
     }
 
     public void runAutonomousRoutine(AutoUtil.Routine routine) {
-        drives.setOdometryRotation(new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
+        drives.setOdometryPose(new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
         switch (routine) {
             case FOUR_BALL:
                 new SequentialCommandGroup(
