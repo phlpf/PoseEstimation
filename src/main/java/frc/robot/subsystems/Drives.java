@@ -135,6 +135,13 @@ public class Drives extends SubsystemBase {
         odometry.resetPosition(pose, pose.getRotation());
     }
 
+    public void fixDeadWheel() {
+        frontLeftModule.initAngle();
+        frontRightModule.initAngle();
+        backLeftModule.initAngle();
+        backRightModule.initAngle();
+    }
+
     public Pose2d getPose() {
         return odometry.getPoseMeters();
     }
