@@ -9,7 +9,7 @@ public class kSwerve {
      *
      * This can be reduced to cap the robot's maximum speed. Typically, this is useful during initial testing of the robot.
      */
-    public static final GearRatio VEL_GEAR_RATIO = GearRatio.L2;
+    public static final GearRatio VEL_GEAR_RATIO = GearRatio.L3;
     public static final ModuleConfiguration VEL_GEAR_RATIO_CFG = VEL_GEAR_RATIO.getConfiguration();
     public static double MAX_VOLTAGE = 12.0;
     public static String CANIVORE_NAME = "rio";
