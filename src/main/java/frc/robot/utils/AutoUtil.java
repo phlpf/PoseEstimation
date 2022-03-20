@@ -6,6 +6,7 @@ package frc.robot.utils;
 
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -26,8 +27,12 @@ public class AutoUtil {
     public static Command generateCommand(String pathName, Drives drives) {
         PathPlannerTrajectory path = PathPlanner.loadPath(pathName, kSwerve.MAX_VELOCITY_METERS_PER_SECOND, kSwerve.MAX_ACCELERATION);
 
+        PathPlannerTrajectory.PathPlannerState initialState = path.getInitialState();
+        Pose2d startingPose = new Pose2d(initialState.poseMeters.getTranslation(), initialState.holonomicRotation);
+
         return new SequentialCommandGroup(
                 new InstantCommand(() -> logPath(path, drives.getField())),
+                new InstantCommand(() -> drives.setOdometryPose(startingPose)),
                 new MCQSwerveControllerCommand(
                     path,
                     drives::getPose,

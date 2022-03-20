@@ -12,7 +12,7 @@ public class kAuto {
         THETA_PID_CONTROLLER.enableContinuousInput(-Math.PI, Math.PI);
     }
 
-    public static final double XY_P = 1;
+    public static final double XY_P = 2;
 
     public static final PIDController X_PID_CONTROLLER = new PIDController(XY_P, 0, 0);
     public static final PIDController Y_PID_CONTROLLER = new PIDController(XY_P, 0, 0);
