@@ -4,6 +4,7 @@
 
 package frc.robot.commands.climber;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.climber.Climber;
@@ -14,6 +15,7 @@ public class DefaultClimber extends CommandBase {
     /** Creates a new DefaultClimber. */
     private Climber climber;
     private DoubleSupplier innerReach, innerAngle, outerReach, outerAngle;
+    private boolean isCoast;
     public DefaultClimber(Climber climber,
                             DoubleSupplier innerReach, DoubleSupplier innerAngle,
                             DoubleSupplier outerReach, DoubleSupplier outerAngle) {
@@ -28,6 +30,8 @@ public class DefaultClimber extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        this.isCoast = false;
+        SmartDashboard.putBoolean("isCoast", isCoast);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -38,6 +42,12 @@ public class DefaultClimber extends CommandBase {
         climber.outerArm.moveReachPOut(RobotContainer.modifyAxis(outerReach.getAsDouble()));
         climber.outerArm.moveAnglePOut(RobotContainer.modifyAxis(outerAngle.getAsDouble()));
         
+        isCoast = SmartDashboard.getBoolean("isCoast", isCoast);
+        if(isCoast) {
+            climber.setToCoast();
+        } else {
+            climber.setToBrake();
+        }
     }
 
     // Called once the command ends or is interrupted.
