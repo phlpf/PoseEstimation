@@ -4,9 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -196,7 +193,6 @@ public class RobotContainer {
     }
 
     public void runAutonomousRoutine(AutoUtil.Routine routine) {
-        drives.setOdometryRotation(new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
         switch (routine) {
             case FOUR_BALL:
                 new SequentialCommandGroup(
@@ -213,16 +209,17 @@ public class RobotContainer {
             case TWO_BALL:
                 new SequentialCommandGroup(
                         new InstantCommand(() -> acquisition.setRollerRPM(3800)),
-                        AutoUtil.generateCommand("Northern-Two-Ball-1", 5, 1.6, drives),
-                        new ComplexShootBalls(shooter, index, acquisition, 3500),
+                        AutoUtil.generateCommand("Northern-Two-Ball-1", drives),
+                        new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_HIGH_RPMS),
                         new InstantCommand(() -> acquisition.setRollerRPM(3800)),
-                        AutoUtil.generateCommand("Northern-Two-Ball-2", 5, 1.6, drives)
+                        AutoUtil.generateCommand("Northern-Two-Ball-2", drives)
                 ).schedule();
                 break;
             case POTATO:
                 new SequentialCommandGroup(
-                        //new ComplexShootBalls(shooter, index, acquisition, 3000),
-                        AutoUtil.generateCommand("Potato", 5, 1.6, drives)
+                        //new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_HIGH_RPMS),
+                        AutoUtil.generateCommand("Potato", drives),
+                        AutoUtil.generateCommand("Inverted_Potato", drives)
                 ).schedule();
                 break;
         }
