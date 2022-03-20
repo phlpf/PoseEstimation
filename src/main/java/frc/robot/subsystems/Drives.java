@@ -116,6 +116,12 @@ public class Drives extends SubsystemBase {
                         kSwerve.CANIVORE_NAME,
                         kSwerve.REAR_RIGHT_MODULE_STEER_OFFSET
         );
+
+        // Check for dead-wheel
+        // SmartDashboard.putBoolean("checkFrontRight", frontRightModule.checkAngle());
+        // SmartDashboard.putBoolean("checkFrontLeft", frontLeftModule.checkAngle());
+        // SmartDashboard.putBoolean("checkBackRight", backRightModule.checkAngle());
+        // SmartDashboard.putBoolean("checkBackLeft", backLeftModule.checkAngle());
     }
 
     /**
