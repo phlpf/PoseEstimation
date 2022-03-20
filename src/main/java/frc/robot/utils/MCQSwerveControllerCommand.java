@@ -101,6 +101,6 @@ public class MCQSwerveControllerCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(trajectory.getTotalTimeSeconds());
+        return timer.hasElapsed(trajectory.getTotalTimeSeconds() + 0.5);
     }
 }
