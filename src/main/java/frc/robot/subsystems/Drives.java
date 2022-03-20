@@ -176,4 +176,9 @@ public class Drives extends SubsystemBase {
 
         field.setRobotPose(getPose());
     }
+
+    
+    public void initDrives(){
+        frontLeftModule.initAngle();
+    }
 }

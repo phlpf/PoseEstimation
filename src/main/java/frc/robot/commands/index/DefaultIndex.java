@@ -11,8 +11,9 @@ import frc.robot.subsystems.Index;
 public class DefaultIndex extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Index index;
-  private final double minIndexIncrement = 0.5;
+  private final double minIndexIncrement = 10;
   private boolean ballWasBreakingSensor;
+  private boolean shiftingBall = false;
   
   
   public DefaultIndex(Index index) {
@@ -32,12 +33,27 @@ public class DefaultIndex extends CommandBase {
   @Override
   public void execute() {
     boolean ballIsBreakingSensor = index.isBallBlockingBeam();
+    if(index.getBallsIndexed() == 0){
+      index.runPercentOut(0.1);
+    } else {
+      index.runPercentOut(0);
+    }
+
     if(!ballIsBreakingSensor && ballWasBreakingSensor){
+      shiftingBall = false;
+    }
+
+    if(ballIsBreakingSensor && !ballWasBreakingSensor && index.getBallsIndexed() == 1){
       index.setBallsIndexed(index.getBallsIndexed()+1);
     }
 
-    if(ballIsBreakingSensor && index.getBallsIndexed() < 1){
-      index.runClosedLoopPosition(index.getIndexPosition() + minIndexIncrement);
+    if(ballIsBreakingSensor && index.getBallsIndexed() == 0){
+      index.setBallsIndexed(index.getBallsIndexed()+1);
+      shiftingBall = true;
+    }
+
+    if(shiftingBall){
+      index.runClosedLoopPosition(index.getIndexPosition() + minIndexIncrement);  
     }
     ballWasBreakingSensor = ballIsBreakingSensor;
   }

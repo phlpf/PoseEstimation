@@ -35,10 +35,10 @@ public class Shooter extends SubsystemBase {
     encoderFront = motorFront.getEncoder();
 
     pidFront = motorFront.getPIDController();
-    pidFront.setP(5e-5);
-    pidFront.setI(1e-6);
-    pidFront.setD(0);
-    pidFront.setFF(0.000156);
+    pidFront.setP(1e-5);
+    pidFront.setI(8.5e-7);
+    pidFront.setD(0.00001);
+    pidFront.setFF(0.0000156);
     pidFront.setIZone(0);
     pidFront.setOutputRange(-1,1);
 
@@ -50,10 +50,10 @@ public class Shooter extends SubsystemBase {
     encoderBack = motorBack.getEncoder();
 
     pidBack = motorBack.getPIDController();
-    pidBack.setP(5e-5);
-    pidBack.setI(1e-6);
+    pidBack.setP(8e-5);
+    pidBack.setI(8e-7);
     pidBack.setD(0);
-    pidBack.setFF(0.000156);
+    pidBack.setFF(0.0000156);
     pidBack.setIZone(0);
     pidBack.setOutputRange(-1,1);
   }
@@ -100,5 +100,13 @@ public class Shooter extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+  }
+  public static class ShooterRPMS{
+    public double RPMFront;
+    public double RPMBack;
+    public ShooterRPMS(double RPMFront, double RPMBack){
+      this.RPMBack = RPMBack;
+      this.RPMFront = RPMFront;
+    }
   }
 }

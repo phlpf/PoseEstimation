@@ -21,6 +21,7 @@ import frc.robot.commands.drives.DefaultDriveCommand;
 import frc.robot.commands.index.DefaultIndex;
 import frc.robot.commands.shooter.ComplexShootBalls;
 import frc.robot.constants.kCANIDs;
+import frc.robot.constants.kControl;
 import frc.robot.constants.kSwerve;
 import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.Drives;
@@ -86,11 +87,11 @@ public class RobotContainer {
         // Colored buttons
         // new Button(driverController::getAButton);
         new Button(driverController::getBButton)
-                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4000), false);
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_LOW_RPMS), false);
         // new Button(driverController::getXButton);
                 //.whenPressed(new CommandUnjamRollers(acquisition));
         new Button(driverController::getYButton)
-                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4000), false);
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_HIGH_RPMS), false);
 
 
         // POV
@@ -128,10 +129,10 @@ public class RobotContainer {
                         .withInterrupt(() -> operatorController.getPOV() == 0)
                 );
         new Button(operatorController::getBButton)
-                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4000), false);
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 3, kControl.SHOOTER_HIGH_RPMS), false);
         // new Button(operatorController::getXButton); 
         new Button(operatorController::getYButton)
-                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4000), false);
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 3, kControl.SHOOTER_LOW_RPMS), false);
 
         // POV
         new POVButton(operatorController, 0)
@@ -209,14 +210,14 @@ public class RobotContainer {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> acquisition.setRollerRPM(3800)),
                         AutoUtil.generateCommand("Northern-Two-Ball-1", 5, 1.6, drives),
-                        new ComplexShootBalls(shooter, index, acquisition, 3500),
+                        new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_LOW_RPMS),
                         new InstantCommand(() -> acquisition.setRollerRPM(3800)),
                         AutoUtil.generateCommand("Northern-Two-Ball-2", 5, 1.6, drives)
                 ).schedule();
                 break;
             case POTATO:
                 new SequentialCommandGroup(
-                        //new ComplexShootBalls(shooter, index, acquisition, 3000),
+                        //new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_LOW_RPMS),
                         AutoUtil.generateCommand("Potato", 5, 1.6, drives)
                 ).schedule();
                 break;

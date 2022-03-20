@@ -6,16 +6,17 @@ package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shooter.ShooterRPMS;
 
 public class CommandRunShooter extends CommandBase {
   /** Creates a new CommandRunShooter. */
   Shooter shooter;
   double RPMFront;
   double RPMBack;
-  public CommandRunShooter(Shooter shooter, double RPMFront, double RPMBack) {
+  public CommandRunShooter(Shooter shooter, ShooterRPMS rpms) {
     this.shooter = shooter;
-    this.RPMFront = RPMFront;
-    this.RPMBack = RPMBack;
+    this.RPMFront = rpms.RPMFront;
+    this.RPMBack = rpms.RPMBack;
   }
 
   // Called when the command is initially scheduled.
