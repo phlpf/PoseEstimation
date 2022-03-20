@@ -20,6 +20,7 @@ import frc.robot.commands.climber.DefaultClimber;
 import frc.robot.commands.drives.DefaultDriveCommand;
 import frc.robot.commands.index.DefaultIndex;
 import frc.robot.commands.shooter.ComplexShootBalls;
+import frc.robot.commands.utils.DefaultLED;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kSwerve;
 import frc.robot.subsystems.Acquisition;
@@ -27,6 +28,7 @@ import frc.robot.subsystems.Drives;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.LED;
 import frc.robot.utils.AutoUtil;
 
 public class RobotContainer {
@@ -42,6 +44,7 @@ public class RobotContainer {
     private final Shooter shooter = new Shooter();
     private final Index index = new Index();
     private final Climber climber = new Climber();
+    private final LED led = new LED();
 
     public RobotContainer() {
         // Set up the default command for the drivetrain.
@@ -65,6 +68,8 @@ public class RobotContainer {
                 () -> 0 * -operatorController.getLeftY() * 0.4,
                 () -> 0 * operatorController.getLeftX() * 0.4 // CURRENTLY DISABLED
         ));
+
+        led.setDefaultCommand(new DefaultLED(led));
 
         // Configure the button bindings
         configureDriverControllerBindings();
