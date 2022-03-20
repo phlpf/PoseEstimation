@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.index.CommandMoveIndex;
+import frc.robot.constants.kControl;
 import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Shooter;
@@ -22,16 +23,18 @@ public class ComplexShootBalls extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new InstantCommand(() -> acquisition.setRollerRPM(100)),
+      new InstantCommand(() -> acquisition.extendArms()),
+      new InstantCommand(() -> acquisition.setRollerRPM(0)),
       new CommandRunShooter(shooter, rpms),
       new WaitCommand(0.25),
-      new CommandMoveIndex(index, -1),
-      new CommandMoveIndex(index, balls*2),
+      new CommandMoveIndex(index, (double)kControl.INDEX_MOVE_BACK),
+      new CommandMoveIndex(index, balls),
       new WaitCommand(1),
       new InstantCommand(() -> index.setBallsIndexed(0)),
       new InstantCommand(() -> shooter.setPercentOut(0)),
       new InstantCommand(() -> index.runPercentOut(0)),
-      new InstantCommand(() -> acquisition.setRollerRPM(0))
+      new InstantCommand(() -> acquisition.setRollerRPM(0)),
+      new InstantCommand(() -> acquisition.retractArms())
     );
   }
 }

@@ -10,16 +10,22 @@ import frc.robot.subsystems.Index;
 
 public class CommandMoveIndex extends CommandBase {
   Index index;
-  int balls;
   double setpoint;
+  double rotations;
+  int balls = 0;
+  public CommandMoveIndex(Index index, double rotations) {
+    this.index = index;
+    this.rotations = rotations;
+  }
   public CommandMoveIndex(Index index, int balls) {
     this.index = index;
     this.balls = balls;
+    this.rotations = kControl.INDEX_ONE_BALL_ROTATIONS*balls;
   }
 
   @Override
   public void initialize() {
-    this.setpoint = index.getIndexPosition() + kControl.INDEX_ONE_BALL_ROTATIONS*balls;
+    this.setpoint = index.getIndexPosition() + this.rotations;
   }
 
   @Override

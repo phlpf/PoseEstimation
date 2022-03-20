@@ -85,13 +85,13 @@ public class RobotContainer {
         // new Button(driverController::getStartButton);
 
         // Colored buttons
-        // new Button(driverController::getAButton);
+        new Button(driverController::getAButton)
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4, kControl.SHOOTER_LOW_RPMS), false);
         new Button(driverController::getBButton)
-                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_LOW_RPMS), false);
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4, kControl.SHOOTER_HIGH_RPMS), false);
         // new Button(driverController::getXButton);
                 //.whenPressed(new CommandUnjamRollers(acquisition));
-        new Button(driverController::getYButton)
-                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_HIGH_RPMS), false);
+        new Button(driverController::getYButton);
 
 
         // POV
@@ -104,7 +104,9 @@ public class RobotContainer {
         new Button(driverController::getRightBumper)
                 .whenPressed(() -> acquisition.setRollerRPM(5000));
         new Button(driverController::getLeftBumper)
-                .whenInactive(() -> acquisition.setRollerRPM(0));
+                .whenInactive(() -> {acquisition.setRollerRPM(0);
+                                     acquisition.retractArms();        
+                                });
 
         // Joystick Buttons
         // new Button(driverController::getRightStickButton);
@@ -149,7 +151,9 @@ public class RobotContainer {
         new Button(operatorController::getRightBumper)
                 .whenPressed(() -> acquisition.setRollerRPM(5000));
         new Button(operatorController::getLeftBumper)
-                .whenInactive(() -> acquisition.setRollerRPM(0));
+                .whenInactive(() -> {acquisition.setRollerRPM(0);
+                                     acquisition.retractArms();
+                                });
 
         // Joystick Buttons
         // new Button(operatorController::getRightStickButton);

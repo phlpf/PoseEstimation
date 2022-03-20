@@ -18,7 +18,6 @@ public class DefaultAcquisition extends CommandBase {
   public void execute(){
     if (acquisition.getSetpointRPM() == 0) {
       acquisition.stopRollersByVoltage();
-      acquisition.retractArms();
     } else {
       acquisition.extendArms();
       acquisition.runClosedLoopRPM();
