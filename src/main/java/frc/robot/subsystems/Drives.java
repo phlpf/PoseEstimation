@@ -54,7 +54,7 @@ public class Drives extends SubsystemBase {
         pigeonTwo.configFactoryDefault();
         pigeonTwo.reset();
         
-        odometry = new SwerveDriveOdometry(kinematics, getGyroscopeRotation(), new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
+        odometry = new SwerveDriveOdometry(kinematics, new Rotation2d(0), new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
 
         SmartDashboard.putData("Field", field);
 
@@ -124,16 +124,22 @@ public class Drives extends SubsystemBase {
      */
     public void zeroGyroscope() {
         pigeonTwo.reset();
-        odometry.resetPosition(new Pose2d(odometry.getPoseMeters().getTranslation(), Rotation2d.fromDegrees(0)), getGyroscopeRotation());
     }
 
     public Rotation2d getGyroscopeRotation() {
         return pigeonTwo.getRotation2d();
     }
 
-    public void setOdometryRotation(Pose2d pose) {
+    public void setOdometryPose(Pose2d pose) {
         pigeonTwo.setYaw(pose.getRotation().getDegrees());
-        odometry.resetPosition(pose, getGyroscopeRotation());
+        odometry.resetPosition(pose, pose.getRotation());
+    }
+
+    public void fixDeadWheel() {
+        frontLeftModule.initAngle();
+        frontRightModule.initAngle();
+        backLeftModule.initAngle();
+        backRightModule.initAngle();
     }
 
     public Pose2d getPose() {
