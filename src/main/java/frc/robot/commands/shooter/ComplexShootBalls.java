@@ -26,11 +26,8 @@ public class ComplexShootBalls extends SequentialCommandGroup {
       new InstantCommand(() -> acquisition.extendArms()),
       new InstantCommand(() -> acquisition.setRollerRPM(0)),
       new CommandRunShooter(shooter, rpms),
-      new WaitCommand(0.25),
-      new CommandMoveIndex(index, (double)kControl.INDEX_MOVE_BACK),
       new CommandMoveIndex(index, balls),
-      new WaitCommand(1),
-      new InstantCommand(() -> index.setBallsIndexed(0)),
+      new InstantCommand(() -> index.setBallsIndexed(Math.max(0, index.getBallsIndexed()-balls))),
       new InstantCommand(() -> shooter.setPercentOut(0)),
       new InstantCommand(() -> index.runPercentOut(0)),
       new InstantCommand(() -> acquisition.setRollerRPM(5000))

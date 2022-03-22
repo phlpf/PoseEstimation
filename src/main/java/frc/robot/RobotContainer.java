@@ -85,9 +85,9 @@ public class RobotContainer {
 
         // Colored buttons
         new Button(driverController::getAButton)
-                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4, kControl.SHOOTER_LOW_RPMS), false);
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_LOW_RPMS), false);
         new Button(driverController::getBButton)
-                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4, kControl.SHOOTER_HIGH_RPMS), false);
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_HIGH_RPMS), false);
         new Button(driverController::getXButton)
                 .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 1, kControl.SHOOTER_LOW_RPMS), false);
         new Button(driverController::getYButton)
@@ -131,9 +131,9 @@ public class RobotContainer {
                         .withInterrupt(() -> operatorController.getPOV() == 0)
                 );
         new Button(operatorController::getBButton)
-                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 3, kControl.SHOOTER_HIGH_RPMS), false);
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_HIGH_RPMS), false);
         new Button(operatorController::getXButton)
-                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 3, kControl.SHOOTER_LOW_RPMS), false);
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_LOW_RPMS), false);
         new Button(operatorController::getYButton)
                 .whenPressed(new CommandRunShooter(shooter, kControl.SHOOTER_HIGH_RPMS, true));
 

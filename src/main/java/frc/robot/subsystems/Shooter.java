@@ -35,10 +35,10 @@ public class Shooter extends SubsystemBase {
     encoderFront = motorFront.getEncoder();
 
     pidFront = motorFront.getPIDController();
-    pidFront.setP(1e-5);
+    pidFront.setP(2.5e-5);
     pidFront.setI(8.5e-7);
     pidFront.setD(0.00001);
-    pidFront.setFF(0.0000156);
+    pidFront.setFF(0.000015);
     pidFront.setIZone(0);
     pidFront.setOutputRange(-1,1);
 
@@ -50,10 +50,10 @@ public class Shooter extends SubsystemBase {
     encoderBack = motorBack.getEncoder();
 
     pidBack = motorBack.getPIDController();
-    pidBack.setP(8e-5);
+    pidBack.setP(9.5e-5);
     pidBack.setI(8e-7);
     pidBack.setD(0);
-    pidBack.setFF(0.0000156);
+    pidBack.setFF(0.000015);
     pidBack.setIZone(0);
     pidBack.setOutputRange(-1,1);
   }

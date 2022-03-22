@@ -4,6 +4,7 @@
 
 package frc.robot.commands.shooter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.ShooterRPMS;
@@ -30,6 +31,7 @@ public class CommandRunShooter extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    SmartDashboard.putBoolean("shooter/isRPM", false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,6 +44,7 @@ public class CommandRunShooter extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    SmartDashboard.putBoolean("shooter/isRPM", true);
     System.out.println(shooter.getVelocityBack() + " + " + shooter.getVelocityFront());
   }
 
