@@ -19,7 +19,9 @@ import frc.robot.commands.climber.CommandOnCancelClimb;
 import frc.robot.commands.climber.DefaultClimber;
 import frc.robot.commands.drives.DefaultDriveCommand;
 import frc.robot.commands.index.DefaultIndex;
+import frc.robot.commands.shooter.CommandRunShooter;
 import frc.robot.commands.shooter.ComplexShootBalls;
+import frc.robot.commands.shooter.ComplexSpinUpShooter;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kControl;
 import frc.robot.constants.kSwerve;
@@ -89,9 +91,10 @@ public class RobotContainer {
                 .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4, kControl.SHOOTER_LOW_RPMS), false);
         new Button(driverController::getBButton)
                 .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 4, kControl.SHOOTER_HIGH_RPMS), false);
-        // new Button(driverController::getXButton);
-                //.whenPressed(new CommandUnjamRollers(acquisition));
-        new Button(driverController::getYButton);
+        new Button(driverController::getXButton)
+                .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 1, kControl.SHOOTER_LOW_RPMS), false);
+        new Button(driverController::getYButton)
+                .whenPressed(new ComplexSpinUpShooter(shooter, acquisition));
 
 
         // POV
@@ -132,9 +135,10 @@ public class RobotContainer {
                 );
         new Button(operatorController::getBButton)
                 .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 3, kControl.SHOOTER_HIGH_RPMS), false);
-        // new Button(operatorController::getXButton); 
-        new Button(operatorController::getYButton)
+        new Button(operatorController::getXButton)
                 .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 3, kControl.SHOOTER_LOW_RPMS), false);
+        new Button(operatorController::getYButton)
+                .whenPressed(new CommandRunShooter(shooter, kControl.SHOOTER_HIGH_RPMS, true));
 
         // POV
         new POVButton(operatorController, 0)

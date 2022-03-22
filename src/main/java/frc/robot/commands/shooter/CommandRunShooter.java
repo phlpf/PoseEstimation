@@ -13,10 +13,18 @@ public class CommandRunShooter extends CommandBase {
   Shooter shooter;
   double RPMFront;
   double RPMBack;
+  boolean isInstant;
   public CommandRunShooter(Shooter shooter, ShooterRPMS rpms) {
     this.shooter = shooter;
     this.RPMFront = rpms.RPMFront;
     this.RPMBack = rpms.RPMBack;
+    this.isInstant = false;
+  }
+  public CommandRunShooter(Shooter shooter, ShooterRPMS rpms, boolean isInstant) {
+    this.shooter = shooter;
+    this.RPMFront = rpms.RPMFront;
+    this.RPMBack = rpms.RPMBack;
+    this.isInstant = isInstant;
   }
 
   // Called when the command is initially scheduled.
@@ -40,6 +48,6 @@ public class CommandRunShooter extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(shooter.getVelocityFront() - RPMFront) < 50 && Math.abs(shooter.getVelocityBack() - RPMBack) < 50;
+    return (Math.abs(shooter.getVelocityFront() - RPMFront) < 50 && Math.abs(shooter.getVelocityBack() - RPMBack) < 50) || isInstant;
   }
 }

@@ -10,7 +10,7 @@ import frc.robot.subsystems.Shooter.ShooterRPMS;
 public class kControl {
     // Index
     public static final double INDEX_ALLOWED_ERROR_ROTATIONS = 0.5;
-    public static final double INDEX_ONE_BALL_ROTATIONS = 25;
+    public static final double INDEX_ONE_BALL_ROTATIONS = 73;
     public static final double INDEX_MOVE_BACK = -10;
 
     // Shooter
