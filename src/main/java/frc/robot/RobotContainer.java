@@ -23,12 +23,8 @@ import frc.robot.commands.utils.DefaultLED;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kControl;
 import frc.robot.constants.kSwerve;
-import frc.robot.subsystems.Acquisition;
-import frc.robot.subsystems.Drives;
-import frc.robot.subsystems.Index;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.*;
 import frc.robot.subsystems.climber.Climber;
-import frc.robot.subsystems.LED;
 import frc.robot.utils.AutoUtil;
 
 public class RobotContainer {
@@ -217,18 +213,21 @@ public class RobotContainer {
                 break;
             case TWO_BALL:
                 new SequentialCommandGroup(
-                        new InstantCommand(() -> acquisition.setRollerRPM(3800)),
+                        new InstantCommand(() -> acquisition.setRollerRPM(5000)),
                         AutoUtil.generateCommand("Northern-Two-Ball-1", drives),
-                        new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_HIGH_RPMS),
-                        new InstantCommand(() -> acquisition.setRollerRPM(3800)),
+                        new ComplexShootBalls(shooter, index, acquisition, 3, kControl.SHOOTER_HIGH_RPMS),
                         AutoUtil.generateCommand("Northern-Two-Ball-2", drives)
                 ).schedule();
                 break;
             case POTATO:
                 new SequentialCommandGroup(
                         //new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_HIGH_RPMS),
-                        AutoUtil.generateCommand("Potato", drives),
-                        AutoUtil.generateCommand("Inverted_Potato", drives)
+                        AutoUtil.generateCommand("Potato", drives)
+                ).schedule();
+                break;
+            case TEST:
+                new SequentialCommandGroup(
+                        AutoUtil.generateCommand("Forward_4_Meters_90_Turn", drives)
                 ).schedule();
                 break;
         }

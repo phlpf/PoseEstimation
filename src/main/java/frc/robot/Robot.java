@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.utils.AutoUtil;
@@ -17,6 +18,8 @@ import frc.robot.utils.AutoUtil;
  */
 public class Robot extends TimedRobot {
     private RobotContainer robotContainer;
+
+    private SendableChooser<AutoUtil.Routine> autoChooser = new SendableChooser<>();
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -32,6 +35,12 @@ public class Robot extends TimedRobot {
         SmartDashboard.putBoolean("checkBackLeft", false);
         robotContainer = new RobotContainer();
         //robotContainer.acquisition.extendArms(false);
+
+        AutoUtil.Routine[] routines = AutoUtil.Routine.values();
+        for (AutoUtil.Routine routine : routines) {
+            autoChooser.addOption(routine.name(), routine);
+        }
+        SmartDashboard.putData("Auto Routine", autoChooser);
     }
 
     /**
@@ -62,7 +71,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         robotContainer.resetSubsystems();
-        robotContainer.runAutonomousRoutine(AutoUtil.Routine.POTATO);
+        robotContainer.runAutonomousRoutine(autoChooser.getSelected());
     }
 
     /** This function is called periodically during autonomous. */

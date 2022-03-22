@@ -21,7 +21,8 @@ public class AutoUtil {
         FOUR_BALL,
         THREE_BALL,
         TWO_BALL,
-        POTATO
+        POTATO,
+        TEST
     }
 
     public static Command generateCommand(String pathName, Drives drives) {
