@@ -41,7 +41,6 @@ public class DefaultClimber extends CommandBase {
         climber.innerArm.moveAnglePOut(RobotContainer.modifyAxis(innerAngle.getAsDouble()));
         climber.outerArm.moveReachPOut(RobotContainer.modifyAxis(outerReach.getAsDouble()));
         climber.outerArm.moveAnglePOut(RobotContainer.modifyAxis(outerAngle.getAsDouble()));
-        
         isCoast = SmartDashboard.getBoolean("isCoast", isCoast);
         if(isCoast) {
             climber.setToCoast();

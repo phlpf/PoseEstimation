@@ -4,7 +4,9 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
+import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -61,10 +63,13 @@ public class Drives extends SubsystemBase {
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         // TODO: Set current limits
         // ModuleConfiguration moduleConf = new ModuleConfiguration();
+        Mk4ModuleConfiguration config = Mk4ModuleConfiguration.getDefaultSteerFalcon500();
+        config.setDriveCurrentLimit(40);
         frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                         tab.getLayout("Front Left Module", BuiltInLayouts.kList)
                                         .withSize(2, 4)
                                         .withPosition(0, 0),
+                        config,
                         kSwerve.VEL_GEAR_RATIO,
                         kCANIDs.FRONT_LEFT_DRIVE,
                         kSwerve.CANIVORE_NAME,
@@ -79,6 +84,7 @@ public class Drives extends SubsystemBase {
                         tab.getLayout("Front Right Module", BuiltInLayouts.kList)
                                         .withSize(2, 4)
                                         .withPosition(2, 0),
+                        config,
                         kSwerve.VEL_GEAR_RATIO,
                         kCANIDs.FRONT_RIGHT_DRIVE,
                         kSwerve.CANIVORE_NAME,
@@ -93,6 +99,7 @@ public class Drives extends SubsystemBase {
                         tab.getLayout("Back Left Module", BuiltInLayouts.kList)
                                         .withSize(2, 4)
                                         .withPosition(4, 0),
+                        config,
                         kSwerve.VEL_GEAR_RATIO,
                         kCANIDs.REAR_LEFT_DRIVE,
                         kSwerve.CANIVORE_NAME,
@@ -107,6 +114,7 @@ public class Drives extends SubsystemBase {
                         tab.getLayout("Back Right Module", BuiltInLayouts.kList)
                                         .withSize(2, 4)
                                         .withPosition(6, 0),
+                        config,
                         kSwerve.VEL_GEAR_RATIO,
                         kCANIDs.REAR_RIGHT_DRIVE,
                         kSwerve.CANIVORE_NAME,
@@ -118,10 +126,10 @@ public class Drives extends SubsystemBase {
         );
 
         // Check for dead-wheel
-        // SmartDashboard.putBoolean("checkFrontRight", frontRightModule.checkAngle());
-        // SmartDashboard.putBoolean("checkFrontLeft", frontLeftModule.checkAngle());
-        // SmartDashboard.putBoolean("checkBackRight", backRightModule.checkAngle());
-        // SmartDashboard.putBoolean("checkBackLeft", backLeftModule.checkAngle());
+        SmartDashboard.putBoolean("checkFrontRight", frontRightModule.checkAngle());
+        SmartDashboard.putBoolean("checkFrontLeft", frontLeftModule.checkAngle());
+        SmartDashboard.putBoolean("checkBackRight", backRightModule.checkAngle());
+        SmartDashboard.putBoolean("checkBackLeft", backLeftModule.checkAngle());
     }
 
     /**
@@ -179,6 +187,11 @@ public class Drives extends SubsystemBase {
 
         SmartDashboard.putNumber("Drives-Gyro", getGyroscopeRotation().getDegrees());
         SmartDashboard.putString("Robot Pose", getPose().toString());
+
+        SmartDashboard.putNumber("A-Swrv/FL", ((TalonFX)frontLeftModule.getDriveMotor()).getSupplyCurrent());
+        SmartDashboard.putNumber("A-Swrv/FR", ((TalonFX)frontRightModule.getDriveMotor()).getSupplyCurrent());
+        SmartDashboard.putNumber("A-Swrv/RL", ((TalonFX)backLeftModule.getDriveMotor()).getSupplyCurrent());
+        SmartDashboard.putNumber("A-Swrv/RR", ((TalonFX)backRightModule.getDriveMotor()).getSupplyCurrent());
 
         field.setRobotPose(getPose());
     }
