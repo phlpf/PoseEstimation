@@ -4,9 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -108,7 +105,7 @@ public class RobotContainer {
                 .whenPressed(() -> acquisition.setRollerRPM(5000));
         new Button(driverController::getLeftBumper)
                 .whenInactive(() -> {acquisition.setRollerRPM(0);
-                                     acquisition.retractArms();        
+                                     acquisition.retractArms();
                                 });
 
         // Joystick Buttons
@@ -168,7 +165,7 @@ public class RobotContainer {
         //         .whenActive(() -> shooter.setVelocity(5200))
         //         .whenInactive(() -> shooter.setVelocity(0));
         // new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.5)
-                // .whenActive(() -> {}); 
+                // .whenActive(() -> {});
     }
 
     public void resetSubsystems() {
@@ -200,33 +197,33 @@ public class RobotContainer {
     }
 
     public void runAutonomousRoutine(AutoUtil.Routine routine) {
-        drives.setOdometryRotation(new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
         switch (routine) {
             case FOUR_BALL:
                 new SequentialCommandGroup(
-                    AutoUtil.generateCommand("Four-Ball-1", 1, 0.5, drives),
+                    AutoUtil.generateCommand("Four-Ball-1", drives),
                     new WaitCommand(2),
-                    AutoUtil.generateCommand("Four-Ball-2", 1, 0.5, drives),
+                    AutoUtil.generateCommand("Four-Ball-2", drives),
                     new WaitCommand(2),
-                    AutoUtil.generateCommand("Four-Ball-3", 1, 0.5, drives)
+                    AutoUtil.generateCommand("Four-Ball-3", drives)
                 ).schedule();
                 break;
             case THREE_BALL:
-                AutoUtil.generateCommand("Three-Ball-1", 1, 0.5, drives);
+                AutoUtil.generateCommand("Three-Ball-1", drives);
                 break;
             case TWO_BALL:
                 new SequentialCommandGroup(
                         new InstantCommand(() -> acquisition.setRollerRPM(3800)),
-                        AutoUtil.generateCommand("Northern-Two-Ball-1", 5, 1.6, drives),
-                        new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_LOW_RPMS),
+                        AutoUtil.generateCommand("Northern-Two-Ball-1", drives),
+                        new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_HIGH_RPMS),
                         new InstantCommand(() -> acquisition.setRollerRPM(3800)),
-                        AutoUtil.generateCommand("Northern-Two-Ball-2", 5, 1.6, drives)
+                        AutoUtil.generateCommand("Northern-Two-Ball-2", drives)
                 ).schedule();
                 break;
             case POTATO:
                 new SequentialCommandGroup(
-                        //new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_LOW_RPMS),
-                        AutoUtil.generateCommand("Potato", 5, 1.6, drives)
+                        //new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_HIGH_RPMS),
+                        AutoUtil.generateCommand("Potato", drives),
+                        AutoUtil.generateCommand("Inverted_Potato", drives)
                 ).schedule();
                 break;
         }

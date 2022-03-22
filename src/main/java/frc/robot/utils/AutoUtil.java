@@ -6,11 +6,13 @@ package frc.robot.utils;
 
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.constants.kAuto;
+import frc.robot.constants.kSwerve;
 import frc.robot.subsystems.Drives;
 
 /** Add your docs here. */
@@ -22,17 +24,21 @@ public class AutoUtil {
         POTATO
     }
 
-    public static Command generateCommand(String pathName, double maxVelocity, double maxAcceleration, Drives drives) {
-        PathPlannerTrajectory path = PathPlanner.loadPath(pathName, maxVelocity, maxAcceleration);
+    public static Command generateCommand(String pathName, Drives drives) {
+        PathPlannerTrajectory path = PathPlanner.loadPath(pathName, kSwerve.MAX_VELOCITY_METERS_PER_SECOND, kSwerve.MAX_ACCELERATION);
+
+        PathPlannerTrajectory.PathPlannerState initialState = path.getInitialState();
+        Pose2d startingPose = new Pose2d(initialState.poseMeters.getTranslation(), initialState.holonomicRotation);
 
         return new SequentialCommandGroup(
                 new InstantCommand(() -> logPath(path, drives.getField())),
-                new PPSwerveControllerCommandWrapper(
+                new InstantCommand(() -> drives.setOdometryPose(startingPose)),
+                new MCQSwerveControllerCommand(
                     path,
                     drives::getPose,
                     drives.getKinematics(),
-                    kAuto.LEFT_PID_CONTROLLER,
-                    kAuto.RIGHT_PID_CONTROLLER,
+                    kAuto.X_PID_CONTROLLER,
+                    kAuto.Y_PID_CONTROLLER,
                     kAuto.THETA_PID_CONTROLLER,
                     drives::updateModules
                 )
