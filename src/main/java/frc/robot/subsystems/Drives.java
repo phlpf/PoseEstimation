@@ -170,8 +170,11 @@ public class Drives extends SubsystemBase {
         backLeftModule.set(newStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[3].angle.getRadians());
     }
 
-    public void setRunDrives(boolean runDrives){
-        this.runDrive = runDrives;
+    public void setRunDrives(boolean runDrive){
+        this.runDrive = runDrive;
+    }
+    public boolean getRunDrives(){
+        return runDrive;
     }
 
     public Field2d getField() {

@@ -30,7 +30,7 @@ public class DefaultDriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if(DriverStation.isTeleop()) {
+        if(DriverStation.isTeleop() && drives.getRunDrives()) {
             double rotationSpeed = rotationSupplier.getAsDouble();
 
             // correct for angle TODO: see if this is still needed
