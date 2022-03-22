@@ -17,11 +17,6 @@ public class CommandMoveIndex extends CommandBase {
     this.index = index;
     this.rotations = rotations;
   }
-  public CommandMoveIndex(Index index, int balls) {
-    this.index = index;
-    this.balls = balls;
-    this.rotations = kControl.INDEX_ONE_BALL_ROTATIONS*balls;
-  }
 
   @Override
   public void initialize() {

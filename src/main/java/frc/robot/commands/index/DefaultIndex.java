@@ -33,22 +33,23 @@ public class DefaultIndex extends CommandBase {
   @Override
   public void execute() {
     boolean ballIsBreakingSensor = index.isBallBlockingBeam();
-    if(index.getBallsIndexed() == 0){
+    int ballsIndexed = index.getBallsIndexed();
+    if(ballsIndexed == 0){
       index.runPercentOut(0.1);
     } else {
       index.runPercentOut(0);
     }
 
-    if(!ballIsBreakingSensor && ballWasBreakingSensor){
+    if(ballWasBreakingSensor && !ballIsBreakingSensor){
       shiftingBall = false;
     }
 
-    if(ballIsBreakingSensor && !ballWasBreakingSensor && index.getBallsIndexed() == 1){
-      index.setBallsIndexed(index.getBallsIndexed()+1);
+    if(!ballWasBreakingSensor && ballIsBreakingSensor  && ballsIndexed == 1){
+      index.setBallsIndexed(ballsIndexed+1);
     }
 
-    if(ballIsBreakingSensor && index.getBallsIndexed() == 0){
-      index.setBallsIndexed(index.getBallsIndexed()+1);
+    if(ballIsBreakingSensor && ballsIndexed == 0){
+      index.setBallsIndexed(ballsIndexed+1);
       shiftingBall = true;
     }
 

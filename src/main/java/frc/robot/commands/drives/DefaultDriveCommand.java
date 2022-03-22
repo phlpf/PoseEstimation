@@ -33,7 +33,7 @@ public class DefaultDriveCommand extends CommandBase {
         if(DriverStation.isTeleop() && drives.getRunDrives()) {
             double rotationSpeed = rotationSupplier.getAsDouble();
 
-            // correct for angle TODO: see if this is still needed
+            // correct for angle 
             if (rotationSpeed == 0) {
                 if (lastRotationSpeed != 0) {
                     setpointAngle = drives.getGyroscopeRotation();

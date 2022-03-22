@@ -61,8 +61,6 @@ public class Drives extends SubsystemBase {
         SmartDashboard.putData("Field", field);
 
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
-        // TODO: Set current limits
-        // ModuleConfiguration moduleConf = new ModuleConfiguration();
         Mk4ModuleConfiguration config = Mk4ModuleConfiguration.getDefaultSteerFalcon500();
         config.setDriveCurrentLimit(40);
         frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(

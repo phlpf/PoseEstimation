@@ -21,7 +21,7 @@ public class Index extends SubsystemBase {
   private RelativeEncoder encoder;
   private SparkMaxPIDController pidController;
   private DigitalInput beambreak;
-  private double ballsIndexed = 0;
+  private int ballsIndexed = 0;
 
   public Index() {
     motor = new CANSparkMax(kCANIDs.IDX_MOTOR, MotorType.kBrushless);
@@ -56,11 +56,11 @@ public class Index extends SubsystemBase {
     return encoder.getPosition();
   }
 
-  public double getBallsIndexed(){
+  public int getBallsIndexed(){
     return ballsIndexed;
   }
 
-  public void setBallsIndexed(double balls){
+  public void setBallsIndexed(int balls){
     ballsIndexed = balls;
   }
 

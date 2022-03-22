@@ -41,6 +41,7 @@ public class Robot extends TimedRobot {
             autoChooser.addOption(routine.name(), routine);
         }
         SmartDashboard.putData("Auto Routine", autoChooser);
+        robotContainer.setLEDs(0);
     }
 
     /**
@@ -70,6 +71,7 @@ public class Robot extends TimedRobot {
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
     public void autonomousInit() {
+        robotContainer.setLEDs(2);
         robotContainer.resetSubsystems();
         robotContainer.runAutonomousRoutine(autoChooser.getSelected());
     }
@@ -86,6 +88,7 @@ public class Robot extends TimedRobot {
         // this line or comment it out.
         CommandScheduler.getInstance().cancelAll();
         robotContainer.resetSubsystems();
+        robotContainer.setLEDs(1);
     }
 
     /** This function is called periodically during operator control. */

@@ -19,7 +19,6 @@ import frc.robot.commands.index.DefaultIndex;
 import frc.robot.commands.shooter.CommandRunShooter;
 import frc.robot.commands.shooter.ComplexShootBalls;
 import frc.robot.commands.shooter.ComplexSpinUpShooter;
-import frc.robot.commands.utils.DefaultLED;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kControl;
 import frc.robot.constants.kSwerve;
@@ -65,7 +64,6 @@ public class RobotContainer {
                 () -> 0 * operatorController.getLeftX() * 0.4 // CURRENTLY DISABLED
         ));
 
-        led.setDefaultCommand(new DefaultLED(led));
 
         // Configure the button bindings
         configureDriverControllerBindings();
@@ -92,7 +90,7 @@ public class RobotContainer {
         new Button(driverController::getXButton)
                 .whenPressed(new ComplexShootBalls(shooter, index, acquisition, 1, kControl.SHOOTER_LOW_RPMS), false);
         new Button(driverController::getYButton)
-                .whenPressed(new ComplexSpinUpShooter(shooter, acquisition));
+                .whenPressed(new ComplexSpinUpShooter(shooter, acquisition, kControl.SHOOTER_HIGH_RPMS));
 
 
         // POV
@@ -103,7 +101,7 @@ public class RobotContainer {
 
         // Bumpers
         new Button(driverController::getRightBumper)
-                .whenPressed(() -> acquisition.setRollerRPM(5000));
+                .whenPressed(() -> acquisition.setRollerRPM(kControl.ACQUISITION_RPMS));
         new Button(driverController::getLeftBumper)
                 .whenInactive(() -> {acquisition.setRollerRPM(0);
                                      acquisition.retractArms();
@@ -151,7 +149,7 @@ public class RobotContainer {
 
         // Bumpers
         new Button(operatorController::getRightBumper)
-                .whenPressed(() -> acquisition.setRollerRPM(5000));
+                .whenPressed(() -> acquisition.setRollerRPM(kControl.ACQUISITION_RPMS));
         new Button(operatorController::getLeftBumper)
                 .whenInactive(() -> {acquisition.setRollerRPM(0);
                                      acquisition.retractArms();
@@ -213,7 +211,7 @@ public class RobotContainer {
                 break;
             case TWO_BALL:
                 new SequentialCommandGroup(
-                        new InstantCommand(() -> acquisition.setRollerRPM(5000)),
+                        new InstantCommand(() -> acquisition.setRollerRPM(kControl.ACQUISITION_RPMS)),
                         AutoUtil.generateCommand("Northern-Two-Ball-1", drives),
                         new ComplexShootBalls(shooter, index, acquisition, 3, kControl.SHOOTER_HIGH_RPMS),
                         AutoUtil.generateCommand("Northern-Two-Ball-2", drives)
@@ -231,5 +229,8 @@ public class RobotContainer {
                 ).schedule();
                 break;
         }
+    }
+    public void setLEDs(int pattern){
+            led.arduinoPattern(pattern);
     }
 }
