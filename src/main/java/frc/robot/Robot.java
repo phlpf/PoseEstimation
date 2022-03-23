@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,9 +39,17 @@ public class Robot extends TimedRobot {
 
         AutoUtil.Routine[] routines = AutoUtil.Routine.values();
         for (AutoUtil.Routine routine : routines) {
-            autoChooser.addOption(routine.name(), routine);
+            switch(routine.name()) {
+                case "POTATO":
+                    autoChooser.setDefaultOption(routine.name(), routine);
+                case "TEST":
+                    if(DriverStation.isFMSAttached()) break;
+                default:
+                    autoChooser.addOption(routine.name(), routine);
+            }
         }
         SmartDashboard.putData("Auto Routine", autoChooser);
+
         robotContainer.setLEDs(0);
     }
 
@@ -73,7 +82,10 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         robotContainer.setLEDs(2);
         robotContainer.resetSubsystems();
-        robotContainer.runAutonomousRoutine(autoChooser.getSelected());
+
+        AutoUtil.Routine chosenAuto = autoChooser.getSelected();
+        if(chosenAuto == null) chosenAuto = AutoUtil.Routine.POTATO;
+        robotContainer.runAutonomousRoutine(chosenAuto);
     }
 
     /** This function is called periodically during autonomous. */
