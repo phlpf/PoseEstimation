@@ -122,14 +122,16 @@ public class Drives extends SubsystemBase {
                         kSwerve.CANIVORE_NAME,
                         kSwerve.REAR_RIGHT_MODULE_STEER_OFFSET
         );
+        checkStates();
+    }
 
-        // Check for dead-wheel
+    public void checkStates(){
         SmartDashboard.putBoolean("checkFrontRight", frontRightModule.checkAngle());
         SmartDashboard.putBoolean("checkFrontLeft", frontLeftModule.checkAngle());
         SmartDashboard.putBoolean("checkBackRight", backRightModule.checkAngle());
         SmartDashboard.putBoolean("checkBackLeft", backLeftModule.checkAngle());
+    
     }
-
     /**
      * Sets the gyroscope angle to zero. This can be used to set the direction the robot is currently facing to the
      * 'forwards' direction.
@@ -160,12 +162,13 @@ public class Drives extends SubsystemBase {
 
     public void updateModules(SwerveModuleState[] newStates){
         SwerveDriveKinematics.desaturateWheelSpeeds(newStates, MAX_VELOCITY_METERS_PER_SECOND);
-        states = newStates;
+        boolean shouldNotTurn = (newStates[0].speedMetersPerSecond == 0 && newStates[1].speedMetersPerSecond == 0 && newStates[2].speedMetersPerSecond == 0 && newStates[3].speedMetersPerSecond == 0);
+        frontRightModule.set(newStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, (shouldNotTurn)?states[0].angle.getRadians():newStates[0].angle.getRadians());
+        frontLeftModule.set(newStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, (shouldNotTurn)?states[1].angle.getRadians():newStates[1].angle.getRadians());
+        backRightModule.set(newStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, (shouldNotTurn)?states[2].angle.getRadians():newStates[2].angle.getRadians());
+        backLeftModule.set(newStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, (shouldNotTurn)?states[3].angle.getRadians():newStates[3].angle.getRadians());
 
-        frontRightModule.set(newStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[0].angle.getRadians());
-        frontLeftModule.set(newStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[1].angle.getRadians());
-        backRightModule.set(newStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[2].angle.getRadians());
-        backLeftModule.set(newStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, newStates[3].angle.getRadians());
+        states = newStates;
     }
 
     public void setRunDrives(boolean runDrive){

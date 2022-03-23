@@ -228,4 +228,7 @@ public class RobotContainer {
     public void setLEDs(int pattern){
             led.arduinoPattern(pattern);
     }
+    public void checkDrives(){
+        drives.checkStates();
+    }
 }
