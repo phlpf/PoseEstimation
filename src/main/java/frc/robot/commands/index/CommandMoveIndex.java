@@ -16,6 +16,8 @@ public class CommandMoveIndex extends CommandBase {
   public CommandMoveIndex(Index index, double rotations) {
     this.index = index;
     this.rotations = rotations;
+
+    addRequirements(index);
   }
 
   @Override
