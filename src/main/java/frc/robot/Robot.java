@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,7 +42,10 @@ public class Robot extends TimedRobot {
             autoChooser.addOption(routine.name(), routine);
         }
         SmartDashboard.putData("Auto Routine", autoChooser);
+
         robotContainer.setLEDs(0);
+
+        // CameraServer.startAutomaticCapture();
     }
 
     /**
@@ -66,7 +70,9 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void disabledPeriodic() {}
+    public void disabledPeriodic() {
+        robotContainer.checkDrives();
+    }
 
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
@@ -100,7 +106,6 @@ public class Robot extends TimedRobot {
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
     }
-
     /** This function is called periodically during test mode. */
     @Override
     public void testPeriodic() {}
