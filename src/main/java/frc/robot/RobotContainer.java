@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.acquisition.DefaultAcquisition;
@@ -197,19 +196,7 @@ public class RobotContainer {
 
     public void runAutonomousRoutine(AutoUtil.Routine routine) {
         switch (routine) {
-            case FOUR_BALL:
-                new SequentialCommandGroup(
-                    AutoUtil.generateCommand("Four-Ball-1", drives),
-                    new WaitCommand(2),
-                    AutoUtil.generateCommand("Four-Ball-2", drives),
-                    new WaitCommand(2),
-                    AutoUtil.generateCommand("Four-Ball-3", drives)
-                ).schedule();
-                break;
-            case THREE_BALL:
-                AutoUtil.generateCommand("Three-Ball-1", drives);
-                break;
-            case TWO_BALL:
+            case NORTHERN_TWO_BALL:
                 new SequentialCommandGroup(
                         new InstantCommand(() -> acquisition.setRollerRPM(kControl.ACQUISITION_RPMS)),
                         AutoUtil.generateCommand("Northern-Two-Ball-1", drives),
@@ -217,9 +204,17 @@ public class RobotContainer {
                         AutoUtil.generateCommand("Northern-Two-Ball-2", drives)
                 ).schedule();
                 break;
+            case SOUTHERN_TWO_BALL:
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> acquisition.setRollerRPM(kControl.ACQUISITION_RPMS)),
+                        AutoUtil.generateCommand("Southern-Two-Ball-1", drives),
+                        new ComplexShootBalls(shooter, index, acquisition, 3, kControl.SHOOTER_HIGH_RPMS),
+                        AutoUtil.generateCommand("Southern-Two-Ball-2", drives)
+                ).schedule();
+                break;
             case POTATO:
                 new SequentialCommandGroup(
-                        //new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_HIGH_RPMS),
+                        new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_HIGH_RPMS),
                         AutoUtil.generateCommand("Potato", drives)
                 ).schedule();
                 break;
