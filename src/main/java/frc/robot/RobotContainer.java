@@ -69,7 +69,7 @@ public class RobotContainer {
                 () -> 0 * operatorController.getLeftX() * 0.4 // CURRENTLY DISABLED
         ));
 
-        led.setDefaultCommand(new DefaultLED(led));
+        led.setDefaultCommand(new DefaultLED(led, index, acquisition));
 
         // Configure the button bindings
         configureDriverControllerBindings();
