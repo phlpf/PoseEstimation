@@ -21,6 +21,7 @@ public class AutoUtil {
         HANGAR_TWO_BALL,
         TERMINAL_TWO_BALL,
         POTATO,
+        DEFAULT,
         TEST
     }
 

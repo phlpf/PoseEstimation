@@ -218,6 +218,11 @@ public class RobotContainer {
                         AutoUtil.generateCommand("Potato", drives)
                 ).schedule();
                 break;
+            case DEFAULT:
+                new SequentialCommandGroup(
+                        AutoUtil.generateCommand("Default", drives)
+                ).schedule();
+                break;
             case TEST:
                 new SequentialCommandGroup(
                         AutoUtil.generateCommand("Forward_4_Meters_90_Turn", drives)
