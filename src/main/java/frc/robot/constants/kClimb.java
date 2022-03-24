@@ -27,7 +27,7 @@ public  class kClimb {
             this.max = max;
         }
     }
-    public static final ClimberPid climbAngleInner = new ClimberPid(0.05,
+    public static final ClimberPid climbAngleInner = new ClimberPid(0.075,
         0,
         10,
         0.0,
@@ -42,7 +42,7 @@ public  class kClimb {
         -1,
         1
         );
-    public static final ClimberPid climbAngleOuter = new ClimberPid(0.05,
+    public static final ClimberPid climbAngleOuter = new ClimberPid(0.075,
         0,
         10,
         0.0,
@@ -71,8 +71,8 @@ public  class kClimb {
     public static final double CLIMB_MAX_EXTEND = 24;
     public static final double CLIMB_MIN_EXTEND = 0;
     public static final double CLIMB_REACH_ALLOWED_ERROR = 3; 
-    public static final double CLIMB_ANGLE_ALLOWED_ERROR_EXACT = 0.25; 
-    public static final double CLIMB_ANGLE_ALLOWED_ERROR_GENERAL = 2; 
+    public static final double CLIMB_ANGLE_ALLOWED_ERROR_EXACT = 0.1; 
+    public static final double CLIMB_ANGLE_ALLOWED_ERROR_GENERAL = 0.25; 
 
     public static final double INNER_NOLOAD_STALL_CURRENT_REACH = 20;
     public static final double INNER_NOLOAD_STALL_CURRENT_ANGLE = 5;
