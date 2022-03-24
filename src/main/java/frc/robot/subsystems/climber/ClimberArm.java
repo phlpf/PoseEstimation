@@ -193,4 +193,7 @@ public class ClimberArm {
     public double getAngle(){
         return angleEncoder.getPosition()*kClimb.CLIMB_ROTATION_TO_DEGREE;
     }
+    public void setReachOutput(double min, double max){
+        reachPidController.setOutputRange(min, max);
+    }
 }

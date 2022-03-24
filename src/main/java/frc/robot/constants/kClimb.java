@@ -32,8 +32,8 @@ public  class kClimb {
         10,
         0.0,
         0.0,
-        -0.6,
-        0.6);
+        -1,
+        1);
     public static final ClimberPid climbReachInner = new ClimberPid(0.1,
         0,
         3,
@@ -47,8 +47,8 @@ public  class kClimb {
         10,
         0.0,
         0.0,
-        -0.6,
-        0.6);
+        -1,
+        1);
     public static final ClimberPid climbReachOuter = new ClimberPid(0.1,
         0,
         3,

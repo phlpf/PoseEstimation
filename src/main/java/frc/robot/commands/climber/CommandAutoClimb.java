@@ -37,7 +37,6 @@ public class CommandAutoClimb extends SequentialCommandGroup {
       new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       
       new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MAX_EXTEND, true, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
-      new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       //new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       new SequentialCommandGroup(     
         new CommandMoveAngleDebounced(climber.innerArm, 0, CurrentLimit.BOTH, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL, kClimb.INNER_LOAD_STALL_CURRENT_ANGLE),
@@ -74,6 +73,7 @@ public class CommandAutoClimb extends SequentialCommandGroup {
         new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MIN_EXTEND+4, true)
       ),
       new CommandMoveAngle(climber.innerArm, 0, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL),
+      new InstantCommand(() -> climber.outerArm.setReachOutput(-0.5, 0.5)),
       new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MAX_EXTEND, true),
       new CommandLevelArm(climber.outerArm, drives)
     );
