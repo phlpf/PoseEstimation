@@ -125,7 +125,7 @@ public class RobotContainer {
 
         // Colored buttons
         new Button(operatorController::getAButton)
-                .whenPressed((new CommandAutoClimb(climber, drives, operatorController))
+                .whenPressed((new CommandAutoClimb(climber, drives, index, operatorController))
                         .withInterrupt(() -> operatorController.getPOV() == 0)
                 );
         new Button(operatorController::getBButton)

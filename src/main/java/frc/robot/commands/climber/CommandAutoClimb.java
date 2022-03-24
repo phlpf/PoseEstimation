@@ -12,6 +12,7 @@ import frc.robot.commands.climber.CommandMoveAngle.CurrentLimit;
 import frc.robot.commands.utils.CommandWaitForButton;
 import frc.robot.constants.kClimb;
 import frc.robot.subsystems.Drives;
+import frc.robot.subsystems.Index;
 import frc.robot.subsystems.climber.Climber;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -19,8 +20,8 @@ import frc.robot.subsystems.climber.Climber;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class CommandAutoClimb extends SequentialCommandGroup {
   /** Creates a new CommandClimb. */
-  public CommandAutoClimb(Climber climber, Drives drives, XboxController gamepad) {
-    addRequirements(climber);
+  public CommandAutoClimb(Climber climber, Drives drives, Index index, XboxController gamepad) {
+    addRequirements(climber, index);
     addCommands(
       new InstantCommand(() -> climber.releaseLock()),
       new ParallelCommandGroup(
