@@ -10,7 +10,7 @@
 #include <SPI.h>         // COMMENT OUT THIS LINE FOR GEMMA OR TRINKET
 //#include <avr/power.h> // ENABLE THIS LINE FOR GEMMA OR TRINKET
 
-#define NUMPIXELS 50 // Number of LEDs in strip
+#define NUMPIXELS 100 // Number of LEDs in strip
 
 // Here's how to control the LEDs from any two pins:
 #define LED_PIN 2
@@ -31,6 +31,7 @@ const int pin4 = 7;
 void setup() {
   strip.begin(); // Initialize pins for output
   strip.show();  // Turn all LEDs off ASAP
+  Serial.begin(9600);
 
   pinMode(pin1, INPUT_PULLUP);
   pinMode(pin2, INPUT_PULLUP);
@@ -66,6 +67,7 @@ void bouncingYellow() {
     strip.setPixelColor(i - dot, 0);
     strip.setPixelColor(n + dot, 0);
     strip.show();
+    delay(10);
   }
   for (int i = NUMPIXELS, n = 0; i > NUMPIXELS / 2; i--, n++) {
     strip.setPixelColor(i, color);
@@ -73,10 +75,11 @@ void bouncingYellow() {
     strip.setPixelColor(i + dot, 0);
     strip.setPixelColor(n - dot, 0);
     strip.show();
+    delay(10);
   }
 }
 void white() {
-  for (int i = 0; i >= NUMPIXELS; i++) {
+  for (int i = 0; i <= NUMPIXELS; i++) {
     strip.setPixelColor(i, 0xFFFFFF);
   }
   strip.show();
@@ -203,9 +206,8 @@ void secondBar() {
   for (int i = 0; i <= NUMPIXELS; i++) {
 
     strip.setPixelColor(i, r, g, b);
-
     strip.show();
-    delay(50);
+    delay(25);
     if (r == 255 && g < 255 && b == 0) {
       g += 5;
     }
@@ -256,10 +258,19 @@ void thirdBar() {
       b--;
     }
   }
+
+  strip.show();
 }
 void loop() {
   pattern = digitalRead(pin1) | digitalRead(pin2) << 1 | digitalRead(pin3) << 2 | digitalRead(pin4) << 3;
 
+  //  pattern ++;
+  //  if (pattern > 15) {
+  //    pattern = 0;
+  //    }
+  Serial.print(pattern);
+
+  //secondBar();
   switch (pattern) {
     case 0:
       bouncingYellow();
