@@ -4,7 +4,6 @@
 
 package frc.robot.commands.climber;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -13,6 +12,7 @@ import frc.robot.commands.climber.CommandMoveAngle.CurrentLimit;
 import frc.robot.commands.utils.CommandWaitForButton;
 import frc.robot.constants.kClimb;
 import frc.robot.subsystems.Drives;
+import frc.robot.subsystems.Index;
 import frc.robot.subsystems.climber.Climber;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -20,8 +20,8 @@ import frc.robot.subsystems.climber.Climber;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class CommandAutoClimb extends SequentialCommandGroup {
   /** Creates a new CommandClimb. */
-  public CommandAutoClimb(Climber climber, Drives drives, XboxController gamepad) {
-    addRequirements(climber);
+  public CommandAutoClimb(Climber climber, Drives drives, Index index, XboxController gamepad) {
+    addRequirements(climber, index);
     addCommands(
       new InstantCommand(() -> climber.releaseLock()),
       new ParallelCommandGroup(
@@ -37,7 +37,6 @@ public class CommandAutoClimb extends SequentialCommandGroup {
       new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       
       new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MAX_EXTEND, true, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
-      new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       //new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       new SequentialCommandGroup(     
         new CommandMoveAngleDebounced(climber.innerArm, 0, CurrentLimit.BOTH, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL, kClimb.INNER_LOAD_STALL_CURRENT_ANGLE),
@@ -74,8 +73,9 @@ public class CommandAutoClimb extends SequentialCommandGroup {
         new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MIN_EXTEND+4, true)
       ),
       new CommandMoveAngle(climber.innerArm, 0, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL),
-      new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MAX_EXTEND, true)
-      
+      new InstantCommand(() -> climber.outerArm.setReachOutput(-0.5, 0.5)),
+      new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MAX_EXTEND, true),
+      new CommandLevelArm(climber.outerArm, drives)
     );
   }
 }   

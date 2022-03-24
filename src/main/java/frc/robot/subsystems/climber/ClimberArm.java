@@ -190,4 +190,10 @@ public class ClimberArm {
     public boolean debounceCurrentAngle(boolean isHigh){
         return debouncerAngle.calculate(isHigh);
     }
+    public double getAngle(){
+        return angleEncoder.getPosition()*kClimb.CLIMB_ROTATION_TO_DEGREE;
+    }
+    public void setReachOutput(double min, double max){
+        reachPidController.setOutputRange(min, max);
+    }
 }

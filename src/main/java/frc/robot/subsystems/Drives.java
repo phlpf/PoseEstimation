@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
@@ -142,6 +143,9 @@ public class Drives extends SubsystemBase {
 
     public Rotation2d getGyroscopeRotation() {
         return pigeonTwo.getRotation2d();
+    }
+    public Pigeon2 getGyro() {
+        return pigeonTwo;
     }
 
     public void setOdometryPose(Pose2d pose) {
