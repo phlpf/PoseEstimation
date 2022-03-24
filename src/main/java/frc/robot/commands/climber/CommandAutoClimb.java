@@ -4,6 +4,7 @@
 
 package frc.robot.commands.climber;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -72,7 +73,8 @@ public class CommandAutoClimb extends SequentialCommandGroup {
         new InstantCommand(()-> climber.innerArm.moveAnglePOut(0)),
         new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MIN_EXTEND+4, true)
       ),
-      new CommandMoveAngle(climber.innerArm, 0, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL)
+      new CommandMoveAngle(climber.innerArm, 0, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL),
+      new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MAX_EXTEND, true)
       
     );
   }
