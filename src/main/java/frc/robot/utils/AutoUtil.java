@@ -19,7 +19,7 @@ import frc.robot.subsystems.Drives;
 public class AutoUtil {
     public enum Routine {
         NORTHERN_TWO_BALL,
-        SOUTHERN_TWO_BALL,
+        TERMINAL_TWO_BALL,
         POTATO,
         TEST
     }

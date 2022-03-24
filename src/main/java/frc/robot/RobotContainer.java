@@ -204,12 +204,12 @@ public class RobotContainer {
                         AutoUtil.generateCommand("Northern-Two-Ball-2", drives)
                 ).schedule();
                 break;
-            case SOUTHERN_TWO_BALL:
+            case TERMINAL_TWO_BALL:
                 new SequentialCommandGroup(
                         new InstantCommand(() -> acquisition.setRollerRPM(kControl.ACQUISITION_RPMS)),
-                        AutoUtil.generateCommand("Southern-Two-Ball-1", drives),
+                        AutoUtil.generateCommand("Terminal-Two-Ball-1", drives),
                         new ComplexShootBalls(shooter, index, acquisition, 3, kControl.SHOOTER_HIGH_RPMS),
-                        AutoUtil.generateCommand("Southern-Two-Ball-2", drives)
+                        AutoUtil.generateCommand("Terminal-Two-Ball-2", drives)
                 ).schedule();
                 break;
             case POTATO:
