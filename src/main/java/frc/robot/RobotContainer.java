@@ -196,12 +196,12 @@ public class RobotContainer {
 
     public void runAutonomousRoutine(AutoUtil.Routine routine) {
         switch (routine) {
-            case NORTHERN_TWO_BALL:
+            case HANGAR_TWO_BALL:
                 new SequentialCommandGroup(
                         new InstantCommand(() -> acquisition.setRollerRPM(kControl.ACQUISITION_RPMS)),
-                        AutoUtil.generateCommand("Northern-Two-Ball-1", drives),
+                        AutoUtil.generateCommand("Hangar-Two-Ball-1", drives),
                         new ComplexShootBalls(shooter, index, acquisition, 3, kControl.SHOOTER_HIGH_RPMS),
-                        AutoUtil.generateCommand("Northern-Two-Ball-2", drives)
+                        AutoUtil.generateCommand("Hangar-Two-Ball-2", drives)
                 ).schedule();
                 break;
             case TERMINAL_TWO_BALL:
