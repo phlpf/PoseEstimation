@@ -76,7 +76,7 @@ public  class kClimb {
 
     public static final double INNER_NOLOAD_STALL_CURRENT_REACH = 20;
     public static final double INNER_NOLOAD_STALL_CURRENT_ANGLE = 5;
-    public static final double INNER_LOAD_STALL_CURRENT_ANGLE = 10;
+    public static final double INNER_LOAD_STALL_CURRENT_ANGLE = 15;
     public static final int ANGLE_SMART_CURRENT = 5;
 }
 
