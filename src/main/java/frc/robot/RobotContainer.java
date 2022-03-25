@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.acquisition.DefaultAcquisition;
@@ -212,6 +213,7 @@ public class RobotContainer {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> acquisition.setRollerRPM(kControl.ACQUISITION_RPMS)),
                         AutoUtil.generateCommand("Hangar-Two-Ball-1", drives),
+                        new WaitCommand(1),
                         new ComplexShootBalls(shooter, index, acquisition, 3, kControl.SHOOTER_HIGH_RPMS),
                         AutoUtil.generateCommand("Hangar-Two-Ball-2", drives)
                 ).schedule();
@@ -220,6 +222,7 @@ public class RobotContainer {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> acquisition.setRollerRPM(kControl.ACQUISITION_RPMS)),
                         AutoUtil.generateCommand("Terminal-Two-Ball-1", drives),
+                        new WaitCommand(1),
                         new ComplexShootBalls(shooter, index, acquisition, 3, kControl.SHOOTER_HIGH_RPMS),
                         AutoUtil.generateCommand("Terminal-Two-Ball-2", drives)
                 ).schedule();
