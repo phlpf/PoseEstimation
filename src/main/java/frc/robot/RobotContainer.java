@@ -24,6 +24,7 @@ import frc.robot.constants.kSwerve;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.utils.AutoUtil;
+import frc.robot.utils.ControllerRumble;
 
 public class RobotContainer {
     public final PowerDistribution pdp = new PowerDistribution(kCANIDs.PDP, PowerDistribution.ModuleType.kRev);
@@ -33,6 +34,11 @@ public class RobotContainer {
     private final XboxController driverController = new XboxController(0);
     private final XboxController operatorController = new XboxController(1);
     private final Drives drives = new Drives();
+
+    private ControllerRumble driverControllerLeftRumble = new ControllerRumble(0, 0);
+    private ControllerRumble driverControllerRightRumble = new ControllerRumble(0, 0);
+    private ControllerRumble operatorControllerLeftRumble = new ControllerRumble(0, 0);
+    private ControllerRumble operatorControllerRightRumble = new ControllerRumble(0, 0);
 
     private final Acquisition acquisition = new Acquisition();
     private final Shooter shooter = new Shooter();
@@ -165,6 +171,13 @@ public class RobotContainer {
                 // .whenActive(() -> {});
     }
 
+    public void applyControllerRumble() {
+        driverController.setRumble(GenericHID.RumbleType.kLeftRumble, driverControllerLeftRumble.getCurrentRumble());
+        driverController.setRumble(GenericHID.RumbleType.kRightRumble, driverControllerRightRumble.getCurrentRumble());
+        operatorController.setRumble(GenericHID.RumbleType.kLeftRumble, operatorControllerLeftRumble.getCurrentRumble());
+        operatorController.setRumble(GenericHID.RumbleType.kRightRumble, operatorControllerRightRumble.getCurrentRumble());
+    }
+
     public void resetSubsystems() {
         pdp.clearStickyFaults();
         pneumaticHub.clearStickyFaults();
@@ -229,10 +242,22 @@ public class RobotContainer {
                 break;
         }
     }
+
     public void setLEDs(int pattern){
-            led.arduinoPattern(pattern);
+        led.arduinoPattern(pattern);
     }
+
     public void checkDrives(){
         drives.checkStates();
+    }
+
+    public void setDriverControllerRumble(GenericHID.RumbleType side, double amplitude, double seconds) {
+        if(side == GenericHID.RumbleType.kLeftRumble) driverControllerLeftRumble = new ControllerRumble(amplitude, seconds);
+        else driverControllerRightRumble = new ControllerRumble(amplitude, seconds);
+    }
+
+    public void setOperatorControllerRumble(GenericHID.RumbleType side, double amplitude, double seconds) {
+        if(side == GenericHID.RumbleType.kLeftRumble) operatorControllerLeftRumble = new ControllerRumble(amplitude, seconds);
+        else operatorControllerRightRumble = new ControllerRumble(amplitude, seconds);
     }
 }

@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -52,6 +53,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto Routine", autoChooser);
 
         robotContainer.setLEDs(0);
+
+        SmartDashboard.putNumber("Climb Time", 45);
 
         // CameraServer.startAutomaticCapture();
     }
@@ -110,7 +113,14 @@ public class Robot extends TimedRobot {
 
     /** This function is called periodically during operator control. */
     @Override
-    public void teleopPeriodic() {}
+    public void teleopPeriodic() {
+        robotContainer.applyControllerRumble();
+
+        if(DriverStation.getMatchTime() == SmartDashboard.getNumber("Climb Time", 45)) {
+            robotContainer.setDriverControllerRumble(GenericHID.RumbleType.kLeftRumble, 1, 5);
+            robotContainer.setOperatorControllerRumble(GenericHID.RumbleType.kLeftRumble, 1, 5);
+        }
+    }
 
     @Override
     public void testInit() {
