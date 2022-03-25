@@ -63,7 +63,6 @@ public class RobotContainer {
                 () -> 0 * operatorController.getLeftX() * 0.4 // CURRENTLY DISABLED
         ));
 
-
         // Configure the button bindings
         configureDriverControllerBindings();
         configureOperatorControllerBindings();
