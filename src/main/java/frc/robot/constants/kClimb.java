@@ -27,7 +27,7 @@ public  class kClimb {
             this.max = max;
         }
     }
-    public static final ClimberPid climbAngleInner = new ClimberPid(0.075,
+    public static final ClimberPid climbAngleInner = new ClimberPid(0.0575,
         0,
         10,
         0.0,
@@ -42,7 +42,7 @@ public  class kClimb {
         -1,
         1
         );
-    public static final ClimberPid climbAngleOuter = new ClimberPid(0.075,
+    public static final ClimberPid climbAngleOuter = new ClimberPid(0.065,
         0,
         10,
         0.0,
