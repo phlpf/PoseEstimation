@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -56,7 +57,7 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putNumber("Climb Time", 45);
 
-        // CameraServer.startAutomaticCapture();
+        CameraServer.startAutomaticCapture();
     }
 
     /**
