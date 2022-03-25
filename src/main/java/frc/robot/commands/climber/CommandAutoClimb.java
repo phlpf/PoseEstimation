@@ -8,9 +8,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Robot;
 import frc.robot.commands.climber.CommandMoveAngle.CurrentLimit;
 import frc.robot.commands.utils.CommandWaitForButton;
 import frc.robot.constants.kClimb;
+import frc.robot.constants.kLED;
 import frc.robot.subsystems.Drives;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.climber.Climber;
@@ -34,6 +36,7 @@ public class CommandAutoClimb extends SequentialCommandGroup {
         new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MIN_EXTEND, true),
         new CommandMoveAngle(climber.outerArm, 7, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL)
       ),
+      new InstantCommand(() -> Robot.setLED(kLED.CLIMB_FIRST_BAR)),
       new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       
       new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MAX_EXTEND, true, kClimb.INNER_NOLOAD_STALL_CURRENT_REACH),
@@ -57,6 +60,7 @@ public class CommandAutoClimb extends SequentialCommandGroup {
         new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MIN_EXTEND, true)
       ),
       new CommandMoveAngle(climber.outerArm, -26, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL),
+      new InstantCommand(() -> Robot.setLED(kLED.CLIMB_SECOND_BAR)),
       new CommandMoveReach(climber.innerArm, kClimb.CLIMB_MIN_EXTEND, true),
       // new CommandWaitForButton(gamepad, kClimb.CLIMB_BUTTON),
       new CommandMoveAngle(climber.innerArm, 15, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_EXACT),
@@ -72,6 +76,7 @@ public class CommandAutoClimb extends SequentialCommandGroup {
         new InstantCommand(()-> climber.innerArm.moveAnglePOut(0)),
         new CommandMoveReach(climber.outerArm, kClimb.CLIMB_MIN_EXTEND+4, true)
       ),
+      new InstantCommand(() -> Robot.setLED(kLED.CLIMB_THIRD_BAR)),
       new CommandMoveAngle(climber.innerArm, 0, CurrentLimit.OFF, kClimb.CLIMB_ANGLE_ALLOWED_ERROR_GENERAL),
       new InstantCommand(() -> climber.outerArm.setReachOutput(-0.5, 0.5)),
       new ParallelCommandGroup(

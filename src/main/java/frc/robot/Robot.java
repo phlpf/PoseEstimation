@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.constants.kLED;
 import frc.robot.utils.AutoUtil;
 
 /**
@@ -18,7 +19,7 @@ import frc.robot.utils.AutoUtil;
  * project.
  */
 public class Robot extends TimedRobot {
-    private RobotContainer robotContainer;
+    private static RobotContainer robotContainer;
 
     private SendableChooser<AutoUtil.Routine> autoChooser = new SendableChooser<>();
 
@@ -84,7 +85,7 @@ public class Robot extends TimedRobot {
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
     public void autonomousInit() {
-        robotContainer.setLEDs(2);
+        robotContainer.setLEDs(kLED.AUTONOMOUS_ENABLED);
         robotContainer.resetSubsystems();
 
         AutoUtil.Routine chosenAuto = autoChooser.getSelected();
@@ -104,7 +105,7 @@ public class Robot extends TimedRobot {
         // this line or comment it out.
         CommandScheduler.getInstance().cancelAll();
         robotContainer.resetSubsystems();
-        robotContainer.setLEDs(1);
+        robotContainer.setLEDs(kLED.TELEOP_ENABLED);
     }
 
     /** This function is called periodically during operator control. */
@@ -120,4 +121,8 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during test mode. */
     @Override
     public void testPeriodic() {}
+
+    public static void setLED(int pattern) {
+        robotContainer.setLEDs(pattern);
+    }
 }

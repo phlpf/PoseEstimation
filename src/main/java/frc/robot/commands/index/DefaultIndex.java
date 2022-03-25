@@ -5,6 +5,8 @@
 package frc.robot.commands.index;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
+import frc.robot.constants.kLED;
 import frc.robot.subsystems.Index;
 
 /** An example command that uses an example subsystem. */
@@ -46,6 +48,17 @@ public class DefaultIndex extends CommandBase {
 
     if(!ballWasBreakingSensor && ballIsBreakingSensor  && ballsIndexed == 1){
       index.setBallsIndexed(ballsIndexed+1);
+
+      switch(index.getBallsIndexed()) {
+        case 0:
+          Robot.setLED(kLED.BALLS_INDEXED_ZERO);
+          break;
+        case 1:
+          Robot.setLED(kLED.BALLS_INDEXED_ONE);
+          break;
+        case 2:
+          Robot.setLED(kLED.BALLS_INDEXED_TWO);
+      }
     }
 
     if(ballIsBreakingSensor && ballsIndexed == 0){
