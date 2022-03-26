@@ -145,11 +145,11 @@ public class RobotContainer {
         new POVButton(operatorController, 0)
                 .whenPressed(new CommandOnCancelClimb(climber, drives)); 
         new POVButton(operatorController, 90)
-        .whenHeld(new InstantCommand(() -> climber.moveSidewaysPOut(-0.5)))
+        .whenHeld(new InstantCommand(() -> climber.moveSidewaysPOut(-1)))
         .whenReleased(new InstantCommand(() -> climber.moveSidewaysPOut(0)));
         // new POVButton(operatorController, 180);
         new POVButton(operatorController, 270)
-                .whenHeld(new InstantCommand(() -> climber.moveSidewaysPOut(0.5)))
+                .whenHeld(new InstantCommand(() -> climber.moveSidewaysPOut(1)))
                 .whenReleased(new InstantCommand(() -> climber.moveSidewaysPOut(0)));
 
         // Bumpers
