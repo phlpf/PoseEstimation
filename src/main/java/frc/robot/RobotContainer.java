@@ -214,7 +214,7 @@ public class RobotContainer {
                         new InstantCommand(() -> acquisition.setRollerRPM(kControl.ACQUISITION_RPMS)),
                         AutoUtil.generateCommand("Hangar-Two-Ball-1", drives),
                         new WaitCommand(1),
-                        new ComplexShootBalls(shooter, index, acquisition, 3, kControl.SHOOTER_HIGH_RPMS),
+                        new ComplexShootBalls(shooter, index, acquisition, 3, kControl.SHOOTER_AUTO_RPMS),
                         AutoUtil.generateCommand("Hangar-Two-Ball-2", drives)
                 ).schedule();
                 break;
@@ -223,13 +223,13 @@ public class RobotContainer {
                         new InstantCommand(() -> acquisition.setRollerRPM(kControl.ACQUISITION_RPMS)),
                         AutoUtil.generateCommand("Terminal-Two-Ball-1", drives),
                         new WaitCommand(1),
-                        new ComplexShootBalls(shooter, index, acquisition, 3, kControl.SHOOTER_HIGH_RPMS),
+                        new ComplexShootBalls(shooter, index, acquisition, 3, kControl.SHOOTER_AUTO_RPMS),
                         AutoUtil.generateCommand("Terminal-Two-Ball-2", drives)
                 ).schedule();
                 break;
             case POTATO:
                 new SequentialCommandGroup(
-                        new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_HIGH_RPMS),
+                        new ComplexShootBalls(shooter, index, acquisition, 2, kControl.SHOOTER_AUTO_RPMS),
                         AutoUtil.generateCommand("Potato", drives)
                 ).schedule();
                 break;

@@ -19,4 +19,5 @@ public class kControl {
     // Shooter
     public static final ShooterRPMS SHOOTER_LOW_RPMS = new ShooterRPMS(500, 4000);
     public static final ShooterRPMS SHOOTER_HIGH_RPMS = new ShooterRPMS(4500, 5000);
+    public static final ShooterRPMS SHOOTER_AUTO_RPMS = new ShooterRPMS(4400, 4900);
 }
