@@ -8,7 +8,7 @@ import com.ctre.phoenix.sensors.Pigeon2;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.kClimb;
-import frc.robot.subsystems.Drives;
+import frc.robot.subsystems.drives.Drives;
 import frc.robot.subsystems.climber.ClimberArm;
 
 public class CommandLevelArm extends CommandBase {

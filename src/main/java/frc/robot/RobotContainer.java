@@ -24,6 +24,7 @@ import frc.robot.constants.kControl;
 import frc.robot.constants.kSwerve;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.drives.Drives;
 import frc.robot.utils.AutoUtil;
 import frc.robot.utils.ControllerRumble;
 
@@ -248,10 +249,6 @@ public class RobotContainer {
 
     public void setLEDs(int pattern){
         led.arduinoPattern(pattern);
-    }
-
-    public void checkDrives(){
-        drives.checkStates();
     }
 
     public void setDriverControllerRumble(GenericHID.RumbleType side, double amplitude, double seconds) {

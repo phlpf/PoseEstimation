@@ -5,7 +5,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.kSwerve;
-import frc.robot.subsystems.Drives;
+import frc.robot.subsystems.drives.Drives;
 
 import java.util.function.DoubleSupplier;
 

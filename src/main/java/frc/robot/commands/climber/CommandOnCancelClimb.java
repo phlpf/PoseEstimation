@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.climber.CommandMoveAngle.CurrentLimit;
 import frc.robot.constants.kClimb;
-import frc.robot.subsystems.Drives;
+import frc.robot.subsystems.drives.Drives;
 import frc.robot.subsystems.climber.Climber;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
