@@ -72,6 +72,7 @@ public class SwerveModule {
         config.sensorDirection = false;
         config.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
         config.sensorTimeBase = SensorTimeBase.PerSecond;
+        config.magnetOffsetDegrees = 0;
         angleEncoder.configAllSettings(config);
     }
 
@@ -118,7 +119,7 @@ public class SwerveModule {
         config.closedloopRamp = kSwerve.DRIVE_CLOSED_LOOP_RAMP;
         driveMotor.configAllSettings(config);
 
-        driveMotor.setInverted(false);
+        driveMotor.setInverted(true);
         driveMotor.setNeutralMode(NeutralMode.Brake);
         driveMotor.setSelectedSensorPosition(0);
     }

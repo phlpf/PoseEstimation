@@ -15,10 +15,10 @@ public class kSwerve {
     public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.445;
     public static final double DRIVETRAIN_WHEELBASE_METERS = 0.445;
 
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(271.0);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(8.0);
-    public static final double REAR_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(54.0);
-    public static final double REAR_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(321.0);
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 271.0;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 8.0;
+    public static final double REAR_LEFT_MODULE_STEER_OFFSET = 54.0;
+    public static final double REAR_RIGHT_MODULE_STEER_OFFSET = 321.0;
 
     public static final double SWERVE_ALLOWED_OFFSET = 1.0;
     public static double SWERVE_CORRECTION_SPEED = 0.05 * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
