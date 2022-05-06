@@ -23,8 +23,8 @@ public class kSwerve {
     public static final double SWERVE_ALLOWED_OFFSET = 1.0;
     public static double SWERVE_CORRECTION_SPEED = 0.05 * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
 
-    public static final double DRIVE_GEAR_RATIO = (14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0);
-    public static final double ANGLE_GEAR_RATIO = (15.0 / 32.0) * (10.0 / 60.0);
+    public static final double DRIVE_GEAR_RATIO = 6.75; // 6.75:1
+    public static final double ANGLE_GEAR_RATIO = 12.8; // 12.8:1
 
     // TODO: Copied values directly from 364 code, for MK3 modules
     public static final double DRIVE_MOTOR_KS = (0.667 / 12);
@@ -42,9 +42,9 @@ public class kSwerve {
     public static final double DRIVE_PEAK_CURRENT_LIMIT = 60;
     public static final double DRIVE_PEAK_CURRENT_DURATION = 0.1;
 
-    public static final double ANGLE_MOTOR_KP = 0.6;
+    public static final double ANGLE_MOTOR_KP = 0.3;
     public static final double ANGLE_MOTOR_KI = 0.0;
-    public static final double ANGLE_MOTOR_KD = 12.0;
+    public static final double ANGLE_MOTOR_KD = 1.0;
     public static final double ANGLE_MOTOR_KF = 0.0;
 
     public static final double ANGLE_CONTINUOUS_CURRENT_LIMIT = 35;
