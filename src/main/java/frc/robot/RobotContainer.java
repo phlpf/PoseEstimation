@@ -22,7 +22,10 @@ import frc.robot.commands.shooter.ComplexSpinUpShooter;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kControl;
 import frc.robot.constants.kSwerve;
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.Index;
+import frc.robot.subsystems.LED;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.drives.Drives;
 import frc.robot.utils.AutoUtil;
@@ -186,6 +189,7 @@ public class RobotContainer {
         drives.zeroGyroscope();
         acquisition.setRollerRPM(0);
         shooter.setVelocityFront(0);
+        shooter.setVelocityBack(0);
     }
 
     public static double modifyAxis(double rawValue) {
