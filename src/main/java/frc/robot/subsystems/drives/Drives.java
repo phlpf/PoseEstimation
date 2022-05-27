@@ -12,6 +12,10 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -54,6 +58,18 @@ public class Drives extends SubsystemBase {
                 new SwerveModule(2, CANIVORE_NAME, kCANIDs.REAR_RIGHT_DRIVE, kCANIDs.REAR_RIGHT_STEER, kCANIDs.REAR_RIGHT_CANCODER, REAR_RIGHT_MODULE_STEER_OFFSET),
                 new SwerveModule(3, CANIVORE_NAME, kCANIDs.REAR_LEFT_DRIVE, kCANIDs.REAR_LEFT_STEER, kCANIDs.REAR_LEFT_CANCODER, REAR_LEFT_MODULE_STEER_OFFSET)
         };
+
+        ShuffleboardTab tab = Shuffleboard.getTab("Drives");
+
+        tab.add(field).withSize(4, 4).withPosition(0, 0);
+        for (SwerveModule module : modules) {
+            ShuffleboardLayout moduleLayout = tab.getLayout("Module " + module.moduleNumber, BuiltInLayouts.kList)
+                    .withPosition(5 + module.moduleNumber * 2, 0)
+                    .withSize(2, 3);
+            moduleLayout.addNumber("Absolute Rotation", () -> module.getWheelRotation().getDegrees());
+            moduleLayout.addNumber("Falcon Rotation", () -> module.getState().angle.getDegrees());
+            moduleLayout.addNumber("Speed MPS", () -> module.getState().speedMetersPerSecond);
+        }
     }
 
     /**
@@ -115,7 +131,6 @@ public class Drives extends SubsystemBase {
     @Override
     public void periodic() {
         odometry.update(pigeonTwo.getRotation2d(), getRealStates());
-
         field.setRobotPose(getPose());
     }
 }
