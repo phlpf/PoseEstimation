@@ -4,19 +4,14 @@
 
 package frc.robot.subsystems.drives;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -69,15 +64,15 @@ public class Drives extends SubsystemBase {
         pigeonTwo.reset();
     }
 
-    public Rotation2d getGyroscopeRotation() {
-        return pigeonTwo.getRotation2d();
-    }
     public Pigeon2 getGyro() {
         return pigeonTwo;
     }
 
+    public Rotation2d getRotation() {
+        return odometry.getPoseMeters().getRotation();
+    }
+
     public void setOdometryPose(Pose2d pose) {
-        pigeonTwo.setYaw(pose.getRotation().getDegrees());
         odometry.resetPosition(pose, pose.getRotation());
     }
 
@@ -96,6 +91,7 @@ public class Drives extends SubsystemBase {
     public void setRunDrives(boolean runDrive){
         this.runDrive = runDrive;
     }
+
     public boolean getRunDrives(){
         return runDrive;
     }
@@ -118,10 +114,7 @@ public class Drives extends SubsystemBase {
 
     @Override
     public void periodic() {
-        odometry.update(getGyroscopeRotation(), getRealStates());
-
-        SmartDashboard.putNumber("Drives-Gyro", getGyroscopeRotation().getDegrees());
-        SmartDashboard.putString("Robot Pose", getPose().toString());
+        odometry.update(pigeonTwo.getRotation2d(), getRealStates());
 
         field.setRobotPose(getPose());
     }

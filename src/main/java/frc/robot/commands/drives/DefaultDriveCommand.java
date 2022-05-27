@@ -36,9 +36,9 @@ public class DefaultDriveCommand extends CommandBase {
             // correct for angle 
             if (rotationSpeed == 0) {
                 if (lastRotationSpeed != 0) {
-                    setpointAngle = drives.getGyroscopeRotation();
+                    setpointAngle = drives.getRotation();
                 }
-                Rotation2d angleOffset = setpointAngle.minus(drives.getGyroscopeRotation());
+                Rotation2d angleOffset = setpointAngle.minus(drives.getRotation());
 
                 if (Math.abs(angleOffset.getDegrees()) > kSwerve.SWERVE_ALLOWED_OFFSET) {
                     rotationSpeed = kSwerve.SWERVE_CORRECTION_SPEED * (angleOffset.getDegrees() / Math.abs(angleOffset.getDegrees()));
@@ -51,7 +51,7 @@ public class DefaultDriveCommand extends CommandBase {
                                     translationXSupplier.getAsDouble(),
                                     translationYSupplier.getAsDouble(),
                                     rotationSpeed,
-                                    drives.getGyroscopeRotation()
+                                    drives.getRotation()
                             )
                     )
             );
