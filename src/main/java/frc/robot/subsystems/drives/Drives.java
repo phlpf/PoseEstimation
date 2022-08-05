@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.kCANIDs;
 import frc.robot.constants.kSwerve;
+import frc.robot.utils.PoseEstimatorHelper;
 
 import static frc.robot.constants.kSwerve.*;
 
@@ -43,13 +44,13 @@ public class Drives extends SubsystemBase {
     );
     private final SwerveDriveOdometry odometry;
     private final Field2d field = new Field2d();
+    private final PoseEstimatorHelper estimator;
 
     public Drives() {
         pigeonTwo.configFactoryDefault();
         pigeonTwo.reset();
         
         odometry = new SwerveDriveOdometry(kinematics, new Rotation2d(0), new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
-
         SmartDashboard.putData("Field", field);
 
         modules = new SwerveModule[] {
@@ -70,6 +71,7 @@ public class Drives extends SubsystemBase {
             moduleLayout.addNumber("Falcon Rotation", () -> module.getState().angle.getDegrees());
             moduleLayout.addNumber("Speed MPS", () -> module.getState().speedMetersPerSecond);
         }
+        estimator = new PoseEstimatorHelper(odometry, kinematics);
     }
 
     /**
@@ -90,10 +92,11 @@ public class Drives extends SubsystemBase {
 
     public void setOdometryPose(Pose2d pose) {
         odometry.resetPosition(pose, pose.getRotation());
+        estimator.reset(pose);
     }
 
     public Pose2d getPose() {
-        return odometry.getPoseMeters();
+        return estimator.getPosition();
     }
 
     public void updateModules(SwerveModuleState[] newStates){

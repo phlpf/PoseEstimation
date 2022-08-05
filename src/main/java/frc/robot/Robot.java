@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.constants.kLED;
-import frc.robot.utils.AutoUtil;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,7 +21,6 @@ import frc.robot.utils.AutoUtil;
 public class Robot extends TimedRobot {
     private static RobotContainer robotContainer;
 
-    private SendableChooser<AutoUtil.Routine> autoChooser = new SendableChooser<>();
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -38,21 +36,6 @@ public class Robot extends TimedRobot {
         SmartDashboard.putBoolean("checkBackLeft", false);
         robotContainer = new RobotContainer();
         //robotContainer.acquisition.extendArms(false);
-
-        AutoUtil.Routine[] routines = AutoUtil.Routine.values();
-        for (AutoUtil.Routine routine : routines) {
-            switch(routine.name()) {
-                case "DEFAULT":
-                    autoChooser.setDefaultOption(routine.name(), routine);
-                case "TEST":
-                    if(DriverStation.isFMSAttached()) break;
-                default:
-                    autoChooser.addOption(routine.name(), routine);
-            }
-        }
-        SmartDashboard.putData("Auto Routine", autoChooser);
-
-        robotContainer.setLEDs(0);
 
         SmartDashboard.putNumber("Climb Time", 45);
     }
@@ -81,12 +64,7 @@ public class Robot extends TimedRobot {
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
     public void autonomousInit() {
-        robotContainer.setLEDs(kLED.AUTONOMOUS_ENABLED);
         robotContainer.resetSubsystems();
-
-        AutoUtil.Routine chosenAuto = autoChooser.getSelected();
-        if(chosenAuto == null) chosenAuto = AutoUtil.Routine.POTATO;
-        robotContainer.runAutonomousRoutine(chosenAuto);
     }
 
     /** This function is called periodically during autonomous. */
@@ -101,18 +79,12 @@ public class Robot extends TimedRobot {
         // this line or comment it out.
         CommandScheduler.getInstance().cancelAll();
         robotContainer.resetSubsystems();
-        robotContainer.setLEDs(kLED.TELEOP_ENABLED);
     }
 
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
         robotContainer.applyControllerRumble();
-
-        if(DriverStation.getMatchTime() == SmartDashboard.getNumber("Climb Time", 45)) {
-            robotContainer.setDriverControllerRumble(GenericHID.RumbleType.kLeftRumble, 1, 5);
-            robotContainer.setOperatorControllerRumble(GenericHID.RumbleType.kLeftRumble, 1, 5);
-        }
     }
 
     @Override
@@ -126,6 +98,5 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {}
 
     public static void setLED(int pattern) {
-        robotContainer.setLEDs(pattern);
     }
 }
