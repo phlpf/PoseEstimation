@@ -134,6 +134,7 @@ public class Drives extends SubsystemBase {
     @Override
     public void periodic() {
         odometry.update(pigeonTwo.getRotation2d(), getRealStates());
+        estimator.update();
         field.setRobotPose(getPose());
     }
 }
