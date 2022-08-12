@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.kCANIDs;
+import frc.robot.constants.kAuto;
 import frc.robot.constants.kSwerve;
 import frc.robot.utils.PoseEstimatorHelper;
 
@@ -71,7 +72,8 @@ public class Drives extends SubsystemBase {
             moduleLayout.addNumber("Falcon Rotation", () -> module.getState().angle.getDegrees());
             moduleLayout.addNumber("Speed MPS", () -> module.getState().speedMetersPerSecond);
         }
-        estimator = new PoseEstimatorHelper(odometry, kinematics);
+        estimator = new PoseEstimatorHelper(odometry, kinematics, kAuto.FIELD_WIDTH, kAuto.FIELD_HEIGHT);
+        estimator.addTarget(0.5, 0.5);
     }
 
     /**

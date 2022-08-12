@@ -16,10 +16,10 @@ import frc.robot.PhotonVisionWrapper;
 public class PoseEstimatorHelper {
     private SwerveDriveOdometry odometry;
     private SwerveDriveKinematics kinematics;
-    private PhotonVisionWrapper cam;
+    private static PhotonVisionWrapper cam = null;
     private SwerveDrivePoseEstimator estimator;
-    public PoseEstimatorHelper(SwerveDriveOdometry odometry, SwerveDriveKinematics kinematics){
-        cam = new PhotonVisionWrapper();
+    private double fieldWidth, fieldHeight;
+    public PoseEstimatorHelper(SwerveDriveOdometry odometry, SwerveDriveKinematics kinematics, double fieldWidth, double fieldHeight){
         this.odometry = odometry;
         this.kinematics = kinematics;
         estimator = new SwerveDrivePoseEstimator(odometry.getPoseMeters().getRotation(),
@@ -27,8 +27,14 @@ public class PoseEstimatorHelper {
             kinematics, 
             new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, 0.01), 
             new MatBuilder<>(Nat.N1(), Nat.N1()).fill(0.01), 
-            new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.1, 0.1, 0.01)
+            new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.2, 0.2, 0.02) // should be larger than local measurements 
         );
+        this.fieldWidth = fieldWidth;
+        this.fieldHeight = fieldHeight;
+    }
+
+    public void addTarget(double percentWidth, double percentHeight){
+        cam.addVisionTargetPose(percentWidth*fieldWidth, percentHeight*fieldHeight);
     }
 
     public void update(){

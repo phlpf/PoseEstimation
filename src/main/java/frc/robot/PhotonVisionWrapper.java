@@ -20,11 +20,13 @@ import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
 
 /** Add your docs here. */
 public class PhotonVisionWrapper {
-    PhotonCamera cam;
+    static PhotonCamera cam = null; // explicitly define default value
     ArrayList<Translation2d> targets;
     
     public PhotonVisionWrapper(){
-        cam = new PhotonCamera("gloworm");
+        if(cam == null){
+            cam = new PhotonCamera("gloworm");
+        }
     } 
     public double getYaw(){
         var results = cam.getLatestResult();
@@ -33,7 +35,10 @@ public class PhotonVisionWrapper {
     public boolean hasTargets(){
         return cam.getLatestResult().hasTargets();
     }
-
+    // x, y: meters
+    public void addVisionTargetPose(double x, double y){
+        targets.add(new Translation2d(x, y));
+    }
     public Pose2d getVisionPosition(SwerveDriveOdometry odometry){
         Pose2d robotPosition = odometry.getPoseMeters();
         if(hasTargets()){
@@ -50,7 +55,7 @@ public class PhotonVisionWrapper {
             for(Translation2d target : targets){
                 absPose =  new Translation2d(target.getX() - x, target.getY() - y);
                 if(absPose.getDistance(robotPosition.getTranslation()) < bestDistance){
-                    bestDistance = absPose.getDistance(robotPosition.getTranslation());
+                    bestDistance = absPose.getDistance(robotPosition.getTranslation()); 
                     bestPose = absPose;
                 }
             }

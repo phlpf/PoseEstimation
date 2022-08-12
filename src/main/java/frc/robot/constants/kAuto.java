@@ -16,4 +16,6 @@ public class kAuto {
 
     public static final PIDController X_PID_CONTROLLER = new PIDController(XY_P, 0, 0);
     public static final PIDController Y_PID_CONTROLLER = new PIDController(XY_P, 0, 0);
+    public static final double FIELD_WIDTH = 16.5; // m
+    public static final double FIELD_HEIGHT = 8.1; // m
 }
