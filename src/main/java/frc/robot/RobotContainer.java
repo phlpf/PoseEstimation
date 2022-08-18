@@ -17,8 +17,8 @@ import frc.robot.subsystems.drives.Drives;
 
 public class RobotContainer {
     public final PowerDistribution pdp = new PowerDistribution(kCANIDs.PDP, PowerDistribution.ModuleType.kRev);
-    public final PneumaticHub pneumaticHub = new PneumaticHub(kCANIDs.PNEUMATIC_HUB);
-    public final Compressor compressor = new Compressor(kCANIDs.PNEUMATIC_HUB, PneumaticsModuleType.REVPH);
+    // public final PneumaticHub pneumaticHub = new PneumaticHub(kCANIDs.PNEUMATIC_HUB);
+    // public final Compressor compressor = new Compressor(kCANIDs.PNEUMATIC_HUB, PneumaticsModuleType.REVPH);
 
     private final XboxController driverController = new XboxController(0);
     private final XboxController operatorController = new XboxController(1);
@@ -101,7 +101,7 @@ public class RobotContainer {
 
     public void resetSubsystems() {
         pdp.clearStickyFaults();
-        pneumaticHub.clearStickyFaults();
+        // pneumaticHub.clearStickyFaults();
         drives.zeroGyroscope();
     }
 

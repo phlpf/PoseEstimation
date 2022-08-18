@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
+import edu.wpi.first.wpilibj.Timer;
 
 /** Add your docs here. */
 public class PhotonVisionWrapper {
@@ -27,6 +28,7 @@ public class PhotonVisionWrapper {
         if(cam == null){
             cam = new PhotonCamera("gloworm");
         }
+        targets = new ArrayList<>();
     } 
     public double getYaw(){
         var results = cam.getLatestResult();
@@ -39,15 +41,18 @@ public class PhotonVisionWrapper {
     public void addVisionTargetPose(double x, double y){
         targets.add(new Translation2d(x, y));
     }
-    public Pose2d getVisionPosition(SwerveDriveOdometry odometry){
-        Pose2d robotPosition = odometry.getPoseMeters();
+    public double getTimestamp(){
+        return Timer.getFPGATimestamp() - (cam.getLatestResult().getLatencyMillis() / 1000);
+    }
+    public Pose2d getVisionPosition(SwerveDrivePoseEstimator odometry){
+        Pose2d robotPosition = odometry.getEstimatedPosition();
         if(hasTargets()){
             var result = cam.getLatestResult().getBestTarget();
             Translation2d bestPose, absPose;
             bestPose = robotPosition.getTranslation();
             double bestDistance = 10000; // stupid number, fix later
             Transform2d visionPose;
-            Rotation2d heading = odometry.getPoseMeters().getRotation();
+            Rotation2d heading = odometry.getEstimatedPosition().getRotation();
             visionPose = result.getCameraToTarget();
             double distance = visionPose.getTranslation().getDistance(new Translation2d());
             double x = distance*heading.getCos();

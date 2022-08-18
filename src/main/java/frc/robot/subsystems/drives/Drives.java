@@ -31,7 +31,7 @@ public class Drives extends SubsystemBase {
 
     private final SwerveModule[] modules;
 
-    private final WPI_Pigeon2 pigeonTwo = new WPI_Pigeon2(kCANIDs.DRIVETRAIN_PIGEON_ID, kSwerve.CANIVORE_NAME);
+    private final WPI_Pigeon2 pigeonTwo = new WPI_Pigeon2(kCANIDs.DRIVETRAIN_PIGEON_ID);
 
     private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
                     // Front Right
@@ -62,7 +62,6 @@ public class Drives extends SubsystemBase {
         };
 
         ShuffleboardTab tab = Shuffleboard.getTab("Drives");
-
         tab.add(field).withSize(4, 4).withPosition(0, 0);
         for (SwerveModule module : modules) {
             ShuffleboardLayout moduleLayout = tab.getLayout("Module " + module.moduleNumber, BuiltInLayouts.kList)
@@ -103,7 +102,7 @@ public class Drives extends SubsystemBase {
 
     public void updateModules(SwerveModuleState[] newStates){
         SwerveDriveKinematics.desaturateWheelSpeeds(newStates, MAX_VELOCITY_METERS_PER_SECOND);
-
+        
         for(SwerveModule module : modules) {
             module.setDesiredState(newStates[module.moduleNumber], true); // Passing true for isOpenLoop because closed loop is not tuned
         }
@@ -135,8 +134,11 @@ public class Drives extends SubsystemBase {
 
     @Override
     public void periodic() {
-        odometry.update(pigeonTwo.getRotation2d(), getRealStates());
-        estimator.update();
+        Rotation2d angle = pigeonTwo.getRotation2d(); 
+        SwerveModuleState[] states = getRealStates();
+        
+        odometry.update(angle, states);
+        estimator.update(angle, states);
         field.setRobotPose(getPose());
     }
 }
