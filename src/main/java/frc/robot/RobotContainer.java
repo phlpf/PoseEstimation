@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -23,6 +26,7 @@ public class RobotContainer {
     private final XboxController driverController = new XboxController(0);
     private final XboxController operatorController = new XboxController(1);
     private final Drives drives = new Drives();
+    private final PhotonVisionWrapper ballCam = new PhotonVisionWrapper();
 
 
     public RobotContainer() {
@@ -123,5 +127,9 @@ public class RobotContainer {
         computedValue = Math.copySign(computedValue * computedValue, computedValue);
 
         return computedValue;
+    }
+
+    public ArrayList<Translation2d> getBallLocations(){
+        return ballCam.getBallPositions(drives.getPose());
     }
 }

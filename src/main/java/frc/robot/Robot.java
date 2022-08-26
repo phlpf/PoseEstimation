@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -54,6 +56,15 @@ public class Robot extends TimedRobot {
         // and running subsystem periodic() methods.    This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
+        var locations = robotContainer.getBallLocations();
+        var xs = new ArrayList<Double>();
+        var ys = new ArrayList<Double>();
+        for(var l : locations){
+            xs.add(l.getX());
+            ys.add(l.getY());
+        }
+        SmartDashboard.putNumber("ball x", xs.get(0));
+        SmartDashboard.putNumber("ball y", ys.get(0));
     }
 
     /** This function is called once each time the robot enters Disabled mode. */
